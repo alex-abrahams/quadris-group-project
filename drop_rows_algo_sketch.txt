@@ -1,0 +1,6 @@
+1.) Board sees that a row is full
+2.) Board deletes the blocks in the cells of the full row
+3.) The deletion of the blocks causes the cells to notify their observsers that the blocks in the cells no longer exist
+	- TextDisplay is notified, changes those cells
+4.) Board tells all blocks in the cells above the now empty row to move down by 1 row
+	-
