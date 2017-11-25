@@ -32,6 +32,12 @@ class Board {
 
     // drop the above row(s) once a row is full
     void dropRows();
+	  int rows;
+  	int cols;
+	  const int reservedRows;
+  	int emptyCells;
+
+	  AbstractTetromino *currentTetro;
 
 	public:
 
