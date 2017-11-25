@@ -16,11 +16,11 @@ class Board {
 	std::vector<std::vector<Cell>> theBoard;
 	int rows;
 	int cols;
-	const int reserverdRows;
+	const int reservedRows;
 	int emptyCells;
 
 	AbstractTetromino *currentTetro;
-	
+
 	public:
 		Board(int rows, int cols, int reservedRows);
 	   // TODO: void setObserver(Observer<> *obs);
