@@ -1,8 +1,10 @@
-
 #ifndef BOARD_H
 #define BOARD_H
 
 #include <vector>
+#include <iostream>
+#include <memory>
+#include <cstddef>
 
 class Board {
 	/* Format of theBoard vector of vectors
@@ -14,20 +16,45 @@ class Board {
 		Just reassign theBoard.at(i) = theBoard.at(i+1);
 	*/
 	std::vector<std::vector<Cell>> theBoard;
-	int rows;
-	int cols;
-	const int reserverdRows;
-	int emptyCells;
+	const size_t rows;
+	const size_t cols;
+	const size_t reservedRows;
+  const size_t totalRows;
 
-	AbstractTetromino *currentTetro;
+  std::unique_ptr<TextDisplay> td;
+  std::unique_ptr<AbstractTetromino> currentTetro;
 	
+    // checks if row at rowIndex is full
+    bool isRowFull(size_t rowIndex) const;
+
+    // returns -1 if there are no full rows
+    int getIndexOfFullRow() const;
+
+    // drop the above row(s) once a row is full
+    void dropRows();
+
 	public:
+
 		Board(int rows, int cols, int reservedRows);
 	   // TODO: void setObserver(Observer<> *obs);
-		bool isFull() const;
-		void init();
-		void drop();
+		
+    /* checks if there is space for the block to be 
+     * put in the top left corner. 
+     * If there isn't, the game ends. */
+    bool isTopLeftBlocked() const;
+		
+    // initializes theBoard
+    void init();
+
+    // drops the current tetromino into the top left corner
+    void dropIntoTopLeft();
+
+    // hard drop the current tetromino
+		void dropTetromino();
+
 		~Board();
+
+    friend std::ostream &operator<<(std::ostream &out, const Board &b);
 }
 
 #endif
