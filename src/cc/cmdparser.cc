@@ -35,6 +35,8 @@ void CommandParser:nextCommand(){
     data.begin().second();
   }
 }
+
+
 //wrapper for for calling functsion with arguments due to homogenity of containers problem
 void CommandParser::callWithArg(){
   std::map<std::string, std::function<void(std::string)> data = match(fwa);
