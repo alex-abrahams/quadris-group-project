@@ -1,13 +1,28 @@
 #ifndef CMDPARSER_H
 #define CMDPARSER_H
 #include <map>
-typedef void (*sFunc)()
+#include <iostream>
+#include <sstream>
+#include <functional>
 class CommandParser{
-  std::map<string,sFunc> funcs;
-  callFunc(string s);
-  string arg;
-  string cmd;
-  callWithArg();
+  std::map<std::string,std::function<void()>> funcs;
+  //funcs with args
+  std::map<std::string,std::function<void(std::string i)>> fwa;
+  std::string args;
+  std::string cmd;
+
+  void callWithArg();
+  //return submap of all string function pairs that match command header s
+  template<typename F>
+  std::map<string,F> CommandParser::match(string s){
+    std::map<string, F> r;
+    for(auto& it : funcs){
+      if(it.first.find(s) == 0){
+        r.emplace(it.first,it.second);
+      }
+    }
+    return r;
+  }
   public:
     //custom scripting file
     //format tba

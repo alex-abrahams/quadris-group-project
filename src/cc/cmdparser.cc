@@ -21,3 +21,24 @@ CommandParser::CommandParser(){
 CommandParser::CommandParser(string i): CommandParser(){
   //TODO file macros
 }
+
+//gets,parses and executes next available command;
+void CommandParser:nextCommand(){
+  string line;
+  std::getline(std::cin, line);
+  istringstream ss(line);
+  ss  >> cmd;
+  string tmp;
+  std::getline(ss, args);
+  std::map<string, std::function<void()> data = match(cmd);
+  if(data.size() == 1){
+    data.begin().second();
+  }
+}
+//wrapper for for calling functsion with arguments due to homogenity of containers problem
+void CommandParser::callWithArg(){
+  std::map<std::string, std::function<void(std::string)> data = match(fwa);
+  if(data.size() == 1){
+    data.begin().second(args);
+  }
+}
