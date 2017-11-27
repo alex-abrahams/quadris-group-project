@@ -7,6 +7,11 @@ void Cell::setType(TetroType type) {
   this->type = type;
 }
 
+void Cell::setRowCol(size_t newRow, size_t newCol) {
+  this->row = newRow;
+  this->col = newCol;
+}
+
 Info getInfo() {
   Info info {row, col, type};
   return info;
