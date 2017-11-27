@@ -47,22 +47,23 @@ class Board {
   // checks if moving current tetromino in the direction dir is possible
   bool isBlocked(Direction dir);
 
-  // moves current tetromino one cell in the direction dir
-  void move(Direction dir);
-
-  public:
-
-  Board(int rows, int cols, int reservedRows);
-  // TODO: void setObserver(Observer<> *obs);
 
   /* checks if there is space for the block to be 
    * put in the top left corner. 
    * If there isn't, the game ends. */
   bool isTopLeftBlocked() const;
+  
+  public:
+
+  Board(int rows, int cols, int reservedRows);
+  // TODO: void setObserver(Observer<> *obs);
+
 
   // initializes theBoard
   void init();
-
+  // moves current tetromino one cell in the direction dir
+  void move(Direction dir);
+  
   // drops the current tetromino into the top left corner
   void dropIntoTopLeft();
 
