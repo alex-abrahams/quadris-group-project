@@ -12,7 +12,7 @@ void Cell::setRowCol(size_t newRow, size_t newCol) {
   this->col = newCol;
 }
 
-Info getInfo() {
+Info Cell::getInfo() {
   Info info {row, col, type};
   return info;
 }

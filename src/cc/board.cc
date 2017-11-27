@@ -111,6 +111,21 @@ bool Board::isBlocked(Direction dir) {
     case Direction::Right :
       return generalizedLateralBlockCheck(currentTetro->getWidth() - 1, 1);
       break;
+    case Direction::CW :
+      // take rotated tetromino
+      // compare width of tetromino to how many cells there are between the
+      // left/right edge of the tetromino and the edge of the board
+      // if there is enough space to rotate, iterate thru the rows and cols
+      // ask if a cell in the tetromino is non empty AND is in a cell that is
+      // also non empty on the board
+      // return true if blocked, false otherwise
+      //
+      // SAME FOR CCWW
+      // TODO
+      break;
+    case Direction::CCW :
+      // TODO
+      break;
     default : 
       return true;
       break;
@@ -155,9 +170,6 @@ void Board::dropTetromino() {
     }
   }
 }
-
-
-
 
 Board::~Board() {}
 

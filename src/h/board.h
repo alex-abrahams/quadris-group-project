@@ -6,7 +6,7 @@
 #include <memory>
 #include <cstddef>
 
-enum class Direction {Down, Left, Right};
+enum class Direction {Down, Left, Right, CW, CCW};
 
 class Board {
   /* Format of theBoard vector of vectors
@@ -44,7 +44,7 @@ class Board {
  
   bool generalizedLateralBlockCheck(size_t column = 0, int lr = 0);
 
-  // checks if moving current tetromino in the direction dir is possible
+  // checks if moving/rotating current tetromino in the direction dir is possible
   bool isBlocked(Direction dir);
 
 

@@ -1,26 +1,33 @@
 #ifndef ABSTET_H
 #define ABSTET_H
 #include "info.h"
+#include "cell.h"
 
 class AbstractTetromino {
-	int row;
-	int col; // location data of bottom left
-	int height;
-	int width; // dimensions of tetromino
+	size_t row;
+  size_t col; // location of bottom left
+	size_t height;
+	size_t width; // dimensions of tetromino
 	TetroType type;
-	std::vector<std::vector<bool>> cellLocations; // height x width vector of booleans corresponding to locations of cells within tetromino
-	public:
-	TetroType getType();
-	int getHeight();
-	int getWidth();
-	int getLocationRow();
-	int getLocationCol();
-	std::vector<std::vector<bool>> getCellLocations();
-	virtual AbstractTetromino rotatecw() = 0;
+	std::vector<std::vector<Cell>> cells;
+	
+  public:
+	
+  virtual TetroType getType();
+	virtual size_t getHeight();
+	virtual size_t getWidth();
+	virtual size_t lowerLeftRowIdx();
+	virtual size_t lowerRightRowIdx();
+
+  virtual AbstractTetromino rotatecw() = 0;
 	virtual AbstractTetromino rotateccw() = 0;
-	virtual AbstractTetromino moveLeft() = 0;
-	virtual AbstractTetromino moveRight() = 0;
-	virtual AbstractTetromino moveDown() = 0;
+  virtual ~AbstractTetromino();
+  
+// REMOVE: the tetromino cant actually move on the board. It can rotate by
+// itself but the board needs to move it.
+//	virtual AbstractTetromino moveLeft() = 0;
+//	virtual AbstractTetromino moveRight() = 0;
+//	virtual AbstractTetromino moveDown() = 0;
 }
 
 #endif

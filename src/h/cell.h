@@ -11,6 +11,8 @@ class Cell : public Publisher<Info> {
 
   // make this cell hold a certain Tetromino type.
   void setType(TetroType type);
+  
+  void setRowCol(size_t newRow, size_t newCol);
 
   Info getInfo() const override;
 
