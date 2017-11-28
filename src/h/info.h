@@ -7,6 +7,6 @@ enum class TetroType {IBlock, JBlock, LBlock, ZeroBlock, SBlock, ZBlock, TBlock,
 struct Info {
   size_t row, col;
   TetroType type;
-}
+};
 
 #endif

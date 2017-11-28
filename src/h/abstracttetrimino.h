@@ -28,6 +28,6 @@ class AbstractTetromino {
 //	virtual AbstractTetromino moveLeft() = 0;
 //	virtual AbstractTetromino moveRight() = 0;
 //	virtual AbstractTetromino moveDown() = 0;
-}
+};
 
 #endif

@@ -4,6 +4,7 @@
 
 class Cell : public Publisher<Info> {
   size_t row, col;
+  size_t id; // incrementing id number
   TetroType type;
 
   public:
@@ -16,6 +17,6 @@ class Cell : public Publisher<Info> {
 
   Info getInfo() const override;
 
-}
+};
 
 #endif

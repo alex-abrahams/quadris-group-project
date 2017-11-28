@@ -28,5 +28,5 @@ class GameSingleton(){
   void L();
   void J();
 
-}
+};
 #endif

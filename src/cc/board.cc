@@ -26,6 +26,7 @@ Board::Board(size_t rows, size_t cols, size_t reservedRows) :
   }
 
 void Board::init() {
+  currentId = 0;
   theBoard.clear();
   tetroPosns.clear();
   td = std::make_unique<TextDisplay>(rows, cols);

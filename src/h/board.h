@@ -22,6 +22,7 @@ class Board {
   const size_t cols; // cols of a board
   const size_t reservedRows; // the rows reserved for rotating the currentTetro
   const size_t totalRows;
+  size_t currentId;
 
   std::unique_ptr<TextDisplay> td;
   std::unique_ptr<AbstractTetromino> currentTetro;
@@ -73,6 +74,6 @@ class Board {
   ~Board();
 
   friend std::ostream &operator<<(std::ostream &out, const Board &b);
-}
+};
 
 #endif

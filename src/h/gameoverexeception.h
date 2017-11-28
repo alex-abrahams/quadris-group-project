@@ -11,6 +11,6 @@ class GameOverException: public std::runtime_error {
         virtual const char* what() const throw();
   
 
-}
+};
 
 #endif
