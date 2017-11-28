@@ -8,7 +8,7 @@ class Cell : public Publisher<Info> {
   TetroType type;
 
   public:
-  Cell(size_t row, size_t col, TetroType type = TetroType::None);
+  Cell(size_t row, size_t col, size_t id, TetroType type = TetroType::None);
 
   // make this cell hold a certain Tetromino type.
   void setType(TetroType type);

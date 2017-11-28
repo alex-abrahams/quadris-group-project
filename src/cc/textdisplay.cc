@@ -1,6 +1,15 @@
 #include "textdisplay.h"
 #include "subject.h"
 
+blockChars[TetroType::IBlock] = 'I';
+blockChars[TetroType::JBlock] = 'J';
+blockChars[TetroType::LBlock] = 'L';
+blockChars[TetroType::SBlock] = 'S';
+blockChars[TetroType::ZBlock] = 'Z';
+blockChars[TetroType::ZeroBlock] = '0';
+blockChars[TetroType::TBlock] = 'T';
+blockChars[TetroType::None] = ' ';
+
 TextDisplay::TextDisplay(int h, int w): gridHeight{h}, gridWidth{w} {
 	for (int i = 0; i < h; i++) {
 		theDisplay.push_back( std::vector<char>() );
