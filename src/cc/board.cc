@@ -1,5 +1,5 @@
-#include "../h/board.h"
-#include "../h/gameoverexception.h"
+#include "board.h"
+#include "gameoverexception.h"
 #include <memory>
 #include <iostream>
 #include <vector>

@@ -1,7 +1,7 @@
 CXX = g++
-CXXFLAGS = -std=c++14 -g -Wall -MMD -Werror=vla
+CXXFLAGS = -std=c++14 -g -Wall -MMD -Werror=vla -Ih
 EXEC = quadris
-OBJECTS = main.o 
+OBJECTS = cc/main.o cc/board.o cc/gameoverexception.o cc/cmdparser.o 
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}

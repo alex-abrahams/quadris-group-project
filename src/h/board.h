@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <cstddef>
+#include <cell.h>
 
 enum class Direction {Down, Left, Right, CW, CCW};
 
@@ -73,6 +74,6 @@ class Board {
   ~Board();
 
   friend std::ostream &operator<<(std::ostream &out, const Board &b);
-}
+};
 
 #endif
