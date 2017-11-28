@@ -6,7 +6,7 @@
 #include <functional>
 class CommandParser{
   std::map<std::string,std::function<void()>> funcs;
-  //funcs with args
+  // funcs with args
   std::map<std::string,std::function<void(std::string i)>> fwa;
   std::string args;
   std::string cmd;

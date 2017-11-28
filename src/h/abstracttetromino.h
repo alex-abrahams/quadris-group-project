@@ -12,22 +12,21 @@ class AbstractTetromino {
 	std::vector<std::vector<Cell>> cells;
 	
   public:
-	
+  	
   virtual TetroType getType();
 	virtual size_t getHeight();
 	virtual size_t getWidth();
 	virtual size_t lowerLeftRowIdx();
 	virtual size_t lowerRightRowIdx();
+  // changes the location of this tetromino object's cell on the board
+  virtual void setCellPosn(size_t rowAt, size_t colAt, size_t newRow, size_t newCol);
+  virtual Info getCellInfo(size_t row, size_t col);
+  virtual Cell getCell(size_t row, size_t col);
 
   virtual AbstractTetromino rotatecw() = 0;
 	virtual AbstractTetromino rotateccw() = 0;
   virtual ~AbstractTetromino();
   
-// REMOVE: the tetromino cant actually move on the board. It can rotate by
-// itself but the board needs to move it.
-//	virtual AbstractTetromino moveLeft() = 0;
-//	virtual AbstractTetromino moveRight() = 0;
-//	virtual AbstractTetromino moveDown() = 0;
 }
 
 #endif

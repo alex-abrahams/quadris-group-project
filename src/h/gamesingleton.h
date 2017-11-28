@@ -24,9 +24,15 @@ class GameSingleton(){
   void sequence(string file);
   void restart();
   void hint();
+
+  // change current tetromino
   void I();
   void L();
   void J();
+  void Zero();
+  void S();
+  void Z();
+  void T();
 
 }
 #endif

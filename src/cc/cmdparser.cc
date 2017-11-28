@@ -1,21 +1,30 @@
 #include "cmdparser.h"
-#define ins GameSingleton::get()
+#include <iostream>
+#include <string>
+#include "gamesingleton.h"
+
 CommandParser::CommandParser(){
-  funcs.emplace("down",ins.down;
-  funcs.emplace("up",GameSingleton::get().up;
-  funcs.emplace("left",GameSingleton::get().left);
-  funcs.emplace("right",GameSingleton::get().right);
-  funcs.emplace("clockwise",ins.clockwise);
-  funcs.emplace("counterclockwise",ins.counterclockwise);
-  funcs.emplace("drop", ins.drop);
-  funcs.emplace("levelup", ins.levelup);
+  // TODO: what's funcs??? where is it declared?
+  
+  funcs.emplace("down",GameSingleton::get().down;
+  funcs.emplace("up",GameSingleton::GameSingleton::get().up;
+  funcs.emplace("left",GameSingleton::GameSingleton::get().left);
+  funcs.emplace("right",GameSingleton::GameSingleton::get().right);
+  funcs.emplace("clockwise",GameSingleton::get().clockwise);
+  funcs.emplace("counterclockwise",GameSingleton::get().counterclockwise);
+  funcs.emplace("drop", GameSingleton::get().drop);
+  funcs.emplace("levelup", GameSingleton::get().levelup);
   funcs.emplace("norandom", callWithArg);
   funcs.emplace("sequence", callWithArg);
-  funcs.emaplce("I", ins.I);
-  funcs.emplace("J", ins.J);
-  funcs.emplace("L", ins.L);
-  funcs.emplace("restart", ins.restart);
-  funcs.emplace("hint", ins.hint);
+  funcs.emaplce("I", GameSingleton::get().I);
+  funcs.emplace("J", GameSingleton::get().J);
+  funcs.emplace("L", GameSingleton::get().L);
+  funcs.emplace("Zero", GameSingleton::get().Zero);
+  funcs.emplace("S", GameSingleton::get().S);
+  funcs.emplace("Z", GameSingleton::get().Z);
+  funcs.emplace("T", GameSingleton::get().T);
+  funcs.emplace("restart", GameSingleton::get().restart);
+  funcs.emplace("hint", GameSingleton::get().hint);
 }
 
 CommandParser::CommandParser(string i): CommandParser(){
@@ -37,6 +46,7 @@ void CommandParser:nextCommand(){
 }
 //wrapper for for calling functsion with arguments due to homogenity of containers problem
 void CommandParser::callWithArg(){
+  //TODO where is the match function defined???
   std::map<std::string, std::function<void(std::string)> data = match(fwa);
   if(data.size() == 1){
     data.begin().second(args);
