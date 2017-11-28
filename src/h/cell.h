@@ -4,10 +4,11 @@
 
 class Cell : public Publisher<Info> {
   size_t row, col;
+  size_t id; // incrementing id number
   TetroType type;
 
   public:
-  Cell(size_t row, size_t col, TetroType type = TetroType::None);
+  Cell(size_t row, size_t col, size_t id, TetroType type = TetroType::None);
 
   // make this cell hold a certain Tetromino type.
   void setType(TetroType type);
@@ -16,6 +17,6 @@ class Cell : public Publisher<Info> {
 
   Info getInfo() const override;
 
-}
+};
 
 #endif

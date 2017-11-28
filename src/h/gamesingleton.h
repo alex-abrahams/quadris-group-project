@@ -37,5 +37,5 @@ class GameSingleton {
   void Z();
   void T();
 
-}
+};
 #endif

@@ -1,6 +1,14 @@
 #include "textdisplay.h"
 #include "subject.h"
 
+blockChars[TetroType::IBlock] = 'I';
+blockChars[TetroType::JBlock] = 'J';
+blockChars[TetroType::LBlock] = 'L';
+blockChars[TetroType::SBlock] = 'S';
+blockChars[TetroType::ZBlock] = 'Z';
+blockChars[TetroType::ZeroBlock] = '0';
+blockChars[TetroType::TBlock] = 'T';
+blockChars[TetroType::None] = ' ';
 
 TextDisplay::TextDisplay(int h, int w): gridHeight{h}, gridWidth{w} {
 	for (int i = 0; i < h; i++) {
@@ -34,7 +42,8 @@ void TextDisplay::draw(std::ostream &out, int level, int score, int hiScore, Abs
 	for (int r = 0; r < currentTetromino.getHeight(); r++) {
 		for (int c = 0; c < currentTetromino.getWidth(); c++) {
 			if (currentTetromino.getCellLocations().at(r).at(c).getInfo().type != TetroType::None) {
-				realDisplay.at(currentTetromino.getLocationRow() - currentTetromino.getHeight() + 1 + r).at(currentTetromino.getLocationCol() + c) = blockChars[currentTetromino.getType()];
+				realDisplay.at(currentTetromino.getLocationRow() - currentTetromino.getHeight() + 1 + r).
+                    at(currentTetromino.getLocationCol() + c) =  blockChars[currentTetromino.getType()];
 			}
 		}
 	}

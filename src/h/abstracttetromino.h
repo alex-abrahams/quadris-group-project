@@ -26,7 +26,6 @@ class AbstractTetromino {
   virtual AbstractTetromino rotatecw() = 0;
 	virtual AbstractTetromino rotateccw() = 0;
   virtual ~AbstractTetromino();
-  
-}
+};
 
 #endif
