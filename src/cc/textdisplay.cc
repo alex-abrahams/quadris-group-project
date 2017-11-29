@@ -1,28 +1,34 @@
 #include "textdisplay.h"
-#include "subject.h"
+#include "publisher.h"
 
-blockChars[TetroType::IBlock] = 'I';
-blockChars[TetroType::JBlock] = 'J';
-blockChars[TetroType::LBlock] = 'L';
-blockChars[TetroType::SBlock] = 'S';
-blockChars[TetroType::ZBlock] = 'Z';
-blockChars[TetroType::ZeroBlock] = '0';
-blockChars[TetroType::TBlock] = 'T';
-blockChars[TetroType::None] = ' ';
+TextDisplay::TextDisplay(int width, int height): gridWidth{width}, gridHeight{height} {
+  blockChars[TetroType::IBlock] = 'I';
+  blockChars[TetroType::JBlock] = 'J';
+  blockChars[TetroType::LBlock] = 'L';
+  blockChars[TetroType::SBlock] = 'S';
+  blockChars[TetroType::ZBlock] = 'Z';
+  blockChars[TetroType::ZeroBlock] = '0';
+  blockChars[TetroType::TBlock] = 'T';
+  blockChars[TetroType::None] = ' ';
 
-TextDisplay::TextDisplay(int h, int w): gridHeight{h}, gridWidth{w} {
-	for (int i = 0; i < h; i++) {
+	for (int i = 0; i < height; i++) {
 		theDisplay.push_back( std::vector<char>() );
-		for (int j = 0; j < w; j++) {
+		for (int j = 0; j < width; j++) {
 			theDisplay.at(i).push_back(' ');
 		}
 	}
 }
+
+
 void TextDisplay::notify(Publisher<Info> &whoNotified) {
 	theDisplay.at(whoNotified.getInfo().row).at(whoNotified.getInfo().col) = blockChars[whoNotified.getInfo().type];
 }
 
-void TextDisplay::draw(std::ostream &out, int level, int score, int hiScore, AbstractTetromino currentTetromino, AbstractTetromino nextPiece) {
+std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
+  return out; 
+}
+
+void TextDisplay::draw(std::ostream &out, int level, int score, int hiScore, AbstractTetromino &currentTetromino, AbstractTetromino &nextPiece) {
 	out << "Level: " << level << std::endl; // show level
 	out << "Score: " << score << std::endl; // show score
 	out << "Hi Score: " << hiScore << std::endl; // show hiscore

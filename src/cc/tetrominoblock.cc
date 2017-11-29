@@ -13,10 +13,10 @@ void TetrominoBlock::setCell(size_t r, size_t c) {
 	cells.at(r).at(c) = Cell(row-height+1+r, col+c, id, type);
 }
 
-AbstractTetromino TetrominoBlock::rotatecw() {
+void TetrominoBlock::rotatecw() {
 	//TODO: rotate clockwise function
 }
 
-AbstractTetromino TetrominoBlock::rotateccw() {
+void TetrominoBlock::rotateccw() {
 	//TODO: rotate counterclockwise function
 }

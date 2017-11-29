@@ -1,40 +1,44 @@
 #include "board.h"
 #include "gameoverexception.h"
+#include "abstracttetromino.h"
 #include <memory>
 #include <iostream>
 #include <vector>
 #include <cstddef>
-class TextDisplay;
+#include "textdisplay.h"
 
-Board::Board(size_t rows, size_t cols, size_t reservedRows) : 
-  rows{rows}, cols{cols}, reservedRows{reservedRows}, totalRows{rows + reservedRows} {}
+bool Board::isTopLeftBlocked() const {
+  size_t width = currentTetro->getWidth();
+  size_t height = currentTetro->getHeight();
 
-  bool Board::isTopLeftBlocked() const {
-    size_t width = currentTetro->getWidth();
-    size_t height = currentTetro->getHeight();
-
-    for (size_t row = 0; row < width; ++row) {
-      for (size_t col = 0; col < height; ++col) {
-        if (theBoard.at(row).at(col).getInfo().type != TetroType::None && 
-            currentTetro->getCellInfo(row, col).type != TetroType::None) {
-          return false
-        }
+  for (size_t row = 0; row < width; ++row) {
+    for (size_t col = 0; col < height; ++col) {
+      if (theBoard.at(row).at(col).getInfo().type != TetroType::None && 
+          currentTetro->getCellInfo(row, col).type != TetroType::None) {
+        return false;
       }
     }
-
-    return true;
   }
 
-void Board::init() {
+  return true;
+}
+
+void Board::init(size_t rows, size_t cols, size_t reservedRows) {
+  this->rows = rows;
+  this->cols = cols;
+  this->reservedRows = reservedRows;
+  this->totalRows = rows + reservedRows;
   currentId = 0;
   theBoard.clear();
   tetroPosns.clear();
-  td = std::make_unique<TextDisplay>(rows, cols);
+  td = new TextDisplay(static_cast<int>(rows), static_cast<int>(cols));
+  // td = std::make_unique<TextDisplay>(rows, cols);
+  // currentTetro = ... ; 
 
-  theGrid.resize(totalRows);
+  theBoard.resize(totalRows);
   for (size_t row = 0; row < totalRows; ++row) {
     for (size_t col = 0; col < cols; ++col) {
-      theBoard.at(row).at(col).emplace_back(row, col);
+      theBoard.at(row).emplace_back(row, col);
       theBoard.at(row).at(col).attach(td);
     }
   }
@@ -70,14 +74,14 @@ int Board::getIndexOfFullRow() const {
   return -1;
 }
 
-void Board::dropRows(int fullRowIndex) {
-  for (int row = fullRowIndex; row > reservedRows - 2; --row) {
+void Board::dropRows(size_t fullRowIndex) {
+  for (size_t row = fullRowIndex; row > reservedRows - 2; --row) {
     // check that the dtors of Cell run for row-1 when it is overwritten  
-    theBoard.at(row) = theBoard.at(row - 1);
+    if (row > 0) theBoard.at(row) = theBoard.at(row - 1);
   }
 }
 
-bool Board::generalizedLateralBlockCheck(size_t column = 0, int lr = 0) {
+bool Board::generalizedLateralBlockCheck(size_t column, int lr) {
   for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
     Info info = currentTetro->getCellInfo(row, column);
     if (info.col == 0 || info.col == cols - 1) return true; // means it's at the left/right edge of the board
@@ -92,7 +96,6 @@ bool Board::generalizedLateralBlockCheck(size_t column = 0, int lr = 0) {
 
 bool Board::isBlocked(Direction dir) {
   size_t lowestRow = currentTetro->getHeight() - 1; 
-  size_t rightMostRow = currentTetro->getWidth() - 1;
 
   switch(dir) {
     case Direction::Down : 
@@ -177,6 +180,6 @@ void Board::dropTetromino() {
 Board::~Board() {}
 
 std::ostream &operator<<(std::ostream &out, const Board &b) {
-  out << *(g.td);
+  out << *(b.td);
   return out;
 }

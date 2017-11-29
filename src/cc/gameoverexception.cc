@@ -1,9 +1,9 @@
-#include "../h/gameoverexcept.h"
+#include "gameoverexception.h"
 #include <string>
 
 GameOverException::GameOverException(std::string whatMessage) : 
-    whatMessage{whatMessage} {}
+  whatMessage{whatMessage} {}
 
-const char* GameOverException::what() const throw() {
-    return whatMessage.c_str();
-}
+  std::string GameOverException::getErrorMessage() {
+    return whatMessage;
+  }
