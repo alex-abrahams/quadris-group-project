@@ -1,12 +1,13 @@
 #ifndef GAMESINGLETON_H
 #define GAMESINGLETON_H
 #include <string>
+#include "board.h"
 
 class GameSingleton {
   GameSingleton();
   Board b;
   public:
-  
+
   static GameSingleton& get(){
     static GameSingleton r;
     return r;

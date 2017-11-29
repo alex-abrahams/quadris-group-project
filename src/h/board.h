@@ -31,7 +31,7 @@ class Board {
   /* the row and col of the board each cell of the current tetromino is on
      represented by a Cell object who has fields row, col, and type.
      the row and col of the Cell will increment/decrement based on the position
-     of the tetromino in the board 
+     of the tetromino in the board
      */
   std::vector<std::vector<Cell>> tetroPosns;
 
@@ -43,18 +43,18 @@ class Board {
 
   // drop the above row(s) once a row is full
   void dropRows();
- 
+
   bool generalizedLateralBlockCheck(size_t column = 0, int lr = 0);
 
   // checks if moving/rotating current tetromino in the direction dir is possible
   bool isBlocked(Direction dir);
 
 
-  /* checks if there is space for the block to be 
-   * put in the top left corner. 
+  /* checks if there is space for the block to be
+   * put in the top left corner.
    * If there isn't, the game ends. */
   bool isTopLeftBlocked() const;
-  
+
   public:
 
   Board(int rows, int cols, int reservedRows);
@@ -65,7 +65,7 @@ class Board {
   void init();
   // moves current tetromino one cell in the direction dir
   void move(Direction dir);
-  
+
   // drops the current tetromino into the top left corner
   void dropIntoTopLeft();
 
