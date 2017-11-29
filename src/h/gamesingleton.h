@@ -2,6 +2,7 @@
 #define GAMESINGLETON_H
 class GameSingleton(){
   GameSingleton();
+  Board b;
   public:
   static GameSingleton& get(){
     static GameSingleton r;

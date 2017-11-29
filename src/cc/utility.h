@@ -1,10 +1,19 @@
 #ifndef UTILITY_H
 #define UTILITY_H
+#include <fstream>
+#include <vector>
 namespace utility{
-  //from https://stackoverflow.com/questions/8645058/getting-argument-count-of-a-function-pointer
-  template<class R, class... Args>
-  constexpr unsigned arity(std::function<R(Args...)> const&){
-    return sizeof...(Args);
+  //buffer file into usable vector of strings
+  std::vector<string> bufferFile(string name){
+    std::ifstream f (name);
+    std::string line;
+    std::vector<std::string> tmp;
+    while (std::getline(f, line)){
+      tmp.push_back(line);
+    }
+    return tmp;
   }
+
+
 }
 #endif
