@@ -7,7 +7,6 @@
 
 CommandParser::CommandParser(){
   funcs.emplace("down", []{GS_GET.down();});
-  funcs.emplace("up", []{GS_GET.up();});
   funcs.emplace("left", []{GS_GET.left();});
   funcs.emplace("right", []{GS_GET.right();});
   funcs.emplace("clockwise", []{GS_GET.clockwise();});

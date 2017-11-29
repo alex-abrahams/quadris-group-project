@@ -1,23 +1,17 @@
 #ifndef GAMESINGLETON_H
 #define GAMESINGLETON_H
 #include <string>
-#include "board.h"
 
 class GameSingleton {
   GameSingleton();
-  Board b;
   public:
 
-  static GameSingleton& get(){
-    static GameSingleton r;
-    return r;
-  }
+  static GameSingleton& get();
 
   void init();
 
   //control interfaces
   void down();
-  void up();
   void left();
   void right();
   void clockwise();
