@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -g -Wall -MMD -Werror=vla -Ih
 EXEC = quadris
-OBJECTS = cc/main.o cc/board.o cc/gameoverexception.o cc/cmdparser.o 
+OBJECTS = cc/main.o cc/cmdparser.o cc/gamesingleton.o
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}
@@ -9,6 +9,6 @@ ${EXEC}: ${OBJECTS}
 
 -include ${DEPENDS}
 
-clean: 
+clean:
 	rm ${OBJECTS} ${EXEC} ${DEPENDS}
 .PHONY: clean

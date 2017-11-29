@@ -5,17 +5,13 @@
 class GameSingleton {
   GameSingleton();
   public:
-  
-  static GameSingleton& get(){
-    static GameSingleton r;
-    return r;
-  }
+
+  static GameSingleton& get();
 
   void init();
 
   //control interfaces
   void down();
-  void up();
   void left();
   void right();
   void clockwise();
