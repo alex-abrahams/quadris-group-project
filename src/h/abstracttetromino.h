@@ -23,8 +23,8 @@ class AbstractTetromino {
   virtual Info getCellInfo(size_t row, size_t col);
   virtual Cell getCell(size_t row, size_t col);
 
-  virtual AbstractTetromino rotatecw() = 0;
-	virtual AbstractTetromino rotateccw() = 0;
+  virtual void rotatecw() = 0;
+	virtual void rotateccw() = 0;
   virtual ~AbstractTetromino();
 };
 

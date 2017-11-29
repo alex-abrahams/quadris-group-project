@@ -1,9 +1,7 @@
 #ifndef _OBSERVER_H_
 #define _OBSERVER_H_
 
-
 template <typename InfoType> class Publisher;
-class Cell;
 
 template <typename InfoType> class Observer {
  public:

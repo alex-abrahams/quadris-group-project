@@ -5,7 +5,10 @@
 #include <iostream>
 #include <memory>
 #include <cstddef>
-#include <cell.h>
+#include "cell.h"
+
+class TextDisplay;
+class AbstractTetromino;
 
 enum class Direction {Down, Left, Right, CW, CCW};
 
@@ -19,15 +22,18 @@ class Board {
      Just reassign theBoard.at(i) = theBoard.at(i-1);
      */
   std::vector<std::vector<Cell>> theBoard;
-  const size_t rows; // rows of a board
-  const size_t cols; // cols of a board
-  const size_t reservedRows; // the rows reserved for rotating the currentTetro
-  const size_t totalRows;
+  size_t rows; // rows of a board
+  size_t cols; // cols of a board
+  size_t reservedRows; // the rows reserved for rotating the currentTetro
+  size_t totalRows;
   size_t currentId;
 
-  std::unique_ptr<TextDisplay> td;
+  TextDisplay *td = nullptr;
+  //std::unique_ptr<TextDisplay> td;
   std::unique_ptr<AbstractTetromino> currentTetro;
 
+  //TODO:Graphics. std::unique_ptr<Observer<Info>> graphicsObserver;
+  
   /* the row and col of the board each cell of the current tetromino is on
      represented by a Cell object who has fields row, col, and type.
      the row and col of the Cell will increment/decrement based on the position
@@ -42,7 +48,7 @@ class Board {
   int getIndexOfFullRow() const;
 
   // drop the above row(s) once a row is full
-  void dropRows();
+  void dropRows(size_t row);
 
   bool generalizedLateralBlockCheck(size_t column = 0, int lr = 0);
 
@@ -57,12 +63,10 @@ class Board {
 
   public:
 
-  Board(int rows, int cols, int reservedRows);
-  // TODO: void setObserver(Observer<> *obs);
-
+ // TODO: void setObserver(Observer<Info> *obs); // intent: graphics
 
   // initializes theBoard
-  void init();
+  void init(size_t rows, size_t cols, size_t reservedRows);
   // moves current tetromino one cell in the direction dir
   void move(Direction dir);
 

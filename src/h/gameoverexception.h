@@ -1,15 +1,11 @@
 #ifndef GAME_OVER_EXCEPT_H
 #define GAME_OVER_EXCEPT_H
-
-#include <exception>
-#include <stdexcept>
-
-class GameOverException: public std::runtime_error {
+#include <string>
+class GameOverException {
     std::string whatMessage;
     public: 
         GameOverException(std::string whatMessage);
-        virtual const char* what() const throw();
-  
+        std::string getErrorMessage(); 
 
 };
 
