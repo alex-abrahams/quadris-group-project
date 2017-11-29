@@ -1,5 +1,5 @@
-#include "../h/board.h"
-#include "../h/gameoverexception.h"
+#include "board.h"
+#include "gameoverexception.h"
 #include <memory>
 #include <iostream>
 #include <vector>
@@ -16,7 +16,7 @@ Board::Board(size_t rows, size_t cols, size_t reservedRows) :
     for (size_t row = 0; row < width; ++row) {
       for (size_t col = 0; col < height; ++col) {
         if (theBoard.at(row).at(col).getInfo().type != TetroType::None && 
-            currentTetro->getCell(row, col).getInfo().type != TetroType::None) {
+            currentTetro->getCellInfo(row, col).type != TetroType::None) {
           return false
         }
       }
@@ -26,6 +26,7 @@ Board::Board(size_t rows, size_t cols, size_t reservedRows) :
   }
 
 void Board::init() {
+  currentId = 0;
   theBoard.clear();
   tetroPosns.clear();
   td = std::make_unique<TextDisplay>(rows, cols);
@@ -78,7 +79,7 @@ void Board::dropRows(int fullRowIndex) {
 
 bool Board::generalizedLateralBlockCheck(size_t column = 0, int lr = 0) {
   for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
-    Info info = currentTetro->getCell(row, column).getInfo();
+    Info info = currentTetro->getCellInfo(row, column);
     if (info.col == 0 || info.col == cols - 1) return true; // means it's at the left/right edge of the board
 
     if (info.type != TetroType::None) {
@@ -96,7 +97,7 @@ bool Board::isBlocked(Direction dir) {
   switch(dir) {
     case Direction::Down : 
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
-        Info info = currentTetro->getCell(lowestRow, col).getInfo();
+        Info info = currentTetro->getCellInfo(lowestRow, col);
         if (info.row == rows + reservedRows - 1) return true; // means it's at the bottom of the board
 
         if (info.type != TetroType::None) {
@@ -111,6 +112,21 @@ bool Board::isBlocked(Direction dir) {
     case Direction::Right :
       return generalizedLateralBlockCheck(currentTetro->getWidth() - 1, 1);
       break;
+    case Direction::CW :
+      // take rotated tetromino
+      // compare width of tetromino to how many cells there are between the
+      // left/right edge of the tetromino and the edge of the board
+      // if there is enough space to rotate, iterate thru the rows and cols
+      // ask if a cell in the tetromino is non empty AND is in a cell that is
+      // also non empty on the board
+      // return true if blocked, false otherwise
+      //
+      // SAME FOR CCWW
+      // TODO
+      break;
+    case Direction::CCW :
+      // TODO
+      break;
     default : 
       return true;
       break;
@@ -121,18 +137,20 @@ bool Board::isBlocked(Direction dir) {
 void Board::move(Direction dir) {  
   for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
     for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
+      size_t rowAt = currentTetro->getCellInfo(row, col).row;
+      size_t colAt = currentTetro->getCellInfo(row, col).col;
       switch(dir) {
         case Direction::Down :
-          // Set cell at (row, col)  to (row+1, col)
-          currentTetro->setCellPosn(row + 1, col);
+          // Set cell at board(row, col)  to (row+1, col)
+          if (!isBlocked(dir)) currentTetro->setCellPosn(rowAt, colAt, rowAt + 1, colAt);
           break;
         case Direction::Left : 
-          // Set cell at (row, col)  to (row, col-1)
-          currentTetro->setCellPosn(row, col - 1);
+          // Set cell at board(row, col)  to (row, col-1)
+          if (!isBlocked(dir)) currentTetro->setCellPosn(rowAt, colAt, rowAt, colAt - 1);
           break;
         case Direction::Right :
-          // Set cell at (row, col)  to (row, col+1)
-          currentTetro->setCellPosn(row, col + 1);
+          // Set cell at board(row, col)  to (row, col+1)
+          if (!isBlocked(dir)) currentTetro->setCellPosn(rowAt, colAt, rowAt, colAt + 1);
           break;
         default:
           break;
@@ -149,15 +167,12 @@ void Board::dropTetromino() {
   // put the current tetromino onto the board.
   for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
     for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
-      size_t boardRow = currentTetro->getCell(row, col).getInfo().row;
-      size_t boardCol = currentTetro->getCell(row, col).getInfo().col;
+      size_t boardRow = currentTetro->getCellInfo(row, col).row;
+      size_t boardCol = currentTetro->getCellInfo(row, col).col;
       theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
     }
   }
 }
-
-
-
 
 Board::~Board() {}
 

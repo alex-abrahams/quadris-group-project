@@ -5,8 +5,9 @@
 #include <iostream>
 #include <memory>
 #include <cstddef>
+#include <cell.h>
 
-enum class Direction {Down, Left, Right};
+enum class Direction {Down, Left, Right, CW, CCW};
 
 class Board {
   /* Format of theBoard vector of vectors
@@ -22,6 +23,7 @@ class Board {
   const size_t cols; // cols of a board
   const size_t reservedRows; // the rows reserved for rotating the currentTetro
   const size_t totalRows;
+  size_t currentId;
 
   std::unique_ptr<TextDisplay> td;
   std::unique_ptr<AbstractTetromino> currentTetro;
@@ -44,25 +46,26 @@ class Board {
  
   bool generalizedLateralBlockCheck(size_t column = 0, int lr = 0);
 
-  // checks if moving current tetromino in the direction dir is possible
+  // checks if moving/rotating current tetromino in the direction dir is possible
   bool isBlocked(Direction dir);
 
-  // moves current tetromino one cell in the direction dir
-  void move(Direction dir);
-
-  public:
-
-  Board(int rows, int cols, int reservedRows);
-  // TODO: void setObserver(Observer<> *obs);
 
   /* checks if there is space for the block to be 
    * put in the top left corner. 
    * If there isn't, the game ends. */
   bool isTopLeftBlocked() const;
+  
+  public:
+
+  Board(int rows, int cols, int reservedRows);
+  // TODO: void setObserver(Observer<> *obs);
+
 
   // initializes theBoard
   void init();
-
+  // moves current tetromino one cell in the direction dir
+  void move(Direction dir);
+  
   // drops the current tetromino into the top left corner
   void dropIntoTopLeft();
 
@@ -72,6 +75,6 @@ class Board {
   ~Board();
 
   friend std::ostream &operator<<(std::ostream &out, const Board &b);
-}
+};
 
 #endif

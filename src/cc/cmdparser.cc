@@ -1,41 +1,49 @@
 #include "cmdparser.h"
-#define ins GameSingleton::get()
+#include <iostream>
+#include <string>
+#include "gamesingleton.h"
+
+#define GS_GET GameSingleton::get()
+
 CommandParser::CommandParser(){
-  funcs.emplace("down",ins.down;
-  funcs.emplace("up",GameSingleton::get().up;
-  funcs.emplace("left",GameSingleton::get().left);
-  funcs.emplace("right",GameSingleton::get().right);
-  funcs.emplace("clockwise",ins.clockwise);
-  funcs.emplace("counterclockwise",ins.counterclockwise);
-  funcs.emplace("drop", ins.drop);
-  funcs.emplace("levelup", ins.levelup);
+  funcs.emplace("down", GS_GET.down);
+  funcs.emplace("up", GS_GET.up);
+  funcs.emplace("left", GS_GET.left);
+  funcs.emplace("right", GS_GET.right);
+  funcs.emplace("clockwise", GS_GET.clockwise);
+  funcs.emplace("counterclockwise", GS_GET.counterclockwise);
+  funcs.emplace("drop", GS_GET.drop);
+  funcs.emplace("levelup", GS_GET.levelup);
   funcs.emplace("norandom", callWithArg);
   funcs.emplace("sequence", callWithArg);
-  funcs.emaplce("I", ins.I);
-  funcs.emplace("J", ins.J);
-  funcs.emplace("L", ins.L);
-  funcs.emplace("restart", ins.restart);
-  funcs.emplace("hint", ins.hint);
+  funcs.emplace("I", GS_GET.I);
+  funcs.emplace("J", GS_GET.J);
+  funcs.emplace("L", GS_GET.L);
+  funcs.emplace("Zero", GS_GET.Zero);
+  funcs.emplace("S", GS_GET.S);
+  funcs.emplace("Z", GS_GET.Z);
+  funcs.emplace("T", GS_GET.T);
+  funcs.emplace("restart", GS_GET.restart);
+  funcs.emplace("hint", GS_GET.hint);
 }
 
-CommandParser::CommandParser(string i): CommandParser(){
+CommandParser::CommandParser(std::string i): CommandParser(){
   //TODO file macros
 }
 
 //gets,parses and executes next available command;
-void CommandParser:nextCommand(){
-  string line;
+void CommandParser::nextCommand(){
+  std::string line;
   std::getline(std::cin, line);
-  istringstream ss(line);
-  ss  >> cmd;
-  string tmp;
+  std::istringstream ss{line};
+  ss >> cmd;
+  std::string tmp;
   std::getline(ss, args);
-  std::map<string, std::function<void()> data = match(cmd);
+  std::map<std::string, std::function<void()> data = match(cmd);
   if(data.size() == 1){
     data.begin().second();
   }
 }
-
 
 //wrapper for for calling functsion with arguments due to homogenity of containers problem
 void CommandParser::callWithArg(){
@@ -44,3 +52,4 @@ void CommandParser::callWithArg(){
     data.begin().second(args);
   }
 }
+

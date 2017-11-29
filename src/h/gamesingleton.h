@@ -1,9 +1,12 @@
 #ifndef GAMESINGLETON_H
 #define GAMESINGLETON_H
-class GameSingleton(){
+#include <string>
+
+class GameSingleton {
   GameSingleton();
   Board b;
   public:
+  
   static GameSingleton& get(){
     static GameSingleton r;
     return r;
@@ -21,13 +24,19 @@ class GameSingleton(){
   void drop();
   void levelup();
   void leveldown();
-  void norandom(string file);
-  void sequence(string file);
+  void norandom(std::string file);
+  void sequence(std::string file);
   void restart();
   void hint();
+
+  // change current tetromino
   void I();
   void L();
   void J();
+  void Zero();
+  void S();
+  void Z();
+  void T();
 
-}
+};
 #endif
