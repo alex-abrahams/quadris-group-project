@@ -18,6 +18,8 @@ class AbstractTetromino {
 	virtual size_t getWidth();
 	virtual size_t lowerLeftRowIdx();
 	virtual size_t lowerRightRowIdx();
+	virtual size_t getLocationRow();
+	virtual size_t getLocationCol();
   // changes the location of this tetromino object's cell on the board
   virtual void setCellPosn(size_t rowAt, size_t colAt, size_t newRow, size_t newCol);
   virtual Info getCellInfo(size_t row, size_t col);

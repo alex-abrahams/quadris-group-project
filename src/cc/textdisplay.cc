@@ -1,5 +1,6 @@
 #include "textdisplay.h"
 #include "publisher.h"
+#include <iostream>
 
 TextDisplay::TextDisplay(int width, int height): gridWidth{width}, gridHeight{height} {
   blockChars[TetroType::IBlock] = 'I';
@@ -38,25 +39,25 @@ void TextDisplay::draw(std::ostream &out, int level, int score, int hiScore, Abs
 	out << std::endl;
 	// make temporary vector for display
 	std::vector<std::vector<char>> realDisplay;
-	for (int r=0; r<h; r++) {
+	for (int r=0; r<gridHeight; r++) {
 		realDisplay.push_back( std::vector<char>() );
-		for (int c=0; c<w; c++) {
+		for (int c=0; c<gridWidth; c++) {
 			realDisplay.at(r).push_back(theDisplay.at(r).at(c));
 		}
 	}
 	// put in the tetromino to this display vector
 	for (int r = 0; r < currentTetromino.getHeight(); r++) {
 		for (int c = 0; c < currentTetromino.getWidth(); c++) {
-			if (currentTetromino.getCellLocations().at(r).at(c).getInfo().type != TetroType::None) {
+			if (currentTetromino.getCellInfo(r,c).type != TetroType::None) {
 				realDisplay.at(currentTetromino.getLocationRow() - currentTetromino.getHeight() + 1 + r).
                     at(currentTetromino.getLocationCol() + c) =  blockChars[currentTetromino.getType()];
 			}
 		}
 	}
 	
-	for (int r=0; r<h; r++) {
-		for (int c=0; c<w; c++) {
-			out << realDisplay.at(r).at(c) // draw the display
+	for (int r=0; r<gridHeight; r++) {
+		for (int c=0; c<gridWidth; c++) {
+			out << realDisplay.at(r).at(c); // draw the display
 		}
 		out << std::endl;
 	}
@@ -70,7 +71,7 @@ void TextDisplay::draw(std::ostream &out, int level, int score, int hiScore, Abs
 	// show the next tetromino
 	for (int r = 0; r < nextPiece.getHeight(); r++) {
 		for (int c = 0; c < nextPiece.getWidth(); c++) {
-			if (nextPiece.getCellLocations().at(r).at(c).getInfo().type != TetroType::None) {
+			if (nextPiece.getCellInfo(r,c).type != TetroType::None) {
 				out << blockChars[nextPiece.getType()];
 			} else {
 				out << " ";
@@ -79,3 +80,4 @@ void TextDisplay::draw(std::ostream &out, int level, int score, int hiScore, Abs
 		out << std::endl;
 	}
 }
+
