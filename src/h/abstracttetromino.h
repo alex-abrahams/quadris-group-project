@@ -1,23 +1,16 @@
 #ifndef ABSTET_H
 #define ABSTET_H
-#include "info.h"
 #include "cell.h"
+#include "info.h"
 
 class AbstractTetromino {
-	size_t row;
-  size_t col; // location of bottom left
-	size_t height;
-	size_t width; // dimensions of tetromino
-	TetroType type;
-	std::vector<std::vector<Cell>> cells;
-	
+
   public:
-  	
+  virtual ~AbstractTetromino() = 0;
+  
   virtual TetroType getType();
 	virtual size_t getHeight();
 	virtual size_t getWidth();
-	virtual size_t lowerLeftRowIdx();
-	virtual size_t lowerRightRowIdx();
 	virtual size_t getLocationRow();
 	virtual size_t getLocationCol();
   // changes the location of this tetromino object's cell on the board
@@ -25,9 +18,6 @@ class AbstractTetromino {
   virtual Info getCellInfo(size_t row, size_t col);
   virtual Cell getCell(size_t row, size_t col);
 
-  virtual void rotatecw() = 0;
-	virtual void rotateccw() = 0;
-  virtual ~AbstractTetromino();
 };
 
 #endif

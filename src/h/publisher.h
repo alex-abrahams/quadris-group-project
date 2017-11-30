@@ -1,19 +1,20 @@
 #ifndef PUBLISHER_H
 #define PUBLISHER_H
 #include <vector>
+#include <memory>
 
 template <typename InfoType> class Observer;
 
 template <typename InfoType> class Publisher {
-  std::vector<Observer<InfoType>*> observers;
+  std::vector<std::shared_ptr<Observer<InfoType>>> observers;
  public:
-  void attach(Observer<InfoType> *o);  
+  void attach(std::shared_ptr<Observer<InfoType>> o);  
   void notifyObservers();
   virtual InfoType getInfo() const = 0;
 };
 
 template <typename InfoType>
-void Publisher<InfoType>::attach(Observer<InfoType> *o) {
+void Publisher<InfoType>::attach(std::shared_ptr<Observer<InfoType>> o) {
   observers.emplace_back(o);
 }
 

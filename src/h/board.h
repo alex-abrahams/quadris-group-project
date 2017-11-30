@@ -29,9 +29,8 @@ class Board {
   size_t totalRows;
   size_t currentId;
 
-  TextDisplay *td = nullptr;
-	TetrominoFactory *factory = new TetrominoFactory();
-  //std::unique_ptr<TextDisplay> td;
+  // TODO: factory goes in GameSingleton! std::unique_ptr<TetrominoFactory> tetroFactory;
+  std::shared_ptr<TextDisplay> td;
   std::shared_ptr<AbstractTetromino> currentTetro;
 
   //TODO:Graphics. std::unique_ptr<Observer<Info>> graphicsObserver;
@@ -62,10 +61,13 @@ class Board {
    * put in the top left corner.
    * If there isn't, the game ends. */
   bool isTopLeftBlocked() const;
+  
 
   public:
 
- // TODO: void setObserver(Observer<Info> *obs); // intent: graphics
+  void setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro);
+ 
+  // TODO: void setObserver(Observer<Info> *obs); // intent: graphics
 
   // initializes theBoard
   void init(size_t rows, size_t cols, size_t reservedRows);

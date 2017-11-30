@@ -3,8 +3,6 @@
 #include <iostream>
 
 TextDisplay::TextDisplay(int width, int height): gridWidth{width}, gridHeight{height} {
-  
-
 	for (int i = 0; i < height; i++) {
 		theDisplay.push_back( std::vector<char>() );
 		for (int j = 0; j < width; j++) {
@@ -40,8 +38,8 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
 	}
 	if (currentTetromino) {
 		// put in the tetromino to this display vector
-		for (int r = 0; r < currentTetromino->getHeight(); r++) {
-			for (int c = 0; c < currentTetromino->getWidth(); c++) {
+		for (size_t r = 0; r < currentTetromino->getHeight(); r++) {
+			for (size_t c = 0; c < currentTetromino->getWidth(); c++) {
 				if (currentTetromino->getCellInfo(r,c).type != TetroType::None) {
 					realDisplay.at(currentTetromino->getLocationRow() - currentTetromino->getHeight() + 1 + r).
 						at(currentTetromino->getLocationCol() + c) =  blockChars[currentTetromino->getType()];
@@ -65,8 +63,8 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
 	
 	if (nextPiece) {
 		// show the next tetromino
-		for (int r = 0; r < nextPiece->getHeight(); r++) {
-			for (int c = 0; c < nextPiece->getWidth(); c++) {
+		for (size_t r = 0; r < nextPiece->getHeight(); r++) {
+			for (size_t c = 0; c < nextPiece->getWidth(); c++) {
 				if (nextPiece->getCellInfo(r,c).type != TetroType::None) {
 					out << blockChars[nextPiece->getType()];
 				} else {

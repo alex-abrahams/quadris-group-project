@@ -1,10 +1,9 @@
 #include "gamesingleton.h"
 #include "board.h"
+#include "tetrominofactory.h"
 
-//TODO
-
-GameSingleton::GameSingleton(){
-
+GameSingleton::GameSingleton() {
+  
 }
 
 
@@ -15,6 +14,10 @@ GameSingleton& GameSingleton::get(){
 
 void GameSingleton::init(){
 	theBoard.init(15,11,3);
+  tetroFactory = std::make_unique<TetrominoFactory>();
+  current = tetroFactory->makeTetromino(TetroType::JBlock);
+  next = tetroFactory->makeTetromino(TetroType::ZBlock);
+  theBoard.setCurrentTetromino(current);
 }
 
 void GameSingleton::down(){

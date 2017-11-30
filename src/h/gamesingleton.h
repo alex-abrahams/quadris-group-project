@@ -1,7 +1,10 @@
 #ifndef GAMESINGLETON_H
 #define GAMESINGLETON_H
+
 #include <string>
 #include "board.h"
+
+class TetrominoFactory;
 
 class GameSingleton {
   Board theBoard;
@@ -9,15 +12,18 @@ class GameSingleton {
   size_t hiscore = 0;
   size_t level = 0;
   
+  std::unique_ptr<TetrominoFactory> tetroFactory;
+  std::shared_ptr<AbstractTetromino> current;
+  std::shared_ptr<AbstractTetromino> next;
+
   public:
   GameSingleton();
-  
 
   static GameSingleton& get();
 
   void init();
 
-  //control interfaces
+  // control functions
   void down();
   void left();
   void right();
@@ -31,7 +37,7 @@ class GameSingleton {
   void restart();
   void hint();
 
-  // change current tetromino
+  // change current tetromino (for testing)
   void I();
   void L();
   void J();

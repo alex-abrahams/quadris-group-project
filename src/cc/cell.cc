@@ -1,6 +1,6 @@
 #include "cell.h"
 
-Cell::Cell(size_t row, size_t col, size_t id) : row{row}, col{col}, id{id} {}
+Cell::Cell(size_t row, size_t col, size_t id, TetroType type) : row{row}, col{col}, id{id}, type{type} {}
 
 void Cell::setType(TetroType type) {
   this->type = type;

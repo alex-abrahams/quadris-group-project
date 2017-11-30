@@ -1,22 +1,45 @@
-#include "../h/tetrominoblock.h"
+#include "tetrominoblock.h"
 
-TetrominoBlock::TetrominoBlock(size_t w, size_t h, size_t r, size_t c, size_t id, TetroType t): height{h}, width{w}, row{r}, col{c}, id{id}, type{t} {
-	for (int rr = 0; rr < height; rr++) {
+TetrominoBlock::TetrominoBlock(size_t w, size_t h, size_t r, size_t c, size_t id, TetroType t)
+  : row{r}, col{c}, height{h}, width{w}, id{id}, type{t} {
+	for (size_t rr = 0; rr < h; rr++) {
 		cells.push_back( std::vector<Cell>() );
-		for (int cc = 0; cc < width; cc++) {
-			cells.at(rr).push_back(Cell(r-h+1+rr, c+cc, id));
+		for (size_t cc = 0; cc < width; cc++) {
+      cells.at(rr).emplace_back(r - h + 1 + rr, c + cc, id);
 		}
 	}
 }
 
 void TetrominoBlock::setCell(size_t r, size_t c) {
-	cells.at(r).at(c) = Cell(row-height+1+r, col+c, id, type);
+	cells.at(r).at(c) = Cell(row - height + 1 + r, col + c, id, type);
 }
 
-void TetrominoBlock::rotatecw() {
-	//TODO: rotate clockwise function
+TetroType TetrominoBlock::getType() {
+	return type;
 }
 
-void TetrominoBlock::rotateccw() {
-	//TODO: rotate counterclockwise function
+size_t TetrominoBlock::getHeight() {
+	return height;
 }
+
+size_t TetrominoBlock::getWidth() {
+	return width;
+}
+
+size_t TetrominoBlock::getLocationRow() {
+	return row;
+}
+
+size_t TetrominoBlock::getLocationCol() {
+	return col;
+}
+
+Info TetrominoBlock::getCellInfo(size_t row, size_t col) {
+	return cells.at(row).at(col).getInfo();
+}
+
+Cell TetrominoBlock::getCell(size_t row, size_t col) {
+	return cells.at(row).at(col);
+}
+
+TetrominoBlock::~TetrominoBlock() {}

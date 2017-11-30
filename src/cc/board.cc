@@ -7,6 +7,11 @@
 #include <cstddef>
 #include "textdisplay.h"
 
+
+void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
+  currentTetro = tetro;
+}
+
 bool Board::isTopLeftBlocked() const {
   size_t width = currentTetro->getWidth();
   size_t height = currentTetro->getHeight();
@@ -31,11 +36,10 @@ void Board::init(size_t rows, size_t cols, size_t reservedRows) {
   currentId = 0;
   theBoard.clear();
   tetroPosns.clear();
-  td = new TextDisplay(static_cast<int>(totalRows), static_cast<int>(cols));
-  // td = std::make_unique<TextDisplay>(rows, cols);
-  // currentTetro = ... ; 
 
+  td = std::make_shared<TextDisplay>(totalRows, cols);
   theBoard.resize(totalRows);
+  
   for (size_t row = 0; row < totalRows; ++row) {
     for (size_t col = 0; col < cols; ++col) {
       theBoard.at(row).emplace_back(row, col);

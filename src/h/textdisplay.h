@@ -34,7 +34,7 @@ class TextDisplay: public Observer<Info> {
 	
 	TextDisplay(int h, int w); // constructor
 	
-	void notify(Publisher<Info> &whoNotified) override; // gets stuff from cells
+	void notify(Publisher<Info> &whoNotified) override; // gets stuff from cells or from game singleton
 	
 	void draw(std::ostream &out, std::shared_ptr<AbstractTetromino> currentTetromino, AbstractTetromino *nextPiece = nullptr); // draw the display
 };
