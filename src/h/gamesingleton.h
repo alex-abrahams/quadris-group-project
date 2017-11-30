@@ -1,9 +1,15 @@
 #ifndef GAMESINGLETON_H
 #define GAMESINGLETON_H
 #include <string>
+#include "board.h"
 
 class GameSingleton {
   GameSingleton();
+  Board *theBoard = nullptr;
+  size_t score = 0;
+  size_t hiscore = 0;
+  size_t level = 0;
+  
   public:
 
   static GameSingleton& get();
@@ -35,3 +41,4 @@ class GameSingleton {
 
 };
 #endif
+

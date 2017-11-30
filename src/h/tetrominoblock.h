@@ -9,8 +9,8 @@ class TetrominoBlock : public AbstractTetromino {
 	public:
 	TetrominoBlock(size_t w, size_t h, size_t r, size_t c, size_t id, TetroType t);
 	void setCell(size_t r, size_t c);
-	AbstractTetromino rotatecw() override;
-	AbstractTetromino rotateccw() override;
+	void rotatecw() override;
+	void rotateccw() override;
 };
 
 #endif

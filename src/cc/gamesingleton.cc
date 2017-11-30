@@ -12,6 +12,11 @@ GameSingleton& GameSingleton::get(){
   return s;
 }
 
+void GameSingleton::init(){
+	theBoard = new Board();
+	theBoard->init(15,11,3);
+}
+
 void GameSingleton::down(){
 }
 
@@ -83,3 +88,4 @@ void GameSingleton::Z(){
 void GameSingleton::T(){
 
 }
+

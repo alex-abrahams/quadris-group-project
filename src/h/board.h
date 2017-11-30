@@ -6,6 +6,7 @@
 #include <memory>
 #include <cstddef>
 #include "cell.h"
+#include "tetrominofactory.h"
 
 class TextDisplay;
 class AbstractTetromino;
@@ -29,6 +30,7 @@ class Board {
   size_t currentId;
 
   TextDisplay *td = nullptr;
+	TetrominoFactory *factory = new TetrominoFactory();
   //std::unique_ptr<TextDisplay> td;
   std::unique_ptr<AbstractTetromino> currentTetro;
 

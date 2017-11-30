@@ -1,6 +1,8 @@
 #include "cmdparser.h"
-
+#include "gamesingleton.h"
 
 int main() {
-  return 0;
+	GameSingleton *gs = new GameSingleton();
+	gs->init();
+	cout << gs->theBoard;
 }

@@ -31,7 +31,7 @@ void Board::init(size_t rows, size_t cols, size_t reservedRows) {
   currentId = 0;
   theBoard.clear();
   tetroPosns.clear();
-  td = new TextDisplay(static_cast<int>(rows), static_cast<int>(cols));
+  td = new TextDisplay(static_cast<int>(totalRows), static_cast<int>(cols));
   // td = std::make_unique<TextDisplay>(rows, cols);
   // currentTetro = ... ; 
 
@@ -180,6 +180,7 @@ void Board::dropTetromino() {
 Board::~Board() {}
 
 std::ostream &operator<<(std::ostream &out, const Board &b) {
-  out << *(b.td);
+  b.td -> draw(out, b.currentTetro/*, nextTetro*/);
   return out;
 }
+

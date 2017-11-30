@@ -3,14 +3,7 @@
 #include <iostream>
 
 TextDisplay::TextDisplay(int width, int height): gridWidth{width}, gridHeight{height} {
-  blockChars[TetroType::IBlock] = 'I';
-  blockChars[TetroType::JBlock] = 'J';
-  blockChars[TetroType::LBlock] = 'L';
-  blockChars[TetroType::SBlock] = 'S';
-  blockChars[TetroType::ZBlock] = 'Z';
-  blockChars[TetroType::ZeroBlock] = '0';
-  blockChars[TetroType::TBlock] = 'T';
-  blockChars[TetroType::None] = ' ';
+  
 
 	for (int i = 0; i < height; i++) {
 		theDisplay.push_back( std::vector<char>() );
@@ -29,7 +22,7 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
   return out; 
 }
 
-void TextDisplay::draw(std::ostream &out, int level, int score, int hiScore, AbstractTetromino &currentTetromino, AbstractTetromino &nextPiece) {
+void TextDisplay::draw(std::ostream &out, std::unique_ptr<AbstractTetromino> currentTetromino, AbstractTetromino *nextPiece) {
 	out << "Level: " << level << std::endl; // show level
 	out << "Score: " << score << std::endl; // show score
 	out << "Hi Score: " << hiScore << std::endl; // show hiscore
@@ -45,12 +38,14 @@ void TextDisplay::draw(std::ostream &out, int level, int score, int hiScore, Abs
 			realDisplay.at(r).push_back(theDisplay.at(r).at(c));
 		}
 	}
-	// put in the tetromino to this display vector
-	for (int r = 0; r < currentTetromino.getHeight(); r++) {
-		for (int c = 0; c < currentTetromino.getWidth(); c++) {
-			if (currentTetromino.getCellInfo(r,c).type != TetroType::None) {
-				realDisplay.at(currentTetromino.getLocationRow() - currentTetromino.getHeight() + 1 + r).
-                    at(currentTetromino.getLocationCol() + c) =  blockChars[currentTetromino.getType()];
+	if (currentTetromino) {
+		// put in the tetromino to this display vector
+		for (int r = 0; r < currentTetromino->getHeight(); r++) {
+			for (int c = 0; c < currentTetromino->getWidth(); c++) {
+				if (currentTetromino->getCellInfo(r,c).type != TetroType::None) {
+					realDisplay.at(currentTetromino->getLocationRow() - currentTetromino->getHeight() + 1 + r).
+						at(currentTetromino->getLocationCol() + c) =  blockChars[currentTetromino->getType()];
+				}
 			}
 		}
 	}
@@ -68,16 +63,18 @@ void TextDisplay::draw(std::ostream &out, int level, int score, int hiScore, Abs
 	out << std::endl;
 	out << "Next:" << std::endl;
 	
-	// show the next tetromino
-	for (int r = 0; r < nextPiece.getHeight(); r++) {
-		for (int c = 0; c < nextPiece.getWidth(); c++) {
-			if (nextPiece.getCellInfo(r,c).type != TetroType::None) {
-				out << blockChars[nextPiece.getType()];
-			} else {
-				out << " ";
+	if (nextPiece) {
+		// show the next tetromino
+		for (int r = 0; r < nextPiece->getHeight(); r++) {
+			for (int c = 0; c < nextPiece->getWidth(); c++) {
+				if (nextPiece->getCellInfo(r,c).type != TetroType::None) {
+					out << blockChars[nextPiece->getType()];
+				} else {
+					out << " ";
+				}
 			}
+			out << std::endl;
 		}
-		out << std::endl;
 	}
 }
 
