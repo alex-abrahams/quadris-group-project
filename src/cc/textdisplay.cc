@@ -22,7 +22,7 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
   return out; 
 }
 
-void TextDisplay::draw(std::ostream &out, std::unique_ptr<AbstractTetromino> currentTetromino, AbstractTetromino *nextPiece) {
+void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> currentTetromino, AbstractTetromino *nextPiece) {
 	out << "Level: " << level << std::endl; // show level
 	out << "Score: " << score << std::endl; // show score
 	out << "Hi Score: " << hiScore << std::endl; // show hiscore

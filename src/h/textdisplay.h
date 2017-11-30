@@ -36,7 +36,7 @@ class TextDisplay: public Observer<Info> {
 	
 	void notify(Publisher<Info> &whoNotified) override; // gets stuff from cells
 	
-	void draw(std::ostream &out, std::unique_ptr<AbstractTetromino> currentTetromino, AbstractTetromino *nextPiece = nullptr); // draw the display
+	void draw(std::ostream &out, std::shared_ptr<AbstractTetromino> currentTetromino, AbstractTetromino *nextPiece = nullptr); // draw the display
 };
 
 #endif

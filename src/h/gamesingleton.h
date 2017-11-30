@@ -4,13 +4,14 @@
 #include "board.h"
 
 class GameSingleton {
-  GameSingleton();
-  Board *theBoard = nullptr;
+  Board theBoard;
   size_t score = 0;
   size_t hiscore = 0;
   size_t level = 0;
   
   public:
+  GameSingleton();
+  
 
   static GameSingleton& get();
 
@@ -38,6 +39,8 @@ class GameSingleton {
   void S();
   void Z();
   void T();
+  
+  friend std::ostream &operator<<(std::ostream &out, const GameSingleton &gs);
 
 };
 #endif
