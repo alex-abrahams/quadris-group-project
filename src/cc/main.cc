@@ -1,6 +1,9 @@
 #include "cmdparser.h"
-
+#include "gamesingleton.h"
+#include <iostream>
 
 int main() {
-  return 0;
+	GameSingleton gs;
+	gs.init();
+	std::cout << gs;
 }

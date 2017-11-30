@@ -7,9 +7,14 @@ GameSingleton::GameSingleton(){
 
 }
 
+
 GameSingleton& GameSingleton::get(){
   static GameSingleton s;
   return s;
+}
+
+void GameSingleton::init(){
+	theBoard.init(15,11,3);
 }
 
 void GameSingleton::down(){
@@ -82,4 +87,9 @@ void GameSingleton::Z(){
 
 void GameSingleton::T(){
 
+}
+
+std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
+	out << gs.theBoard;
+	return out;
 }
