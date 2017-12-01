@@ -1,6 +1,4 @@
 #include "cmdparser.h"
-#include <iostream>
-#include <string>
 #include "gamesingleton.h"
 
 #define GS_GET GameSingleton::get()
@@ -13,8 +11,8 @@ CommandParser::CommandParser(){
   funcs.emplace("counterclockwise", []{GS_GET.counterclockwise();});
   funcs.emplace("drop", []{GS_GET.drop();});
   funcs.emplace("levelup", []{GS_GET.levelup();});
-  funcs.emplace("norandom", [this]{GS_GET.norandom(args);});
-  funcs.emplace("sequence", [this]{GS_GET.sequence(args);});
+  funcs.emplace("norandom", [&]{GS_GET.norandom(args);});
+  funcs.emplace("sequence", [&]{GS_GET.sequence(args);});
   funcs.emplace("I", []{GS_GET.I();});
   funcs.emplace("J", []{GS_GET.J();});
   funcs.emplace("L", []{GS_GET.L();});
@@ -30,6 +28,39 @@ CommandParser::CommandParser(std::string i): CommandParser(){
   //TODO file macros
 }
 
+
+void CommandParser::execMacro(std::string i){
+  std::istringstream ss {macros.at(i)};
+  std::string tmp;
+  while(ss >> tmp){
+    std::istringstream tp {tmp};
+    int rep;
+    if(!(tp>>rep))
+      rep = 1;
+    tp >> tmp;
+    std::function<void()> tt = getCommand(tmp);
+    for(int i = 0 ; i < rep; i++)
+      tt();
+  }
+}
+
+void CommandParser::createMacro(std::string in){
+  std::istringstream ss{in};
+  ss >> cmd;
+  std::string tmp2;
+  std::getline(ss,tmp2);
+  funcs.emplace(cmd, [&]{execMacro(cmd);});
+  macros.emplace(cmd,tmp2);
+}
+
+std::function<void()> CommandParser::getCommand(std::string cmd){
+ std::map<std::string, std::function<void()>>data = match(cmd);
+  if(data.size() == 1){
+    return data.begin()->second;
+  }
+  return []{};
+}
+
 //gets,parses and executes next available command;
 void CommandParser::nextCommand(){
   std::string line;
@@ -43,12 +74,12 @@ void CommandParser::nextCommand(){
   ss >> cmd;
   std::string tmp;
   std::getline(ss, args);
-  std::map<std::string, std::function<void()>>data = match(cmd);
-  if(data.size() == 1){
-    for(int i = 0; i < rep; i++)
-    data.begin()->second();
-  }
+  std::function<void()> t = getCommand(cmd);
+  for(int i = 0; i < rep; i++)
+    t();
 }
+
+
 
 //wrapper for for calling functsion with arguments due to homogenity of containers problem
 
