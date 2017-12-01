@@ -16,14 +16,15 @@ class TetrominoBlock : public AbstractTetromino {
 
   public:
   
+  ~TetrominoBlock();
   TetrominoBlock(size_t w, size_t h, size_t r, size_t c, size_t id, TetroType t);
   void setCell(size_t r, size_t c);
-
+  size_t lowerLeftRowIdx();
+  size_t lowerRightRowIdx();
+  
   TetroType getType() override;
   size_t getHeight() override;
   size_t getWidth() override;
-  size_t lowerLeftRowIdx();
-  size_t lowerRightRowIdx();
   size_t getLocationRow() override;
   size_t getLocationCol() override;
   // changes the location of this tetromino object's cell on the board
@@ -31,7 +32,6 @@ class TetrominoBlock : public AbstractTetromino {
   Info getCellInfo(size_t row, size_t col) override;
   Cell getCell(size_t row, size_t col) override;
 
-  ~TetrominoBlock();
 };
 
 #endif
