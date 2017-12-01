@@ -3,25 +3,36 @@
 
 #include <string>
 #include "board.h"
+#include "notiffrom.h"
 
 class TetrominoFactory;
 
-class GameSingleton {
+class GameSingleton : public Publisher<Info, NotifFrom> {
   Board theBoard;
-  size_t score = 0;
-  size_t hiscore = 0;
-  size_t level = 0;
+  size_t score = 0, hiscore = 0, level = 0;
   
   std::unique_ptr<TetrominoFactory> tetroFactory;
   std::shared_ptr<AbstractTetromino> current;
   std::shared_ptr<AbstractTetromino> next;
+  std::shared_ptr<TextDisplay> td;  
 
   public:
-  GameSingleton();
 
-  static GameSingleton& get();
+  GameSingleton();
+  static GameSingleton& get();  
 
   void init();
+
+  // pure virtual definition from Publisher
+  Info getInfo() const {
+    Info info {0, 0, TetroType::None};
+    return info;
+  }
+
+  // accessors
+  size_t getScore();
+  size_t getHiScore();
+  size_t getLevel();
 
   // control functions
   void down();

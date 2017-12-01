@@ -12,6 +12,10 @@ void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
   currentTetro = tetro;
 }
 
+std::shared_ptr<TextDisplay> Board::getTextDisplay() {
+  return this->td;
+}
+
 bool Board::isTopLeftBlocked() const {
   size_t width = currentTetro->getWidth();
   size_t height = currentTetro->getHeight();
@@ -29,13 +33,13 @@ bool Board::isTopLeftBlocked() const {
 }
 
 void Board::init(size_t rows, size_t cols, size_t reservedRows) {
+  theBoard.clear();
+  tetroPosns.clear();
   this->rows = rows;
   this->cols = cols;
   this->reservedRows = reservedRows;
   this->totalRows = rows + reservedRows;
   currentId = 0;
-  theBoard.clear();
-  tetroPosns.clear();
 
   td = std::make_shared<TextDisplay>(totalRows, cols);
   theBoard.resize(totalRows);
@@ -184,7 +188,7 @@ void Board::dropTetromino() {
 Board::~Board() {}
 
 std::ostream &operator<<(std::ostream &out, const Board &b) {
-  b.td -> draw(out, b.currentTetro/*, nextTetro*/);
+  b.td -> draw(out, b.currentTetro);
   return out;
 }
 

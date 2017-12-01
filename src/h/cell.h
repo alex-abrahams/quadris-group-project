@@ -1,9 +1,12 @@
 #ifndef CELL_H
 #define CELL_H
+
 #include "info.h"
+#include "notiffrom.h"
 #include "publisher.h"
 #include "observer.h"
-class Cell : public Publisher<Info> {
+
+class Cell : public Publisher<Info, NotifFrom> {
   size_t row, col;
   size_t id; // incrementing id number
   TetroType type = TetroType::None;

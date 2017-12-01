@@ -2,26 +2,39 @@
 #define PUBLISHER_H
 #include <vector>
 #include <memory>
+template <typename InfoType,typename NotifFromType> class Observer;
 
-template <typename InfoType> class Observer;
+template <typename InfoType, typename NotifFromType> class Publisher {
+  std::vector<std::shared_ptr<Observer<InfoType, NotifFromType>>> observers;  
+  NotifFromType from;
 
-template <typename InfoType> class Publisher {
-  std::vector<std::shared_ptr<Observer<InfoType>>> observers;
- public:
-  void attach(std::shared_ptr<Observer<InfoType>> o);  
+  protected:
+    void setNotifFrom(NotifFromType nfType);
+  public:
+  void attach(std::shared_ptr<Observer<InfoType, NotifFromType>> o);  
   void notifyObservers();
   virtual InfoType getInfo() const = 0;
+  NotifFromType getNotifFrom() const;
 };
 
-template <typename InfoType>
-void Publisher<InfoType>::attach(std::shared_ptr<Observer<InfoType>> o) {
+template <typename InfoType, typename NotifFromType>
+void Publisher<InfoType, NotifFromType>::attach(std::shared_ptr<Observer<InfoType, NotifFromType>> o) {
   observers.emplace_back(o);
 }
 
-template <typename InfoType>
-void Publisher<InfoType>::notifyObservers() {
+template <typename InfoType, typename NotifFromType>
+void Publisher<InfoType, NotifFromType>::notifyObservers() {
   for (auto &ob : observers) ob->notify(*this);
 }
 
-#endif
+template <typename InfoType, typename NotifFromType>
+void Publisher<InfoType, NotifFromType>::setNotifFrom(NotifFromType nfType) {
+  from = nfType;
+}
 
+template <typename InfoType, typename NotifFromType>
+NotifFromType Publisher<InfoType, NotifFromType>::getNotifFrom() const {
+  return from;
+}
+
+#endif

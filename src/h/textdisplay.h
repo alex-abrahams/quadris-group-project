@@ -6,13 +6,14 @@
 #include "observer.h"
 #include "abstracttetromino.h"
 #include "info.h"
-
+#include "notiffrom.h"
 class Cell;
 
 
-class TextDisplay: public Observer<Info> {
+class TextDisplay: public Observer<Info, NotifFrom> {
 	std::vector<std::vector<char>> theDisplay; // theDisplay.at(row).at(col) to access
-	const int gridWidth;
+  std::shared_ptr<AbstractTetromino> nextTetro;
+  const int gridWidth;
 	const int gridHeight;
 	
 	std::map< TetroType, char > blockChars 
@@ -26,17 +27,19 @@ class TextDisplay: public Observer<Info> {
 		{ TetroType::TBlock,    'T' },
 		{ TetroType::None,      ' ' }
 	}; // the characters corresponding to each piece type
-	int score = 0;
+
+  int score = 0;
 	int hiScore = 0;
-	int level = 0;
-	
+	int level = 0;	
 	public:
 	
 	TextDisplay(int h, int w); // constructor
+  
+  void setNextTetromino(std::shared_ptr<AbstractTetromino> tetro);
+  
+	void notify(Publisher<Info, NotifFrom> &whoNotified) override; // gets stuff from cells or from game singleton
 	
-	void notify(Publisher<Info> &whoNotified) override; // gets stuff from cells or from game singleton
-	
-	void draw(std::ostream &out, std::shared_ptr<AbstractTetromino> currentTetromino, AbstractTetromino *nextPiece = nullptr); // draw the display
+	void draw(std::ostream &out, std::shared_ptr<AbstractTetromino> currentTetromino = nullptr/*, std::shared_ptr<AbstractTetromino> nextPiece = nullptr*/); // draw the display
 };
 
 #endif

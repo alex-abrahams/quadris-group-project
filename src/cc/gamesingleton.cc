@@ -1,51 +1,71 @@
 #include "gamesingleton.h"
 #include "board.h"
 #include "tetrominofactory.h"
+#include "textdisplay.h"
 
 GameSingleton::GameSingleton() {
   
 }
 
 
-GameSingleton& GameSingleton::get(){
+GameSingleton& GameSingleton::get() {
   static GameSingleton s;
   return s;
 }
 
-void GameSingleton::init(){
-	theBoard.init(15,11,3);
+void GameSingleton::init() {	
+  theBoard.init(15, 11, 3);
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = tetroFactory->makeTetromino(TetroType::JBlock);
   next = tetroFactory->makeTetromino(TetroType::ZBlock);
-  theBoard.setCurrentTetromino(current);
+  theBoard.setCurrentTetromino(current);  
+
+  td = theBoard.getTextDisplay();
+  this->attach(td);
+  td->setNextTetromino(next);
+  
+  NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+  this->setNotifFrom(notifFrom);
+  this->notifyObservers();
 }
 
+
 void GameSingleton::down(){
+  this->notifyObservers();
 }
 
 void GameSingleton::left(){
+  this->notifyObservers();
 }
 
 void GameSingleton::right(){
+  this->notifyObservers();
 }
 
 void GameSingleton::clockwise(){
+  this->notifyObservers();
 //TODO
 }
 
 void GameSingleton::counterclockwise(){
+  this->notifyObservers();
 
 }
 
 void GameSingleton::drop(){
+  this->notifyObservers();
 }
 
 void GameSingleton::levelup(){
+  level += 1;
+  this->notifyObservers();
 
 }
 
 void GameSingleton::leveldown(){
+  if (level > 0) --level;
 
+  this->notifyObservers();
 }
 
 void GameSingleton::norandom(std::string file){
@@ -65,31 +85,44 @@ void GameSingleton::hint(){
 }
 
 void GameSingleton::I(){
-
+  current = tetroFactory->makeTetromino(TetroType::IBlock);
+  theBoard.setCurrentTetromino(current);
+  this->notifyObservers();
 }
 
 void GameSingleton::L(){
-
+  current = tetroFactory->makeTetromino(TetroType::LBlock);
+  theBoard.setCurrentTetromino(current);
+  this->notifyObservers();
 }
 
 void GameSingleton::J(){
-
+  current = tetroFactory->makeTetromino(TetroType::JBlock);
+  theBoard.setCurrentTetromino(current);
+  this->notifyObservers();
 }
 
 void GameSingleton::Zero(){
-
+  current = tetroFactory->makeTetromino(TetroType::ZeroBlock);
+  theBoard.setCurrentTetromino(current);
+  this->notifyObservers();
 }
-
 void GameSingleton::S(){
-
+  current = tetroFactory->makeTetromino(TetroType::SBlock);
+  theBoard.setCurrentTetromino(current);
+  this->notifyObservers();
 }
 
 void GameSingleton::Z(){
-
+  current = tetroFactory->makeTetromino(TetroType::ZBlock);
+  theBoard.setCurrentTetromino(current);
+  this->notifyObservers();
 }
 
 void GameSingleton::T(){
-
+  current = tetroFactory->makeTetromino(TetroType::TBlock);
+  theBoard.setCurrentTetromino(current);
+  this->notifyObservers();
 }
 
 std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {

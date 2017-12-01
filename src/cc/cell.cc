@@ -1,6 +1,9 @@
 #include "cell.h"
 
-Cell::Cell(size_t row, size_t col, size_t id, TetroType type) : row{row}, col{col}, id{id}, type{type} {}
+Cell::Cell(size_t row, size_t col, size_t id, TetroType type) : row{row}, col{col}, id{id}, type{type} {
+  NotifFrom notifFrom {FromType::Cell};
+  this->setNotifFrom(notifFrom);
+}
 
 void Cell::setType(TetroType type) {
   this->type = type;
