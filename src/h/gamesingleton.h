@@ -45,7 +45,9 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   size_t getScore();
   size_t getHiScore();
   size_t getLevel();
-
+  // need textdisplay pointer attached to cells of tetromino. Used in
+  // tetrominoblock when setting up
+  std::shared_ptr<TextDisplay> getTextDisplay();
   void start();
 
   // control functions

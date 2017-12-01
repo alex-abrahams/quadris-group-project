@@ -147,20 +147,26 @@ void Board::move(Direction dir) {
   if (currentTetro) {
     for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
+        
+        
         size_t rowAt = currentTetro->getCellInfo(row, col).row;
         size_t colAt = currentTetro->getCellInfo(row, col).col;
+        
+        std::cout << "Board::move -> rowAt " << rowAt << std::endl;
+        std::cout << "Board::move -> colAt " << colAt << std::endl;
+
         switch(dir) {
           case Direction::Down :
             // Set cell at board(row, col)  to (row+1, col)
-            if (!isBlocked(dir)) currentTetro->setCellPosn(rowAt, colAt, rowAt + 1, colAt);
+            if (!isBlocked(dir)) currentTetro->setCellPosn(row, col, rowAt + 1, colAt);
             break;
           case Direction::Left : 
             // Set cell at board(row, col)  to (row, col-1)
-            if (!isBlocked(dir)) currentTetro->setCellPosn(rowAt, colAt, rowAt, colAt - 1);
+            if (!isBlocked(dir)) currentTetro->setCellPosn(row, col, rowAt, colAt - 1);
             break;
           case Direction::Right :
             // Set cell at board(row, col)  to (row, col+1)
-            if (!isBlocked(dir)) currentTetro->setCellPosn(rowAt, colAt, rowAt, colAt + 1);
+            if (!isBlocked(dir)) currentTetro->setCellPosn(row, col, rowAt, colAt + 1);
             break;
           default:
             break;

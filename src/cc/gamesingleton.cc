@@ -5,13 +5,14 @@
 void GameSingleton::init() {	
   theBoard.init(15, 11, 3);
 
+  td = theBoard.getTextDisplay();
+  this->attach(td);
+  
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = tetroFactory->makeTetromino(TetroType::JBlock);
   next = tetroFactory->makeTetromino(TetroType::ZBlock);
   theBoard.setCurrentTetromino(current);  
 
-  td = theBoard.getTextDisplay();
-  this->attach(td);
   td->setNextTetromino(next);
 
   NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
@@ -19,6 +20,11 @@ void GameSingleton::init() {
   this->notifyObservers();
   this->cmdp = CommandParser{};
   gameRunning = true;
+}
+
+
+std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
+  return td;
 }
 
 void GameSingleton::start(){
@@ -33,12 +39,10 @@ void GameSingleton::down(){
 }
 void GameSingleton::left(){
   theBoard.move(Direction::Left);
-  this->notifyObservers();
 }
 
 void GameSingleton::right(){
   theBoard.move(Direction::Right);
-  this->notifyObservers();
 }
 
 void GameSingleton::clockwise(){

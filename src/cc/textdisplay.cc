@@ -16,6 +16,8 @@ void TextDisplay::setNextTetromino(std::shared_ptr<AbstractTetromino> tetro) {
 }
 
 void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
+  
+  std::cout << "notified" << std::endl;
   NotifFrom fr = whoNotified.getNotifFrom();
 
   if (fr.from == FromType::Cell) {
@@ -25,9 +27,12 @@ void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
           blockChars[whoNotified.getInfo().type];
   } 
   else if (fr.from == FromType::Game) {
+    std::cout << "Game notified" << std::endl;
     this->score = fr.score;
     this->hiScore = fr.hiscore;
     this->level  = fr.level;
+  } else {
+    std::cout << "IDK who notified lol" << std::endl;
   }
 }
 
