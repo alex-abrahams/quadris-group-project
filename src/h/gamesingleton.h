@@ -5,16 +5,22 @@
 #include "board.h"
 #include "notiffrom.h"
 
+#include <iostream> // for testing
+#include "cmdparser.h"
 class TetrominoFactory;
 
 class GameSingleton : public Publisher<Info, NotifFrom> {
   Board theBoard;
   size_t score = 0, hiscore = 0, level = 0;
   
+  CommandParser cmdp;
+
   std::unique_ptr<TetrominoFactory> tetroFactory;
   std::shared_ptr<AbstractTetromino> current;
   std::shared_ptr<AbstractTetromino> next;
   std::shared_ptr<TextDisplay> td;  
+
+  bool gameRunning = false;
 
   public:
 
@@ -34,6 +40,8 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   size_t getHiScore();
   size_t getLevel();
 
+  void start();
+  
   // control functions
   void down();
   void left();
@@ -56,7 +64,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   void S();
   void Z();
   void T();
-  
+
   friend std::ostream &operator<<(std::ostream &out, const GameSingleton &gs);
 
 };

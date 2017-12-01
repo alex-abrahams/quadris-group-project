@@ -9,7 +9,7 @@
 
 
 void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
-  currentTetro = tetro;
+  this->currentTetro = tetro;
 }
 
 std::shared_ptr<TextDisplay> Board::getTextDisplay() {

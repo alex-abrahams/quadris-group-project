@@ -1,12 +1,10 @@
 #include "gamesingleton.h"
-#include "board.h"
 #include "tetrominofactory.h"
 #include "textdisplay.h"
 
 GameSingleton::GameSingleton() {
-  
-}
 
+}
 
 GameSingleton& GameSingleton::get() {
   static GameSingleton s;
@@ -27,11 +25,21 @@ void GameSingleton::init() {
   NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
+
+  gameRunning = true;
+}
+
+void GameSingleton::start(){
+  while(gameRunning){
+    cmdp.nextCommand();
+    std::cout << *this;
+  }
 }
 
 
 void GameSingleton::down(){
   this->notifyObservers();
+  std::cout << "testdown" << std::endl;
 }
 
 void GameSingleton::left(){
@@ -44,7 +52,6 @@ void GameSingleton::right(){
 
 void GameSingleton::clockwise(){
   this->notifyObservers();
-//TODO
 }
 
 void GameSingleton::counterclockwise(){

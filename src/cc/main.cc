@@ -5,5 +5,6 @@
 int main() {
 	GameSingleton gs;
 	gs.init();
+  gs.start();
 	std::cout << gs;
 }
