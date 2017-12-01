@@ -3,7 +3,7 @@
 #include "tetrominofactory.h"
 
 GameSingleton::GameSingleton() {
-  
+
 }
 
 
@@ -18,9 +18,18 @@ void GameSingleton::init(){
   current = tetroFactory->makeTetromino(TetroType::JBlock);
   next = tetroFactory->makeTetromino(TetroType::ZBlock);
   theBoard.setCurrentTetromino(current);
+  gameRunning=true;
+}
+
+void GameSingleton::start(){
+  while(gameRunning){
+    cmdp.nextCommand();
+    std::cout << *this;
+  }
 }
 
 void GameSingleton::down(){
+  std::cout << "testdown" << std::endl;
 }
 
 void GameSingleton::left(){
