@@ -35,11 +35,17 @@ void CommandParser::nextCommand(){
   std::string line;
   std::getline(std::cin, line);
   std::istringstream ss{line};
+  int rep = 1;
+  if(!(ss >> rep)){
+    rep = 1;
+    //std::cout << "testss" << std::endl;
+  }
   ss >> cmd;
   std::string tmp;
   std::getline(ss, args);
   std::map<std::string, std::function<void()>>data = match(cmd);
   if(data.size() == 1){
+    for(int i = 0; i < rep; i++)
     data.begin()->second();
   }
 }
