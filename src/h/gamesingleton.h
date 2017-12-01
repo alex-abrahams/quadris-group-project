@@ -4,15 +4,15 @@
 #include <string>
 #include "board.h"
 #include "notiffrom.h"
-
 #include <iostream> // for testing
 #include "cmdparser.h"
+
 class TetrominoFactory;
 
 class GameSingleton : public Publisher<Info, NotifFrom> {
   Board theBoard;
   size_t score = 0, hiscore = 0, level = 0;
-  
+
   CommandParser cmdp;
 
   std::unique_ptr<TetrominoFactory> tetroFactory;
@@ -22,10 +22,16 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 
   bool gameRunning = false;
 
-  public:
+  GameSingleton() {} // disable ctor
+  // disable copy ctor and assignment operator
+  GameSingleton(GameSingleton const &other);
+  GameSingleton &operator=(GameSingleton const &other);
 
-  GameSingleton();
-  static GameSingleton& get();  
+  public:
+  static GameSingleton& get() {
+    static GameSingleton s;
+    return s;
+  }
 
   void init();
 
@@ -41,7 +47,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   size_t getLevel();
 
   void start();
-  
+
   // control functions
   void down();
   void left();

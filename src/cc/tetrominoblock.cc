@@ -44,6 +44,8 @@ size_t TetrominoBlock::getLocationCol()  {
 }
 
 void TetrominoBlock::setCellPosn(size_t rowAt, size_t colAt, size_t newRow, size_t newCol)  {
+  if (cells.size() > rowAt && cells.at(rowAt).size() > colAt)
+    cells.at(rowAt).at(colAt).setRowCol(newRow, newCol); 
 }
 
 Info TetrominoBlock::getCellInfo(size_t row, size_t col)  {

@@ -34,13 +34,6 @@ class Board {
 
   //TODO:Graphics. std::unique_ptr<Observer<Info>> graphicsObserver;
   
-  /* the row and col of the board each cell of the current tetromino is on
-     represented by a Cell object who has fields row, col, and type.
-     the row and col of the Cell will increment/decrement based on the position
-     of the tetromino in the board
-     */
-  std::vector<std::vector<Cell>> tetroPosns;
-
   // checks if row at rowIndex is full
   bool isRowFull(size_t rowIndex) const;
 
@@ -66,7 +59,10 @@ class Board {
   std::shared_ptr<TextDisplay> getTextDisplay();
   
   void setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro);
- 
+  std::shared_ptr<AbstractTetromino> getCurTetro() {
+    return currentTetro;
+  }
+
   // TODO: void setObserver(Observer<Info> *obs); // intent: graphics
 
   // initializes theBoard

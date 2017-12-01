@@ -13,6 +13,7 @@ void Cell::setType(TetroType type) {
 void Cell::setRowCol(size_t newRow, size_t newCol) {
   this->row = newRow;
   this->col = newCol;
+  this->notifyObservers();
 }
 
 Info Cell::getInfo() const {

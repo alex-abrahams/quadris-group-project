@@ -3,8 +3,7 @@
 #include <iostream>
 
 int main() {
-	GameSingleton gs;
-	gs.init();
-  gs.start();
-	std::cout << gs;
+  GameSingleton::get().init();
+  GameSingleton::get().start();
+	std::cout << GameSingleton::get();
 }

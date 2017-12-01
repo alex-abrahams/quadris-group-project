@@ -19,6 +19,7 @@ void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
   NotifFrom fr = whoNotified.getNotifFrom();
 
   if (fr.from == FromType::Cell) {
+    std::cout << "A cell notified" << std::endl;
     theDisplay.at(whoNotified.getInfo().row)
       .at(whoNotified.getInfo().col) = 
           blockChars[whoNotified.getInfo().type];

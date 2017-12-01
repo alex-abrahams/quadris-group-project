@@ -2,17 +2,9 @@
 #include "tetrominofactory.h"
 #include "textdisplay.h"
 
-GameSingleton::GameSingleton() {
-
-}
-
-GameSingleton& GameSingleton::get() {
-  static GameSingleton s;
-  return s;
-}
-
 void GameSingleton::init() {	
   theBoard.init(15, 11, 3);
+
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = tetroFactory->makeTetromino(TetroType::JBlock);
   next = tetroFactory->makeTetromino(TetroType::ZBlock);
@@ -21,11 +13,11 @@ void GameSingleton::init() {
   td = theBoard.getTextDisplay();
   this->attach(td);
   td->setNextTetromino(next);
-  
+
   NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
-
+  this->cmdp = CommandParser{};
   gameRunning = true;
 }
 
@@ -36,17 +28,16 @@ void GameSingleton::start(){
   }
 }
 
-
 void GameSingleton::down(){
-  this->notifyObservers();
-  std::cout << "testdown" << std::endl;
+  theBoard.move(Direction::Down);
 }
-
 void GameSingleton::left(){
+  theBoard.move(Direction::Left);
   this->notifyObservers();
 }
 
 void GameSingleton::right(){
+  theBoard.move(Direction::Right);
   this->notifyObservers();
 }
 
@@ -133,6 +124,6 @@ void GameSingleton::T(){
 }
 
 std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
-	out << gs.theBoard;
-	return out;
+  out << gs.theBoard;
+  return out;
 }
