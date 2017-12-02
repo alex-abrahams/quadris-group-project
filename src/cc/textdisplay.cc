@@ -2,7 +2,7 @@
 #include "publisher.h"
 #include <iostream>
 
-TextDisplay::TextDisplay(int width, int height): gridWidth{width}, gridHeight{height} {
+TextDisplay::TextDisplay(int height, int width): gridWidth{width}, gridHeight{height} {
   for (int i = 0; i < height; i++) {
     theDisplay.push_back( std::vector<char>() );
     for (int j = 0; j < width; j++) {
@@ -15,24 +15,40 @@ void TextDisplay::setNextTetromino(std::shared_ptr<AbstractTetromino> tetro) {
   nextTetro = tetro; 
 }
 
+/*void TextDisplay::toggleCurrentTetromino(std::shared_ptr<abstracttetromino> currentTetromino,
+    char ch = blockChars[TetroType::None]) {
+  
+    for (size_t r = 0; r < currentTetromino->getHeight(); r++) {
+      for (size_t c = 0; c < currentTetromino->getWidth(); c++) {
+        if (currentTetromino->getCellInfo(r,c).type != TetroType::None) {
+          realDisplay.at(currentTetromino->getLocationRow() - currentTetromino->getHeight() + 1 + r).
+            at(currentTetromino->getLocationCol() + c) =  blockChars[currentTetromino->getType()]; //ch
+        }
+      }
+    }
+}*/
+
 void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
   
-  std::cout << "notified" << std::endl;
   NotifFrom fr = whoNotified.getNotifFrom();
 
   if (fr.from == FromType::Cell) {
-    std::cout << "A cell notified" << std::endl;
-    theDisplay.at(whoNotified.getInfo().row)
-      .at(whoNotified.getInfo().col) = 
+    std::cout << "TextDisplay::notify() -> A cell notified" << std::endl;
+    theDisplay.at(whoNotified.getInfo().row).at(whoNotified.getInfo().col) = 
           blockChars[whoNotified.getInfo().type];
   } 
   else if (fr.from == FromType::Game) {
-    std::cout << "Game notified" << std::endl;
+    std::cout << "TextDisplay::notify() -> Game notified" << std::endl;
     this->score = fr.score;
     this->hiScore = fr.hiscore;
     this->level  = fr.level;
+
+    if (fr.visibility == Visibility::Show) {
+    } else if (fr.visibility == Visibility::Hide) {
+    }
+
   } else {
-    std::cout << "IDK who notified lol" << std::endl;
+    std::cout << "TextDisplay::notify() -> IDK who notified lol" << std::endl;
   }
 }
 
@@ -63,14 +79,7 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
 
   if (currentTetromino) {
     // put in the tetromino to this display vector
-    for (size_t r = 0; r < currentTetromino->getHeight(); r++) {
-      for (size_t c = 0; c < currentTetromino->getWidth(); c++) {
-        if (currentTetromino->getCellInfo(r,c).type != TetroType::None) {
-          realDisplay.at(currentTetromino->getLocationRow() - currentTetromino->getHeight() + 1 + r).
-            at(currentTetromino->getLocationCol() + c) =  blockChars[currentTetromino->getType()];
-        }
-      }
-    }
+    // show tetr
   }
 
   for (int r = 0; r < gridHeight; r++) {

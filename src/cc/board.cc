@@ -107,7 +107,10 @@ bool Board::isBlocked(Direction dir) {
     case Direction::Down : 
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
         Info info = currentTetro->getCellInfo(lowestRow, col);
-        if (info.row == rows + reservedRows - 1) return true; // means it's at the bottom of the board
+
+        std::cout << "Board::isblocked -> info.row " << info.row << std::endl;
+
+        if (info.row == totalRows - 1) return true; // means it's at the bottom of the board
 
         if (info.type != TetroType::None) {
           TetroType cellType = theBoard.at(info.row + 1).at(info.col).getInfo().type;
@@ -148,12 +151,8 @@ void Board::move(Direction dir) {
     for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
         
-        
         size_t rowAt = currentTetro->getCellInfo(row, col).row;
         size_t colAt = currentTetro->getCellInfo(row, col).col;
-        
-        std::cout << "Board::move -> rowAt " << rowAt << std::endl;
-        std::cout << "Board::move -> colAt " << colAt << std::endl;
 
         switch(dir) {
           case Direction::Down :

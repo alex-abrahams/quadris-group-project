@@ -15,7 +15,7 @@ void GameSingleton::init() {
 
   td->setNextTetromino(next);
 
-  NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+  NotifFrom notifFrom {FromType::Game, score, hiscore, level, Visibility::Unset}; 
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
   this->cmdp = CommandParser{};
@@ -27,6 +27,33 @@ std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
   return td;
 }
 
+size_t GameSingleton::getHeightCurrentTetro() {
+  return current->getHeight();
+}
+
+size_t GameSingleton::getWidthCurrentTetro() {
+  return current->getWidth();
+}
+
+TetroType GameSingleton::getCurrentTetroType() {
+  return current->getType();
+}
+
+std::vector<std::pair<size_t, size_t>> GameSingleton::getCurrentTetroPosns() {
+  std::vector<std::pair<size_t, size_t>> posns;
+
+  for (size_t row = 0; row < current->getHeight(); ++row) {
+    for (size_t col = 0; col < current->getWidth(); ++col) {
+
+      std::pair<size_t, size_t> rowColPair = std::make_pair(current->getCellInfo(row, col).row, 
+          current->getCellInfo(row, col).col);
+      posns.push_back(rowColPair);
+    }
+  }
+
+  return posns;
+}
+
 void GameSingleton::start(){
   while(gameRunning){
     cmdp.nextCommand();
@@ -35,7 +62,15 @@ void GameSingleton::start(){
 }
 
 void GameSingleton::down(){
+  NotifFrom notifFrom {FromType::Game, score, hiscore, level, Visibility::Hide};
+  this->setNotifFrom(notifFrom);
+  this->notifyObservers();
+  
   theBoard.move(Direction::Down);
+  
+  NotifFrom newNotifFrom {FromType::Game, score, hiscore, level, Visibility::Show};
+  this->setNotifFrom(newNotifFrom);
+  this->notifyObservers();
 }
 void GameSingleton::left(){
   theBoard.move(Direction::Left);

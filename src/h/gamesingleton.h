@@ -6,6 +6,7 @@
 #include "notiffrom.h"
 #include <iostream> // for testing
 #include "cmdparser.h"
+#include <utility>
 
 class TetrominoFactory;
 
@@ -22,8 +23,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 
   bool gameRunning = false;
 
-  GameSingleton() {} // disable ctor
-  // disable copy ctor and assignment operator
+  GameSingleton() {} // disable ctors
   GameSingleton(GameSingleton const &other);
   GameSingleton &operator=(GameSingleton const &other);
 
@@ -48,6 +48,13 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   // need textdisplay pointer attached to cells of tetromino. Used in
   // tetrominoblock when setting up
   std::shared_ptr<TextDisplay> getTextDisplay();
+ 
+  // exposure of tetromino to the textdisplay for toggling
+  size_t getHeightCurrentTetro();
+  size_t getWidthCurrentTetro();
+  TetroType getCurrentTetroType();
+  std::vector<std::pair<size_t, size_t>>getCurrentTetroPosns();
+
   void start();
 
   // control functions

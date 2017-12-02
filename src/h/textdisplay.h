@@ -31,7 +31,8 @@ class TextDisplay: public Observer<Info, NotifFrom> {
   int score = 0;
 	int hiScore = 0;
 	int level = 0;	
-	public:
+	
+  public:
 	
 	TextDisplay(int h, int w); // constructor
   
