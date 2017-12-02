@@ -107,7 +107,10 @@ bool Board::isBlocked(Direction dir) {
     case Direction::Down : 
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
         Info info = currentTetro->getCellInfo(lowestRow, col);
-        if (info.row == rows + reservedRows - 1) return true; // means it's at the bottom of the board
+
+        std::cout << "Board::isblocked -> info.row " << info.row << std::endl;
+
+        if (info.row == totalRows - 1) return true; // means it's at the bottom of the board
 
         if (info.type != TetroType::None) {
           TetroType cellType = theBoard.at(info.row + 1).at(info.col).getInfo().type;
@@ -145,15 +148,32 @@ bool Board::isBlocked(Direction dir) {
 
 void Board::move(Direction dir) {  
   if (currentTetro) {
+    if (!isBlocked(dir)) {
+      switch(dir) {
+        case Direction::Down :
+          currentTetro->setLocationRow(currentTetro->getLocationRow()+1);
+          break;
+        case Direction::Left : 
+          currentTetro->setLocationCol(currentTetro->getLocationCol()-1);
+          break;
+        case Direction::Right : 
+          currentTetro->setLocationCol(currentTetro->getLocationCol()+1);
+          break;
+        case Direction::CW :
+          
+          break;
+        case Direction::CCW :
+          
+          break;
+        default :
+          break;
+      }
+    }
     for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
-        
-        
+
         size_t rowAt = currentTetro->getCellInfo(row, col).row;
         size_t colAt = currentTetro->getCellInfo(row, col).col;
-        
-        std::cout << "Board::move -> rowAt " << rowAt << std::endl;
-        std::cout << "Board::move -> colAt " << colAt << std::endl;
 
         switch(dir) {
           case Direction::Down :
@@ -168,11 +188,16 @@ void Board::move(Direction dir) {
             // Set cell at board(row, col)  to (row, col+1)
             if (!isBlocked(dir)) currentTetro->setCellPosn(row, col, rowAt, colAt + 1);
             break;
+          case Direction::CW :
+            break;
+          case Direction::CCW :
+            break;
           default:
             break;
         }
       }
     }
+
   } else {
     std::cout << "Current tetro in board is null" << std::endl;
   }
@@ -191,6 +216,7 @@ void Board::dropTetromino() {
       theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
     }
   }
+  //TODO: make new current tetromino
 }
 
 Board::~Board() {}
@@ -199,4 +225,5 @@ std::ostream &operator<<(std::ostream &out, const Board &b) {
   b.td -> draw(out, b.currentTetro);
   return out;
 }
+
 

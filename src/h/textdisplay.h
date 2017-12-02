@@ -15,7 +15,7 @@ class TextDisplay: public Observer<Info, NotifFrom> {
   std::shared_ptr<AbstractTetromino> nextTetro;
   const int gridWidth;
 	const int gridHeight;
-	
+
 	std::map< TetroType, char > blockChars 
 	{
 		{ TetroType::IBlock,    'I' },
@@ -31,7 +31,8 @@ class TextDisplay: public Observer<Info, NotifFrom> {
   int score = 0;
 	int hiScore = 0;
 	int level = 0;	
-	public:
+	
+  public:
 	
 	TextDisplay(int h, int w); // constructor
   

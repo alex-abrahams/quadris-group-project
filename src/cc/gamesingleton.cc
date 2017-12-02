@@ -7,7 +7,7 @@ void GameSingleton::init() {
 
   td = theBoard.getTextDisplay();
   this->attach(td);
-  
+
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = tetroFactory->makeTetromino(TetroType::JBlock);
   next = tetroFactory->makeTetromino(TetroType::ZBlock);
@@ -46,28 +46,36 @@ void GameSingleton::right(){
 }
 
 void GameSingleton::clockwise(){
-  this->notifyObservers();
+  theBoard.move(Direction::CW);
 }
 
 void GameSingleton::counterclockwise(){
-  this->notifyObservers();
-
+  theBoard.move(Direction::CCW);
 }
 
 void GameSingleton::drop(){
-  this->notifyObservers();
+	theBoard.dropTetromino();
+  current = next;
+  next = tetroFactory->makeTetromino(TetroType::TBlock);
+  theBoard.setCurrentTetromino(current);
+  td->setNextTetromino(next);
 }
 
 void GameSingleton::levelup(){
   level += 1;
+  NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+  this->setNotifFrom(notifFrom);
   this->notifyObservers();
-
 }
 
 void GameSingleton::leveldown(){
-  if (level > 0) --level;
-
-  this->notifyObservers();
+  // TODO: didnt work
+  if (level > 0) {
+    --level;
+    NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+    this->setNotifFrom(notifFrom);
+    this->notifyObservers();
+  }
 }
 
 void GameSingleton::norandom(std::string file){
@@ -87,6 +95,7 @@ void GameSingleton::hint(){
 }
 
 void GameSingleton::I(){
+  std::cout << "Setting I" << std::endl;
   current = tetroFactory->makeTetromino(TetroType::IBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
@@ -116,6 +125,7 @@ void GameSingleton::S(){
 }
 
 void GameSingleton::Z(){
+  // TODO: didnt work
   current = tetroFactory->makeTetromino(TetroType::ZBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
@@ -131,3 +141,5 @@ std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;
 }
+
+

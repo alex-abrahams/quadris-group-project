@@ -45,14 +45,6 @@ size_t TetrominoBlock::getLocationCol()  {
 }
 
 void TetrominoBlock::setCellPosn(size_t rowAt, size_t colAt, size_t newRow, size_t newCol)  {
-  std::cout << "TetBlock::setCellPosn -> rowAt: " << rowAt << std::endl;
-  std::cout << "TetBlock::setCellPosn -> colAt: " << colAt << std::endl;
-
-  std::cout << "TetBlock::setCellPosn -> newRow: " << newRow << std::endl;
-  std::cout << "TetBlock::setCellPosn -> newCol: " << newCol << std::endl;
-
-  std::cout << "TetBlock::setCellPosn -> cells size: " << cells.size() << std::endl;
-
   if (cells.size() > rowAt && cells.at(rowAt).size() > colAt) {
     cells.at(rowAt).at(colAt).setRowCol(newRow, newCol); 
   }
@@ -66,3 +58,10 @@ Cell TetrominoBlock::getCell(size_t row, size_t col)  {
 	return cells.at(row).at(col);
 }
 
+void TetrominoBlock::setLocationRow(size_t r) {
+	row = r;
+}
+
+void TetrominoBlock::setLocationCol(size_t c) {
+	col = c;
+}

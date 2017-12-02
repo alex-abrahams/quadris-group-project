@@ -83,3 +83,4 @@ void CommandParser::nextCommand(){
 
 //wrapper for for calling functsion with arguments due to homogenity of containers problem
 
+
