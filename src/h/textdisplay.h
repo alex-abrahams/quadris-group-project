@@ -15,7 +15,10 @@ class TextDisplay: public Observer<Info, NotifFrom> {
   std::shared_ptr<AbstractTetromino> nextTetro;
   const int gridWidth;
 	const int gridHeight;
-	
+
+
+  void toggleCurrentTetromino(char typeChar);
+
 	std::map< TetroType, char > blockChars 
 	{
 		{ TetroType::IBlock,    'I' },

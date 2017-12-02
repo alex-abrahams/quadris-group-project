@@ -7,7 +7,7 @@ void GameSingleton::init() {
 
   td = theBoard.getTextDisplay();
   this->attach(td);
-  
+
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = tetroFactory->makeTetromino(TetroType::JBlock);
   next = tetroFactory->makeTetromino(TetroType::ZBlock);
@@ -39,19 +39,29 @@ TetroType GameSingleton::getCurrentTetroType() {
   return current->getType();
 }
 
-std::vector<std::pair<size_t, size_t>> GameSingleton::getCurrentTetroPosns() {
+std::vector<std::pair<size_t, size_t>> GameSingleton::getFilledCellPosns() {
   std::vector<std::pair<size_t, size_t>> posns;
 
   for (size_t row = 0; row < current->getHeight(); ++row) {
     for (size_t col = 0; col < current->getWidth(); ++col) {
+      if (current->getCellInfo(row, col).type != TetroType::None) {
 
-      std::pair<size_t, size_t> rowColPair = std::make_pair(current->getCellInfo(row, col).row, 
-          current->getCellInfo(row, col).col);
-      posns.push_back(rowColPair);
+        std::pair<size_t, size_t> rowColPair = 
+          std::make_pair(current->getCellInfo(row, col).row, 
+            current->getCellInfo(row, col).col);
+
+        posns.push_back(rowColPair);
+      }
     }
   }
 
   return posns;
+}
+
+std::pair<size_t, size_t> GameSingleton::getBottomLeft() {
+  std::pair<size_t, size_t> bottomLeft = std::make_pair(current->getLocationRow(),
+      current->getLocationCol());
+  return bottomLeft;
 }
 
 void GameSingleton::start(){
@@ -65,9 +75,9 @@ void GameSingleton::down(){
   NotifFrom notifFrom {FromType::Game, score, hiscore, level, Visibility::Hide};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
-  
+
   theBoard.move(Direction::Down);
-  
+
   NotifFrom newNotifFrom {FromType::Game, score, hiscore, level, Visibility::Show};
   this->setNotifFrom(newNotifFrom);
   this->notifyObservers();

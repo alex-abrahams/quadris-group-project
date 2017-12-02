@@ -53,7 +53,8 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   size_t getHeightCurrentTetro();
   size_t getWidthCurrentTetro();
   TetroType getCurrentTetroType();
-  std::vector<std::pair<size_t, size_t>>getCurrentTetroPosns();
+  std::vector<std::pair<size_t, size_t>> getFilledCellPosns();
+  std::pair<size_t, size_t> getBottomLeft();
 
   void start();
 
