@@ -2,8 +2,12 @@
 #include "tetrominofactory.h"
 #include "textdisplay.h"
 
-void GameSingleton::init() {	
+void GameSingleton::init(std::string file, int dlevel, bool textonly) {
+  level = dlevel;
+
   theBoard.init(15, 11, 3);
+  //initlevels
+  levels.push_back(Level0(utility::bufferFile(file)));
 
   td = theBoard.getTextDisplay();
   this->attach(td);
@@ -11,11 +15,11 @@ void GameSingleton::init() {
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = tetroFactory->makeTetromino(TetroType::JBlock);
   next = tetroFactory->makeTetromino(TetroType::ZBlock);
-  theBoard.setCurrentTetromino(current);  
+  theBoard.setCurrentTetromino(current);
 
   td->setNextTetromino(next);
 
-  NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+  NotifFrom notifFrom {FromType::Game, score, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
   this->cmdp = CommandParser{};
@@ -28,6 +32,7 @@ std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
 }
 
 void GameSingleton::start(){
+  std::cout << *this;
   while(gameRunning){
     cmdp.nextCommand();
     std::cout << *this;
@@ -63,7 +68,7 @@ void GameSingleton::drop(){
 
 void GameSingleton::levelup(){
   level += 1;
-  NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+  NotifFrom notifFrom {FromType::Game, score, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
 }
@@ -72,7 +77,7 @@ void GameSingleton::leveldown(){
   // TODO: didnt work
   if (level > 0) {
     --level;
-    NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+    NotifFrom notifFrom {FromType::Game, score, hiscore, level};
     this->setNotifFrom(notifFrom);
     this->notifyObservers();
   }
