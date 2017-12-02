@@ -44,3 +44,4 @@ class TextDisplay: public Observer<Info, NotifFrom> {
 };
 
 #endif
+

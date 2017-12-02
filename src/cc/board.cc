@@ -61,7 +61,7 @@ int Board::getIndexOfFullRow() const {
   //for (size_t row = reservedRows - 1; row < rows; ++row) {
   //  if (isRowFull(row)) return row;
   //}
-  for (size_t row = totalRows-1; r > 0; row--) {
+  for (size_t row = totalRows-1; row > 0; row--) {
 	  if (isRowFull(row)) return row;
   }
   return -1;
@@ -69,7 +69,12 @@ int Board::getIndexOfFullRow() const {
 void Board::dropRows(size_t fullRowIndex) {
   for (size_t row = fullRowIndex; row > reservedRows - 2; --row) {
     // check that the dtors of Cell run for row-1 when it is overwritten  
-    if (row > 0) theBoard.at(row) = theBoard.at(row - 1);
+    if (row > 0) {
+		theBoard.at(row) = theBoard.at(row - 1);
+		for (int col = 0; col < cols; col++) {
+			theBoard.at(row).at(col).setRowCol(theBoard.at(row).at(col).getInfo().row+1, col);
+		}
+	}
   }
 }
 bool Board::generalizedLateralBlockCheck(/*size_t column, */int lr) {
@@ -273,4 +278,5 @@ std::ostream &operator<<(std::ostream &out, const Board &b) {
   b.td -> draw(out, b.currentTetro);
   return out;
 }
+
 
