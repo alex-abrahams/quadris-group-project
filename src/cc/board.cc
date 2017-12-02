@@ -65,6 +65,7 @@ void Board::dropIntoTopLeft() {
 
 
 bool Board::isRowFull(size_t rowIndex) const {
+	std::cout << "checking row " << rowIndex << std::endl;
   for (size_t col = 0; col < cols; ++col) {      
     if (theBoard.at(rowIndex).at(col).getInfo().type == TetroType::None)
       return false;
@@ -74,8 +75,12 @@ bool Board::isRowFull(size_t rowIndex) const {
 }
 
 int Board::getIndexOfFullRow() const {
-  for (size_t row = reservedRows - 1; row < rows; ++row) {
-    if (isRowFull(row)) return row;
+	std::cout << "getting index of full row" << std::endl;
+  //for (size_t row = reservedRows - 1; row < rows; ++row) {
+  //  if (isRowFull(row)) return row;
+  //}
+  for (size_t row = totalRows-1; row > 0; row--) {
+	  if (isRowFull(row)) return row;
   }
   return -1;
 }
@@ -263,13 +268,14 @@ void Board::dropTetromino() {
 	  }
     }
   }
-  //for (size_t row = 0; row < totalRows; row++) {
-	//  for (size_t col = 0; col < cols; col++) {
-	//	  std::cout << row << "," << col << std::endl;
-	//	  theBoard.at(row).at(col).notifyObservers();
-	//  }
-  //}
-  //TODO: make new current tetromino
+  // remove full rows, scoring
+  size_t numberOfRowsRemoved = 0;
+  while (getIndexOfFullRow() != -1) {
+	  std::cout << "full row at " << getIndexOfFullRow() << std::endl;
+	  numberOfRowsRemoved++;
+	  dropRows(getIndexOfFullRow());
+  }
+  
 }
 
 Board::~Board() {}
