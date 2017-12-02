@@ -25,10 +25,10 @@ void TextDisplay::toggleCurrentTetromino(char typeChar) {
   for (size_t r = 0; r < height; r++) {
     for (size_t c = 0; c < width; c++) {
 
-//        if (cellInFilledCells(posns)) {            
-            theDisplay.at(bottomLeft.first - height + 1 + r).
-              at(bottomLeft.second + c) =  typeChar;
-  //      }
+      //        if (cellInFilledCells(posns)) {            
+      theDisplay.at(bottomLeft.first - height + 1 + r).
+        at(bottomLeft.second + c) =  typeChar;
+      //      }
 
 
     }
@@ -50,7 +50,7 @@ void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
     this->hiScore = fr.hiscore;
     this->level  = fr.level;
 
-    
+
 
     if (fr.visibility == Visibility::Show) {
       toggleCurrentTetromino(blockChars[GameSingleton::get().getCurrentTetroType()]);
@@ -90,10 +90,15 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
 
   if (currentTetromino) {
     // put in the tetromino to this display vector
-    // show tetromino...
-    
+    for (size_t r = 0; r < currentTetromino->getHeight(); r++) {      
+      for (size_t c = 0; c < currentTetromino->getWidth(); c++) {         
+        if (currentTetromino->getCellInfo(r,c).type != TetroType::None) {
+          realDisplay.at(currentTetromino->getLocationRow() - currentTetromino->getHeight() + 1 + r).
+            at(currentTetromino->getLocationCol() + c) = blockChars[currentTetromino->getType()];
+        }
+      }
+    }
 
-    
   }
 
   for (int r = 0; r < gridHeight; r++) {
