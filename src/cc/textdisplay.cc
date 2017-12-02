@@ -117,7 +117,7 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
 
   if (nextTetro) {
     // show the next tetromino
-    for (size_t r = 0; r < nextTetro->getHeight(); r++) 
+    for (size_t r = 0; r < nextTetro->getHeight(); r++) {
       for (size_t c = 0; c < nextTetro->getWidth(); c++) {
         if (nextTetro->getCellInfo(r,c).type != TetroType::None) {
           out << blockChars[nextTetro->getType()];
@@ -126,7 +126,9 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
         }
       }
     out << std::endl;
+	}
   }
 }
+
 
 
