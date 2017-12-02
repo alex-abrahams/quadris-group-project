@@ -148,6 +148,17 @@ bool Board::isBlocked(Direction dir) {
 
 void Board::move(Direction dir) {  
   if (currentTetro) {
+	  switch(dir) {
+		case Direction::Down :
+			if (!isBlocked(dir)) currentTetro->setLocationRow(currentTetro->getLocationRow()+1);
+			break;
+		case Direction::Left : 
+			if (!isBlocked(dir)) currentTetro->setLocationCol(currentTetro->getLocationCol()-1);
+			break;
+		case Direction::Right : 
+			if (!isBlocked(dir)) currentTetro->setLocationCol(currentTetro->getLocationCol()+1);
+			break;
+	}
     for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
         
@@ -172,6 +183,7 @@ void Board::move(Direction dir) {
         }
       }
     }
+	
   } else {
     std::cout << "Current tetro in board is null" << std::endl;
   }
@@ -198,4 +210,5 @@ std::ostream &operator<<(std::ostream &out, const Board &b) {
   b.td -> draw(out, b.currentTetro);
   return out;
 }
+
 
