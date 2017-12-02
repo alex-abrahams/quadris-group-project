@@ -15,6 +15,7 @@ TetrominoBlock::~TetrominoBlock() {}
 
 void TetrominoBlock::setCell(size_t r, size_t c) {
 	cells.at(r).at(c) = Cell(row - height + 1 + r, col + c, id, type);
+	std::cout << id << ": " << row - height + 1 + r << ", " << col + c << std::endl;
 }
 
 size_t lowerLeftRowIdx() {
@@ -64,4 +65,41 @@ void TetrominoBlock::setLocationRow(size_t r) {
 
 void TetrominoBlock::setLocationCol(size_t c) {
 	col = c;
+}
+
+void TetrominoBlock::rotateCW() {
+  size_t newHeight = width;
+  size_t newWidth = height;
+  std::vector<std::vector<Cell>> temp;
+
+  for (size_t row = 0; row < newHeight; ++row) {
+    temp.push_back(std::vector<Cell>());
+    temp.at(row).resize(newWidth); 
+  }
+ 
+  // iterate through the current
+  // set each row to a column in the temp according to
+  // row i in current -> col in temp at height - i - 1
+  for (size_t row = 0; row < height; ++row) {
+    std::vector<Cell> rowElements = cells.at(row); // these become the column in the temp
+    
+    // rowElements.size() == newHeight
+
+    // set elements of a column in temp
+    // goes through each row in temp at fixed column height - row - 1
+    for (size_t rowTemp = 0; rowTemp < newHeight; ++rowTemp) {
+      temp.at(rowTemp).at(height - row - 1) = rowElements.at(rowTemp);
+    }
+     
+
+  }
+
+
+  cells = temp;
+  height = newHeight;
+  width = newWidth;
+}
+
+void TetrominoBlock::rotateCCW() {
+
 }

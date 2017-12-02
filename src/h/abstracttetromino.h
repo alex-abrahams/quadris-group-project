@@ -20,7 +20,8 @@ class AbstractTetromino {
   virtual void setCellPosn(size_t rowAt, size_t colAt, size_t newRow, size_t newCol) = 0;
   virtual Info getCellInfo(size_t row, size_t col) = 0;
   virtual Cell getCell(size_t row, size_t col) = 0;
-
+  virtual void rotateCW() = 0;
+  virtual void rotateCCW() = 0;
 };
 #endif
 
