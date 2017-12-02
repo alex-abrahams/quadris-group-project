@@ -34,6 +34,9 @@ class TetrominoBlock : public AbstractTetromino {
   Info getCellInfo(size_t row, size_t col) override;
   Cell getCell(size_t row, size_t col) override;
 
+  void rotateCW() override;
+  void rotateCCW() override;
+
 };
 
 #endif

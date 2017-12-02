@@ -100,8 +100,25 @@ bool Board::generalizedLateralBlockCheck(size_t column, int lr) {
   return false;
 }
 
+
+bool Board::rotationCheck(AbstractTetromino &temp) {
+  for (size_t row = 0; row < temp.getHeight(); ++row) {    
+    for (size_t col = 0; col < temp.getWidth(); ++col) {
+      Info info = temp.getCellInfo(row, col);
+
+      if (info.type != TetroType::None && 
+          theBoard.at(row).at(col).getInfo().type != TetroType::None) {
+        return true;
+      }
+
+    }
+  }
+  return false;
+}
+
 bool Board::isBlocked(Direction dir) {
   size_t lowestRow = currentTetro->getHeight() - 1; 
+  AbstractTetromino &temp = *currentTetro; 
 
   switch(dir) {
     case Direction::Down : 
@@ -125,7 +142,7 @@ bool Board::isBlocked(Direction dir) {
       return generalizedLateralBlockCheck(currentTetro->getWidth() - 1, 1);
       break;
     case Direction::CW :
-      // take rotated tetromino
+      // rotate tetromino
       // compare width of tetromino to how many cells there are between the
       // left/right edge of the tetromino and the edge of the board
       // if there is enough space to rotate, iterate thru the rows and cols
@@ -133,11 +150,14 @@ bool Board::isBlocked(Direction dir) {
       // also non empty on the board
       // return true if blocked, false otherwise
       //
-      // SAME FOR CCWW
-      // TODO
+      // SAME FOR CCW
+
+      temp.rotateCW();
+      return rotationCheck(temp);
       break;
     case Direction::CCW :
-      // TODO
+      temp.rotateCCW();
+      return rotationCheck(temp);
       break;
     default : 
       return true;
@@ -160,10 +180,10 @@ void Board::move(Direction dir) {
           currentTetro->setLocationCol(currentTetro->getLocationCol()+1);
           break;
         case Direction::CW :
-          
+          currentTetro->rotateCW();
           break;
         case Direction::CCW :
-          
+          currentTetro->rotateCCW(); 
           break;
         default :
           break;
@@ -216,7 +236,6 @@ void Board::dropTetromino() {
       theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
     }
   }
-  //TODO: make new current tetromino
 }
 
 Board::~Board() {}
