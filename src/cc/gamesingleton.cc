@@ -180,3 +180,4 @@ std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   return out;
 }
 
+

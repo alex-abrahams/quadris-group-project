@@ -60,3 +60,4 @@ std::shared_ptr<TetrominoBlock> TetrominoFactory::makeTetromino(TetroType type, 
 	}
 	return theTetro;
 }
+

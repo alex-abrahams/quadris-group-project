@@ -202,6 +202,7 @@ void Board::dropTetromino() {
       theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
     }
   }
+  //TODO: make new current tetromino
 }
 
 Board::~Board() {}
