@@ -24,6 +24,7 @@ void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
     std::cout << "TextDisplay::notify() -> A cell notified" << std::endl;
     theDisplay.at(whoNotified.getInfo().row).at(whoNotified.getInfo().col) = 
       blockChars[whoNotified.getInfo().type];
+	  std::cout << whoNotified.getInfo().row << "," << whoNotified.getInfo().col << " to " << blockChars[whoNotified.getInfo().type] << std::endl;
   } 
   else if (fr.from == FromType::Game) {
     std::cout << "TextDisplay::notify() -> Game notified" << std::endl;
@@ -101,6 +102,7 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
 	  }
   }
 }
+
 
 
 
