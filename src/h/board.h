@@ -45,6 +45,8 @@ class Board {
 
   bool generalizedLateralBlockCheck(/*size_t column = 0, */int lr = 0);
 
+  bool rotationCheck(AbstractTetromino &temp);
+
   // checks if moving/rotating current tetromino in the direction dir is possible
   bool isBlocked(Direction dir);
 

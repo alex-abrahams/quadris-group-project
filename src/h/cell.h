@@ -12,6 +12,7 @@ class Cell : public Publisher<Info, NotifFrom> {
   TetroType type = TetroType::None;
 
   public:
+  Cell();
   Cell(size_t row, size_t col, size_t id = 0, TetroType type = TetroType::None);
 
   // make this cell hold a certain Tetromino type.
