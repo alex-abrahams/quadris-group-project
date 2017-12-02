@@ -58,3 +58,10 @@ Cell TetrominoBlock::getCell(size_t row, size_t col)  {
 	return cells.at(row).at(col);
 }
 
+void TetrominoBlock::setLocationRow(size_t r) {
+	row = r;
+}
+
+void TetrominoBlock::setLocationCol(size_t c) {
+	col = c;
+}

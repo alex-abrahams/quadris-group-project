@@ -84,10 +84,12 @@ void GameSingleton::down(){
 }
 void GameSingleton::left(){
   theBoard.move(Direction::Left);
+  this->notifyObservers();
 }
 
 void GameSingleton::right(){
   theBoard.move(Direction::Right);
+  this->notifyObservers();
 }
 
 void GameSingleton::clockwise(){
@@ -100,6 +102,7 @@ void GameSingleton::counterclockwise(){
 }
 
 void GameSingleton::drop(){
+	theBoard.dropTetromino();
   this->notifyObservers();
 }
 
@@ -176,3 +179,5 @@ std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;
 }
+
+

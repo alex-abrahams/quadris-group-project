@@ -27,6 +27,8 @@ class TetrominoBlock : public AbstractTetromino {
   size_t getWidth() override;
   size_t getLocationRow() override;
   size_t getLocationCol() override;
+  void setLocationRow(size_t r) override;
+  void setLocationCol(size_t c) override;
   // changes the location of this tetromino object's cell on the board
   void setCellPosn(size_t rowAt, size_t colAt, size_t newRow, size_t newCol) override;
   Info getCellInfo(size_t row, size_t col) override;
@@ -35,3 +37,4 @@ class TetrominoBlock : public AbstractTetromino {
 };
 
 #endif
+
