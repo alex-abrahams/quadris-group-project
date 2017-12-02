@@ -1,10 +1,11 @@
 #include "tetrominoblock.h"
 
+#include <iostream> // testing
 TetrominoBlock::TetrominoBlock(size_t w, size_t h, size_t r, size_t c, size_t id, TetroType t)
   : row{r}, col{c}, height{h}, width{w}, id{id}, type{t} {
-	for (size_t rr = 0; rr < h; rr++) {
+	for (size_t rr = 0; rr < h; ++rr) {
 		cells.push_back(std::vector<Cell>());
-		for (size_t cc = 0; cc < width; cc++) {
+		for (size_t cc = 0; cc < width; ++cc) {
       cells.at(rr).emplace_back(r - h + 1 + rr, c + cc, id);
 		}
 	}
@@ -44,6 +45,17 @@ size_t TetrominoBlock::getLocationCol()  {
 }
 
 void TetrominoBlock::setCellPosn(size_t rowAt, size_t colAt, size_t newRow, size_t newCol)  {
+  std::cout << "TetBlock::setCellPosn -> rowAt: " << rowAt << std::endl;
+  std::cout << "TetBlock::setCellPosn -> colAt: " << colAt << std::endl;
+
+  std::cout << "TetBlock::setCellPosn -> newRow: " << newRow << std::endl;
+  std::cout << "TetBlock::setCellPosn -> newCol: " << newCol << std::endl;
+
+  std::cout << "TetBlock::setCellPosn -> cells size: " << cells.size() << std::endl;
+
+  if (cells.size() > rowAt && cells.at(rowAt).size() > colAt) {
+    cells.at(rowAt).at(colAt).setRowCol(newRow, newCol); 
+  }
 }
 
 Info TetrominoBlock::getCellInfo(size_t row, size_t col)  {

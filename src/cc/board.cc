@@ -9,7 +9,11 @@
 
 
 void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
-  currentTetro = tetro;
+  this->currentTetro = tetro;
+}
+
+std::shared_ptr<TextDisplay> Board::getTextDisplay() {
+  return this->td;
 }
 
 bool Board::isTopLeftBlocked() const {
@@ -34,12 +38,10 @@ void Board::init(size_t rows, size_t cols, size_t reservedRows) {
   this->reservedRows = reservedRows;
   this->totalRows = rows + reservedRows;
   currentId = 0;
-  theBoard.clear();
-  tetroPosns.clear();
 
   td = std::make_shared<TextDisplay>(totalRows, cols);
   theBoard.resize(totalRows);
-  
+
   for (size_t row = 0; row < totalRows; ++row) {
     for (size_t col = 0; col < cols; ++col) {
       theBoard.at(row).emplace_back(row, col);
@@ -142,27 +144,37 @@ bool Board::isBlocked(Direction dir) {
 }
 
 void Board::move(Direction dir) {  
-  for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
-    for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
-      size_t rowAt = currentTetro->getCellInfo(row, col).row;
-      size_t colAt = currentTetro->getCellInfo(row, col).col;
-      switch(dir) {
-        case Direction::Down :
-          // Set cell at board(row, col)  to (row+1, col)
-          if (!isBlocked(dir)) currentTetro->setCellPosn(rowAt, colAt, rowAt + 1, colAt);
-          break;
-        case Direction::Left : 
-          // Set cell at board(row, col)  to (row, col-1)
-          if (!isBlocked(dir)) currentTetro->setCellPosn(rowAt, colAt, rowAt, colAt - 1);
-          break;
-        case Direction::Right :
-          // Set cell at board(row, col)  to (row, col+1)
-          if (!isBlocked(dir)) currentTetro->setCellPosn(rowAt, colAt, rowAt, colAt + 1);
-          break;
-        default:
-          break;
+  if (currentTetro) {
+    for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
+      for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
+        
+        
+        size_t rowAt = currentTetro->getCellInfo(row, col).row;
+        size_t colAt = currentTetro->getCellInfo(row, col).col;
+        
+        std::cout << "Board::move -> rowAt " << rowAt << std::endl;
+        std::cout << "Board::move -> colAt " << colAt << std::endl;
+
+        switch(dir) {
+          case Direction::Down :
+            // Set cell at board(row, col)  to (row+1, col)
+            if (!isBlocked(dir)) currentTetro->setCellPosn(row, col, rowAt + 1, colAt);
+            break;
+          case Direction::Left : 
+            // Set cell at board(row, col)  to (row, col-1)
+            if (!isBlocked(dir)) currentTetro->setCellPosn(row, col, rowAt, colAt - 1);
+            break;
+          case Direction::Right :
+            // Set cell at board(row, col)  to (row, col+1)
+            if (!isBlocked(dir)) currentTetro->setCellPosn(row, col, rowAt, colAt + 1);
+            break;
+          default:
+            break;
+        }
       }
     }
+  } else {
+    std::cout << "Current tetro in board is null" << std::endl;
   }
 }
 
@@ -184,7 +196,7 @@ void Board::dropTetromino() {
 Board::~Board() {}
 
 std::ostream &operator<<(std::ostream &out, const Board &b) {
-  b.td -> draw(out, b.currentTetro/*, nextTetro*/);
+  b.td -> draw(out, b.currentTetro);
   return out;
 }
 

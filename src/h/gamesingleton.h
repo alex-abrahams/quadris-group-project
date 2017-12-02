@@ -3,31 +3,53 @@
 
 #include <string>
 #include "board.h"
+#include "notiffrom.h"
 #include <iostream> // for testing
 #include "cmdparser.h"
+
 class TetrominoFactory;
 
-class GameSingleton {
+class GameSingleton : public Publisher<Info, NotifFrom> {
   Board theBoard;
-  size_t score = 0;
-  size_t hiscore = 0;
-  size_t level = 0;
+  size_t score = 0, hiscore = 0, level = 0;
 
   CommandParser cmdp;
 
   std::unique_ptr<TetrominoFactory> tetroFactory;
   std::shared_ptr<AbstractTetromino> current;
   std::shared_ptr<AbstractTetromino> next;
+  std::shared_ptr<TextDisplay> td;  
 
   bool gameRunning = false;
 
-  public:
-  GameSingleton();
+  GameSingleton() {} // disable ctor
+  // disable copy ctor and assignment operator
+  GameSingleton(GameSingleton const &other);
+  GameSingleton &operator=(GameSingleton const &other);
 
-  static GameSingleton& get();
+  public:
+  static GameSingleton& get() {
+    static GameSingleton s;
+    return s;
+  }
 
   void init();
+
+  // pure virtual definition from Publisher
+  Info getInfo() const {
+    Info info {0, 0, TetroType::None};
+    return info;
+  }
+
+  // accessors
+  size_t getScore();
+  size_t getHiScore();
+  size_t getLevel();
+  // need textdisplay pointer attached to cells of tetromino. Used in
+  // tetrominoblock when setting up
+  std::shared_ptr<TextDisplay> getTextDisplay();
   void start();
+
   // control functions
   void down();
   void left();

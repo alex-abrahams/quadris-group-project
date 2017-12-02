@@ -29,19 +29,11 @@ class Board {
   size_t totalRows;
   size_t currentId;
 
-  // TODO: factory goes in GameSingleton! std::unique_ptr<TetrominoFactory> tetroFactory;
   std::shared_ptr<TextDisplay> td;
   std::shared_ptr<AbstractTetromino> currentTetro;
 
   //TODO:Graphics. std::unique_ptr<Observer<Info>> graphicsObserver;
   
-  /* the row and col of the board each cell of the current tetromino is on
-     represented by a Cell object who has fields row, col, and type.
-     the row and col of the Cell will increment/decrement based on the position
-     of the tetromino in the board
-     */
-  std::vector<std::vector<Cell>> tetroPosns;
-
   // checks if row at rowIndex is full
   bool isRowFull(size_t rowIndex) const;
 
@@ -64,13 +56,18 @@ class Board {
   
 
   public:
-
+  std::shared_ptr<TextDisplay> getTextDisplay();
+  
   void setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro);
- 
+  std::shared_ptr<AbstractTetromino> getCurTetro() {
+    return currentTetro;
+  }
+
   // TODO: void setObserver(Observer<Info> *obs); // intent: graphics
 
   // initializes theBoard
   void init(size_t rows, size_t cols, size_t reservedRows);
+  
   // moves current tetromino one cell in the direction dir
   void move(Direction dir);
 
