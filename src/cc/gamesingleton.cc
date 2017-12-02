@@ -72,14 +72,14 @@ void GameSingleton::start(){
 }
 
 void GameSingleton::down(){
-  NotifFrom notifFrom {FromType::Game, score, hiscore, level, Visibility::Hide};
-  this->setNotifFrom(notifFrom);
-  this->notifyObservers();
+//  NotifFrom notifFrom {FromType::Game, score, hiscore, level, Visibility::Hide};
+//  this->setNotifFrom(notifFrom);
+//  this->notifyObservers();
 
   theBoard.move(Direction::Down);
 
-  NotifFrom newNotifFrom {FromType::Game, score, hiscore, level, Visibility::Show};
-  this->setNotifFrom(newNotifFrom);
+//  NotifFrom newNotifFrom {FromType::Game, score, hiscore, level, Visibility::Show};
+//  this->setNotifFrom(newNotifFrom);
   this->notifyObservers();
 }
 void GameSingleton::left(){
