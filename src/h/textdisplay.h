@@ -16,9 +16,6 @@ class TextDisplay: public Observer<Info, NotifFrom> {
   const int gridWidth;
 	const int gridHeight;
 
-
-  void toggleCurrentTetromino(char typeChar);
-
 	std::map< TetroType, char > blockChars 
 	{
 		{ TetroType::IBlock,    'I' },

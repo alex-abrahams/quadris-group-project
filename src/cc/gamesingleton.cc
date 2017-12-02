@@ -15,7 +15,7 @@ void GameSingleton::init() {
 
   td->setNextTetromino(next);
 
-  NotifFrom notifFrom {FromType::Game, score, hiscore, level, Visibility::Unset}; 
+  NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
   this->cmdp = CommandParser{};
@@ -27,43 +27,6 @@ std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
   return td;
 }
 
-size_t GameSingleton::getHeightCurrentTetro() {
-  return current->getHeight();
-}
-
-size_t GameSingleton::getWidthCurrentTetro() {
-  return current->getWidth();
-}
-
-TetroType GameSingleton::getCurrentTetroType() {
-  return current->getType();
-}
-
-std::vector<std::pair<size_t, size_t>> GameSingleton::getFilledCellPosns() {
-  std::vector<std::pair<size_t, size_t>> posns;
-
-  for (size_t row = 0; row < current->getHeight(); ++row) {
-    for (size_t col = 0; col < current->getWidth(); ++col) {
-      if (current->getCellInfo(row, col).type != TetroType::None) {
-
-        std::pair<size_t, size_t> rowColPair = 
-          std::make_pair(current->getCellInfo(row, col).row, 
-            current->getCellInfo(row, col).col);
-
-        posns.push_back(rowColPair);
-      }
-    }
-  }
-
-  return posns;
-}
-
-std::pair<size_t, size_t> GameSingleton::getBottomLeft() {
-  std::pair<size_t, size_t> bottomLeft = std::make_pair(current->getLocationRow(),
-      current->getLocationCol());
-  return bottomLeft;
-}
-
 void GameSingleton::start(){
   while(gameRunning){
     cmdp.nextCommand();
@@ -72,50 +35,47 @@ void GameSingleton::start(){
 }
 
 void GameSingleton::down(){
-//  NotifFrom notifFrom {FromType::Game, score, hiscore, level, Visibility::Hide};
-//  this->setNotifFrom(notifFrom);
-//  this->notifyObservers();
-
   theBoard.move(Direction::Down);
-
-//  NotifFrom newNotifFrom {FromType::Game, score, hiscore, level, Visibility::Show};
-//  this->setNotifFrom(newNotifFrom);
-  this->notifyObservers();
 }
 void GameSingleton::left(){
   theBoard.move(Direction::Left);
-  this->notifyObservers();
 }
 
 void GameSingleton::right(){
   theBoard.move(Direction::Right);
-  this->notifyObservers();
 }
 
 void GameSingleton::clockwise(){
-  this->notifyObservers();
+  theBoard.move(Direction::CW);
 }
 
 void GameSingleton::counterclockwise(){
-  this->notifyObservers();
-
+  theBoard.move(Direction::CCW);
 }
 
 void GameSingleton::drop(){
 	theBoard.dropTetromino();
-  this->notifyObservers();
+  current = next;
+  next = tetroFactory->makeTetromino(TetroType::TBlock);
+  theBoard.setCurrentTetromino(current);
+  td->setNextTetromino(next);
 }
 
 void GameSingleton::levelup(){
   level += 1;
+  NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+  this->setNotifFrom(notifFrom);
   this->notifyObservers();
-
 }
 
 void GameSingleton::leveldown(){
-  if (level > 0) --level;
-
-  this->notifyObservers();
+  // TODO: didnt work
+  if (level > 0) {
+    --level;
+    NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+    this->setNotifFrom(notifFrom);
+    this->notifyObservers();
+  }
 }
 
 void GameSingleton::norandom(std::string file){
@@ -135,6 +95,7 @@ void GameSingleton::hint(){
 }
 
 void GameSingleton::I(){
+  std::cout << "Setting I" << std::endl;
   current = tetroFactory->makeTetromino(TetroType::IBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
@@ -164,6 +125,7 @@ void GameSingleton::S(){
 }
 
 void GameSingleton::Z(){
+  // TODO: didnt work
   current = tetroFactory->makeTetromino(TetroType::ZBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();

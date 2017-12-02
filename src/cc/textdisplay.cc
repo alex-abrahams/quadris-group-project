@@ -16,25 +16,6 @@ void TextDisplay::setNextTetromino(std::shared_ptr<AbstractTetromino> tetro) {
   nextTetro = tetro; 
 }
 
-void TextDisplay::toggleCurrentTetromino(char typeChar) { 
-  size_t height = GameSingleton::get().getHeightCurrentTetro();
-  size_t width = GameSingleton::get().getWidthCurrentTetro();
-  std::vector<std::pair<size_t, size_t>> posns = GameSingleton::get().getFilledCellPosns();
-  std::pair<size_t, size_t> bottomLeft = GameSingleton::get().getBottomLeft();
-
-  for (size_t r = 0; r < height; r++) {
-    for (size_t c = 0; c < width; c++) {
-
-      //        if (cellInFilledCells(posns)) {            
-      theDisplay.at(bottomLeft.first - height + 1 + r).
-        at(bottomLeft.second + c) =  typeChar;
-      //      }
-
-
-    }
-  }
-}
-
 void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
 
   NotifFrom fr = whoNotified.getNotifFrom();
@@ -49,15 +30,6 @@ void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
     this->score = fr.score;
     this->hiScore = fr.hiscore;
     this->level  = fr.level;
-
-
-
-    if (fr.visibility == Visibility::Show) {
-      toggleCurrentTetromino(blockChars[GameSingleton::get().getCurrentTetroType()]);
-    } else if (fr.visibility == Visibility::Hide) {
-      toggleCurrentTetromino(blockChars[TetroType::None]);
-    }
-
   } else {
     std::cout << "TextDisplay::notify() -> IDK who notified lol" << std::endl;
   }
@@ -126,7 +98,7 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
         }
       }
     out << std::endl;
-	}
+	  }
   }
 }
 

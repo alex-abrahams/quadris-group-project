@@ -148,20 +148,30 @@ bool Board::isBlocked(Direction dir) {
 
 void Board::move(Direction dir) {  
   if (currentTetro) {
-	  switch(dir) {
-		case Direction::Down :
-			if (!isBlocked(dir)) currentTetro->setLocationRow(currentTetro->getLocationRow()+1);
-			break;
-		case Direction::Left : 
-			if (!isBlocked(dir)) currentTetro->setLocationCol(currentTetro->getLocationCol()-1);
-			break;
-		case Direction::Right : 
-			if (!isBlocked(dir)) currentTetro->setLocationCol(currentTetro->getLocationCol()+1);
-			break;
-	}
+    if (!isBlocked(dir)) {
+      switch(dir) {
+        case Direction::Down :
+          currentTetro->setLocationRow(currentTetro->getLocationRow()+1);
+          break;
+        case Direction::Left : 
+          currentTetro->setLocationCol(currentTetro->getLocationCol()-1);
+          break;
+        case Direction::Right : 
+          currentTetro->setLocationCol(currentTetro->getLocationCol()+1);
+          break;
+        case Direction::CW :
+          
+          break;
+        case Direction::CCW :
+          
+          break;
+        default :
+          break;
+      }
+    }
     for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
-        
+
         size_t rowAt = currentTetro->getCellInfo(row, col).row;
         size_t colAt = currentTetro->getCellInfo(row, col).col;
 
@@ -178,12 +188,16 @@ void Board::move(Direction dir) {
             // Set cell at board(row, col)  to (row, col+1)
             if (!isBlocked(dir)) currentTetro->setCellPosn(row, col, rowAt, colAt + 1);
             break;
+          case Direction::CW :
+            break;
+          case Direction::CCW :
+            break;
           default:
             break;
         }
       }
     }
-	
+
   } else {
     std::cout << "Current tetro in board is null" << std::endl;
   }

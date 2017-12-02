@@ -49,13 +49,6 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   // tetrominoblock when setting up
   std::shared_ptr<TextDisplay> getTextDisplay();
  
-  // exposure of tetromino to the textdisplay for toggling
-  size_t getHeightCurrentTetro();
-  size_t getWidthCurrentTetro();
-  TetroType getCurrentTetroType();
-  std::vector<std::pair<size_t, size_t>> getFilledCellPosns();
-  std::pair<size_t, size_t> getBottomLeft();
-
   void start();
 
   // control functions
