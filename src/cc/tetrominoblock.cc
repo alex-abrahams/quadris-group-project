@@ -15,6 +15,7 @@ TetrominoBlock::~TetrominoBlock() {}
 
 void TetrominoBlock::setCell(size_t r, size_t c) {
 	cells.at(r).at(c) = Cell(row - height + 1 + r, col + c, id, type);
+	std::cout << id << ": " << row - height + 1 + r << ", " << col + c << std::endl;
 }
 
 size_t lowerLeftRowIdx() {

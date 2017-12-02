@@ -43,7 +43,7 @@ class Board {
   // drop the above row(s) once a row is full
   void dropRows(size_t row);
 
-  bool generalizedLateralBlockCheck(size_t column = 0, int lr = 0);
+  bool generalizedLateralBlockCheck(/*size_t column = 0, */int lr = 0);
 
   bool rotationCheck(AbstractTetromino &temp);
 
@@ -85,4 +85,5 @@ class Board {
 };
 
 #endif
+
 
