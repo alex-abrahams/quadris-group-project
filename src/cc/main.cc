@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include "gameoverexception.h"
 
 int main(int argc, char** args) {
   std::string f = "sequence.txt";
@@ -20,7 +21,15 @@ int main(int argc, char** args) {
     else if(opt == "-startlevel")
       deflv = atoi(args[++i]);
   }
-  GameSingleton::get().init(f,deflv,textonly);
-  GameSingleton::get().start();
-	std::cout << GameSingleton::get();
+  while(true){
+    try{
+      GameSingleton::get().init(f,deflv,textonly);
+      GameSingleton::get().start();
+	    std::cout << GameSingleton::get();
+
+    }catch(GameOverException e){
+
+    }
+  }
 }
+
