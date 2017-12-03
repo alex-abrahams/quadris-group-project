@@ -15,7 +15,7 @@ void GameSingleton::init() {
 
   td->setNextTetromino(next);
 
-  NotifFrom notifFrom {FromType::Game, score, hiscore, level}; 
+  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level}; 
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
   this->cmdp = CommandParser{};
@@ -136,10 +136,14 @@ void GameSingleton::T(){
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
 }
+size_t GameSingleton::getScore() {
+	return rowsScore+blocksClearedScore;
+}
 
 std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;
 }
+
 
 

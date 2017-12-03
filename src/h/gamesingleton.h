@@ -12,7 +12,7 @@ class TetrominoFactory;
 
 class GameSingleton : public Publisher<Info, NotifFrom> {
   Board theBoard;
-  size_t score = 0, hiscore = 0, level = 0;
+  size_t score = 0, rowsScore = 0, blocksClearedScore = 0, hiscore = 0, level = 0;
 
   CommandParser cmdp;
 
@@ -78,4 +78,5 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 
 };
 #endif
+
 
