@@ -67,7 +67,7 @@ void TetrominoBlock::setLocationCol(size_t c) {
 	col = c;
 }
 
-void TetrominoBlock::rotateCW() {
+void TetrominoBlock::rotate(bool clockwise) {
   size_t newHeight = width;
   size_t newWidth = height;
   std::vector<std::vector<Cell>> temp;
@@ -88,18 +88,27 @@ void TetrominoBlock::rotateCW() {
     // set elements of a column in temp
     // goes through each row in temp at fixed column height - row - 1
     for (size_t rowTemp = 0; rowTemp < newHeight; ++rowTemp) {
-      temp.at(rowTemp).at(height - row - 1) = rowElements.at(rowTemp);
+      if (clockwise) {
+        temp.at(rowTemp).at(height - row - 1) = rowElements.at(rowTemp);
+      } else { // COUNTERCLOCKWISE 
+        temp.at(rowTemp).at(row) = rowElements.at(newHeight - rowTemp - 1);
+      }
     }
-     
-
   }
-
 
   cells = temp;
   height = newHeight;
   width = newWidth;
+
+//  row = cells..at(height - 1).at(0).getInfo().row;
+//  col = cells.at(height - 1).at(0).getInfo().col;
+
+}
+
+void TetrominoBlock::rotateCW() {
+  rotate(true);
 }
 
 void TetrominoBlock::rotateCCW() {
-
+  rotate(false);
 }
