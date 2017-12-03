@@ -7,7 +7,8 @@ struct NotifFrom {
   FromType from;
 
   // for game.
-  size_t score, hiscore, level;
+  size_t rowsScore, blocksClearedScore, hiscore, level;
 };
 
 #endif
+
