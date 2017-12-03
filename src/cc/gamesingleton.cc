@@ -2,18 +2,40 @@
 #include "tetrominofactory.h"
 #include "textdisplay.h"
 
-std::unique_ptr<Level> getZLevel(){
-  return nullptr;
+std::shared_ptr<Level> GameSingleton::getZLevel(std::string file){
+  return std::shared_ptr<Level>(new Level0(utility::bufferFile(file)));
 }
 
-std::vector<std::unique_ptr<Level>> generateLevels(std::vector<std::string> i);
+std::vector<std::shared_ptr<Level>> GameSingleton::generateLevels(std::vector<std::string> i){
+  std::cout << "Z" << i.size();
+  std::vector<std::shared_ptr<Level>> r;
+  std::shared_ptr<Level> t = getZLevel("sequence.txt");
+  for(size_t b = 0; b < i.size(); b++){
+    std::cout << "TEST: " << i.at(b);
+    if(i.at(b) == "rnd"){
+      t = std::shared_ptr<Level>(new RandomDecorator(i.at(++b), t));
+    }else if(i.at(b) == "hvy"){
+      t = std::shared_ptr<Level>(new HeavyDecorator(t));
+    }else if(i.at(b) == "mid"){
+      t = std::shared_ptr<Level>(new MiddleDecorator(t));
+    }else if(i.at(b) == "done"){
+      r.push_back(t);
+      t = getZLevel("sequence.txt");
+    }
+  }
+  return r;
+}
 
 void GameSingleton::init(std::string file, int dlevel, bool textonly) {
   level = dlevel;
 
   theBoard.init(15, 11, 3);
   //initlevels
-  levels.push_back(std::unique_ptr<Level>(new Level0(utility::bufferFile(file))));
+  levels.push_back(getZLevel(file));
+  std::vector<std::shared_ptr<Level>> t =generateLevels(utility::bufferFile(levelFile));
+  std::cout << "T" << t.size();
+  levels.insert(levels.end(),t.begin(),t.end());
+  std::cout << "Levels: " << levels.size() << std::endl;
   //generateLevels(utility::bufferFile(levelFile));
   td = theBoard.getTextDisplay();
   this->attach(td);
@@ -79,6 +101,7 @@ void GameSingleton::drop(){
 void GameSingleton::levelup(){
   level += 1;
   if(level >= levels.size()) level = levels.size()-1;
+  if(next == nullptr) next = levels.at(level)->getNextBlock();
   NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
@@ -92,6 +115,7 @@ void GameSingleton::leveldown(){
     this->setNotifFrom(notifFrom);
     this->notifyObservers();
   }
+  if(next == nullptr) next = levels.at(level)->getNextBlock();
 }
 
 void GameSingleton::norandom(std::string file){

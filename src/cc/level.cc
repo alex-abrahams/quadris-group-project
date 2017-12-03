@@ -10,6 +10,7 @@
   }
 
 
+
   std::shared_ptr<TetrominoBlock> Level0::getNextBlock(){
     if(q.size() == 0)return GameSingleton::get().makeBlock(TetroType::None);
     std::shared_ptr<TetrominoBlock> t = GameSingleton::get().makeBlock(q.front());
@@ -42,6 +43,7 @@ HeavyDecorator::HeavyDecorator(std::shared_ptr<Level> t){
   prev = t;
   prev->passthrough = true;
 }
+
 
 void HeavyDecorator::notify(Publisher<Info, NotifFrom> &whon){
   if(whon.getNotifFrom().from == FromType::Move && whon.getNotifFrom().d != Direction::Down)

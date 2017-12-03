@@ -1,0 +1,7 @@
+rnd
+1 1 1 1 1 1 1
+done
+hvy
+done
+mid
+done
