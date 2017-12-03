@@ -42,7 +42,7 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly) {
   //generateLevels(utility::bufferFile(levelFile));
   td = theBoard.getTextDisplay();
   this->attach(td);
-
+  levels.at(level)->isSelected = true;
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = levels.at(level)->getNextBlock();
   next = levels.at(level)->getNextBlock();
@@ -102,16 +102,19 @@ void GameSingleton::drop(){
 }
 
 void GameSingleton::levelup(){
+  levels.at(level)->isSelected = false;
   level += 1;
   if(level >= levels.size()) level = levels.size()-1;
   if(next == nullptr) next = levels.at(level)->getNextBlock();
   NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
+  levels.at(level)->isSelected = true;
 }
 
 void GameSingleton::leveldown(){
   // TODO: didnt work
+  levels.at(level)->isSelected = false;
   if (level > 0) {
     --level;
     NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
@@ -119,6 +122,7 @@ void GameSingleton::leveldown(){
     this->notifyObservers();
   }
   if(next == nullptr) next = levels.at(level)->getNextBlock();
+  levels.at(level)->isSelected = true;
 }
 
 void GameSingleton::norandom(std::string file){
