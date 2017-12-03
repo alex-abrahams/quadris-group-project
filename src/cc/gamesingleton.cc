@@ -71,7 +71,7 @@ void GameSingleton::counterclockwise(){
 void GameSingleton::drop(){
 	theBoard.dropTetromino();
   current = next;
-  next = tetroFactory->makeTetromino(TetroType::TBlock);
+  next = levels.at(level)->getNextBlock();
   theBoard.setCurrentTetromino(current);
   td->setNextTetromino(next);
 }
