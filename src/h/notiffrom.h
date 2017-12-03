@@ -1,6 +1,5 @@
 #ifndef NOTFR_H
 #define NOTFR_H
-#include "board.h"
 
 enum class Direction;
 enum class FromType {Cell, Game, NoOne, Move, Drop};
