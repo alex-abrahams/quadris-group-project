@@ -26,9 +26,6 @@ void Publisher<InfoType, NotifFromType>::attach(std::shared_ptr<Observer<InfoTyp
 
 template <typename InfoType, typename NotifFromType>
 void Publisher<InfoType, NotifFromType>::notifyObservers() {
-  std::cout << "observers size: " << observers.size() << std::endl;
-  if (observers.at(0)) std::cout << "td observer not null" << std::endl;
-  else std::cout << "td observer null" << std::endl;
   for (auto &ob : observers) ob->notify(*this);
 }
 
