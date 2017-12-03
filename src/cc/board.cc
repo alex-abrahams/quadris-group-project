@@ -7,7 +7,7 @@
 #include <cstddef>
 #include "textdisplay.h"
 #include "gamesingleton.h"
-
+#include "tetrominoblock.h"
 void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
   this->currentTetro = tetro;
 }
@@ -73,7 +73,7 @@ void Board::dropRows(size_t fullRowIndex) {
     // check that the dtors of Cell run for row-1 when it is overwritten  
     if (row > 0) {
 		theBoard.at(row) = theBoard.at(row - 1);
-		for (int col = 0; col < cols; col++) {
+		for (size_t col = 0; col < cols; col++) {
 			theBoard.at(row).at(col).setRowCol(theBoard.at(row).at(col).getInfo().row+1, col);
 		}
 	}
@@ -204,29 +204,35 @@ void Board::move(Direction dir) {
           break;
       }
     }
+    
+    bool b = false;
+    if (dir == Direction::Down || dir == Direction::Right || dir == Direction::Left) {
+      b = isBlocked(dir);
+    }
 
     for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
         size_t rowAt = currentTetro->getCellInfo(row, col).row;
         size_t colAt = currentTetro->getCellInfo(row, col).col;
+        
         switch(dir) {
           case Direction::Down :
             // Set cell at board(row, col)  to (row+1, col)
-            if (!isBlocked(dir)) {
+            if (!b) {
               currentTetro->setCellPosn(row, col, rowAt + 1, colAt);
               std::cout << rowAt << "," << colAt << " to " << rowAt + 1 << "," << colAt << std::endl; 
             } else { std::cout << "blocked!" << std::endl; }
             break;
           case Direction::Left : 
             // Set cell at board(row, col)  to (row, col-1)
-            if (!isBlocked(dir)) {
+            if (!b) {
               currentTetro->setCellPosn(row, col, rowAt, colAt - 1);
               std::cout << rowAt << "," << colAt << " to " << rowAt << "," << colAt-1 << std::endl; 
             }
             break;
           case Direction::Right :
             // Set cell at board(row, col)  to (row, col+1)
-            if (!isBlocked(dir)) {
+            if (!b) {
               currentTetro->setCellPosn(row, col, rowAt, colAt + 1);
               std::cout << rowAt << "," << colAt << " to " << rowAt << "," << colAt+1 << std::endl; 
             }
