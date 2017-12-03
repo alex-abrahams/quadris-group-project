@@ -16,6 +16,7 @@ class GraphicsDisplay: public Observer<Info, NotifFrom> {
 	std::vector<std::vector<TetroType>> theDisplay;
   const int gridHeight, gridWidth, winHeight, winWidth, gameWidth;
   Xwindow xw;
+  std::shared_ptr<AbstractTetromino> nextTetro;
   
   int score = 0;
   int hiScore = 0;
@@ -23,6 +24,8 @@ class GraphicsDisplay: public Observer<Info, NotifFrom> {
 
  public:
   GraphicsDisplay(int gridHeight, int gridWidth, int winHeight, int winWidth);
+  
+  void setNextTetromino(std::shared_ptr<AbstractTetromino> tetro);
 
   void notify(Publisher<Info, NotifFrom> &whoNotified) override;
   

@@ -6,7 +6,7 @@
 using namespace std;
 
 GraphicsDisplay::GraphicsDisplay(int gridHeight, int gridWidth, int winHeight, int winWidth):
- gridHeight{gridHeight}, gridWidth{gridWidth}, winHeight{winHeight}, winWidth{winWidth}, gameWidth{winWidth/2}, xw{winWidth, winHeight} {
+ gridHeight{gridHeight}, gridWidth{gridWidth}, winHeight{winHeight}, winWidth{winWidth}, gameWidth{(winWidth*2)/3}, xw{winWidth, winHeight} {
 	for (int i = 0; i < gridHeight; i++) {
 		theDisplay.push_back( std::vector<TetroType>() );
 		for (int j = 0; j < gridWidth; j++) {
@@ -16,6 +16,9 @@ GraphicsDisplay::GraphicsDisplay(int gridHeight, int gridWidth, int winHeight, i
 	xw.fillRectangle(0, 0, winWidth, winHeight, Xwindow::Black);
 }
 
+void GraphicsDisplay::setNextTetromino(std::shared_ptr<AbstractTetromino> tetro) {
+  nextTetro = tetro; 
+}
 
 void GraphicsDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
 	NotifFrom fr = whoNotified.getNotifFrom();
@@ -89,5 +92,39 @@ void GraphicsDisplay::draw(std::shared_ptr<AbstractTetromino> currentTetromino) 
 	xw.drawString(gameWidth+20, 100, s.str());
 	xw.drawString(gameWidth+20, 150, h.str());
 	xw.drawString(gameWidth+20, 200, l.str());
+	
+	if (nextTetro) {
+		// show the next tetromino
+		for (size_t r = 0; r < nextTetro->getHeight(); r++) {
+			for (size_t c = 0; c < nextTetro->getWidth(); c++) {
+				switch(nextTetro->getCellInfo(r,c).type) {
+					case TetroType::IBlock:
+						xw.fillRectangle(gameWidth + 20 + c * 20, 250 + r * 20, 20, 20, Xwindow::Black);
+						break;
+					case TetroType::JBlock:
+						xw.fillRectangle(gameWidth + 20 + c * 20, 250 + r * 20, 20, 20, Xwindow::Red);
+						break;
+					case TetroType::LBlock:
+						xw.fillRectangle(gameWidth + 20 + c * 20, 250 + r * 20, 20, 20, Xwindow::Blue);
+						break;
+					case TetroType::SBlock:
+						xw.fillRectangle(gameWidth + 20 + c * 20, 250 + r * 20, 20, 20, Xwindow::Green);
+						break;
+					case TetroType::ZBlock:
+						xw.fillRectangle(gameWidth + 20 + c * 20, 250 + r * 20, 20, 20, Xwindow::Yellow);
+						break;
+					case TetroType::ZeroBlock:
+						xw.fillRectangle(gameWidth + 20 + c * 20, 250 + r * 20, 20, 20, Xwindow::Orange);
+						break;
+					case TetroType::TBlock:
+						xw.fillRectangle(gameWidth + 20 + c * 20, 250 + r * 20, 20, 20, Xwindow::Pink);
+						break;
+					default:
+						xw.fillRectangle(gameWidth + 20 + c * 20, 250 + r * 20, 20, 20, Xwindow::White);
+						break;
+				}
+			}
+		}
+	}
 }
 

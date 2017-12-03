@@ -21,6 +21,9 @@ void GameSingleton::init(std::string file, int dlevel, bool tonly) {
   next = levels.at(level)->getNextBlock();
   theBoard.setCurrentTetromino(current);
   td->setNextTetromino(next);
+  if (!textonly) {
+	  gd->setNextTetromino(next);
+  }
   NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
@@ -70,6 +73,9 @@ void GameSingleton::drop(){
   tetroFactory->addToID();
   theBoard.setCurrentTetromino(current);
   td->setNextTetromino(next);
+  if (!textonly) {
+	  gd->setNextTetromino(next);
+  }
 }
 
 void GameSingleton::levelup(){
