@@ -2,6 +2,7 @@
 
 std::shared_ptr<TetrominoBlock> TetrominoFactory::makeTetromino(TetroType type, size_t id) {
   std::shared_ptr<TetrominoBlock> theTetro;
+	currentID++;
 	switch (type) {
 		case TetroType::IBlock:
 	    currentID++;
@@ -64,6 +65,12 @@ std::shared_ptr<TetrominoBlock> TetrominoFactory::makeTetromino(TetroType type, 
     default:
       break;
 	}
+	std::cout << "currentID = " << currentID << std::endl;
 	return theTetro;
+}
+
+size_t TetrominoFactory::getCurrentID() {
+	std::cout << "currentID = " << currentID << std::endl;
+	return currentID;
 }
 

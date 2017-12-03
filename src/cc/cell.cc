@@ -29,3 +29,8 @@ Info Cell::getInfo() const {
   Info info {row, col, type};
   return info;
 }
+
+
+size_t Cell::getID() {
+	return id;
+}

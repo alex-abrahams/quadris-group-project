@@ -28,7 +28,7 @@ void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
   } 
   else if (fr.from == FromType::Game) {
     std::cout << "TextDisplay::notify() -> Game notified" << std::endl;
-    this->score = fr.score;
+    this->score = fr.rowsScore + fr.blocksClearedScore;
     this->hiScore = fr.hiscore;
     this->level  = fr.level;
   } else {
@@ -102,6 +102,7 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
 	  }
   }
 }
+
 
 
 

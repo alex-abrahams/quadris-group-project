@@ -25,7 +25,7 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly) {
 
   td->setNextTetromino(next);
 
-  NotifFrom notifFrom {FromType::Game, score, hiscore, level};
+  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
   this->cmdp = CommandParser{};
@@ -79,7 +79,7 @@ void GameSingleton::drop(){
 void GameSingleton::levelup(){
   level += 1;
   if(level >= levels.size()) level = levels.size()-1;
-  NotifFrom notifFrom {FromType::Game, score, hiscore, level};
+  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
 }
@@ -88,7 +88,7 @@ void GameSingleton::leveldown(){
   // TODO: didnt work
   if (level > 0) {
     --level;
-    NotifFrom notifFrom {FromType::Game, score, hiscore, level};
+    NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
     this->setNotifFrom(notifFrom);
     this->notifyObservers();
   }
@@ -151,6 +151,48 @@ void GameSingleton::T(){
   current = tetroFactory->makeTetromino(TetroType::TBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
+}
+
+size_t GameSingleton::getRowsScore() {
+	return rowsScore;
+}
+size_t GameSingleton::getBlocksClearedScore() {
+	return blocksClearedScore;
+}
+size_t GameSingleton::getHiScore() {
+	return hiscore;
+}
+size_t GameSingleton::getLevel() {
+	return level;
+}
+void GameSingleton::setRowsScore(size_t s) {
+	std::cout << "set rows score to " << s << std::endl;
+	rowsScore = s;
+	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
+    this->setNotifFrom(notifFrom);
+    this->notifyObservers();
+}
+void GameSingleton::setBlocksClearedScore(size_t s) {
+	blocksClearedScore = s;
+	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
+    this->setNotifFrom(notifFrom);
+    this->notifyObservers();
+}
+void GameSingleton::setHiScore(size_t h) {
+	hiscore = h;
+	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
+    this->setNotifFrom(notifFrom);
+    this->notifyObservers();
+}
+void GameSingleton::setLevel(size_t l) {
+	level = l;
+	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
+    this->setNotifFrom(notifFrom);
+    this->notifyObservers();
+}
+
+size_t GameSingleton::getCurrentID() {
+	return tetroFactory->getCurrentID();
 }
 
 std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
