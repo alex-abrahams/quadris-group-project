@@ -6,6 +6,7 @@
 #include "notiffrom.h"
 #include <iostream> // for testing
 #include "cmdparser.h"
+#include "gameoverexception.h"
 #include <utility>
 #include "utility.h"
 #include "level.h"
@@ -30,14 +31,16 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 
   GameSingleton() {} // disable ctors
   GameSingleton(GameSingleton const &other);
-  GameSingleton &operator=(GameSingleton const &other);
+  GameSingleton &operator=(GameSingleton const &other)=default;
   std::shared_ptr<Level> getZLevel(std::string file);
   std::vector<std::shared_ptr<Level>> generateLevels(std::vector<std::string> i);
   public:
-  static GameSingleton& get() {
+  static GameSingleton& get(bool reset=false) {
     static GameSingleton s;
     return s;
   }
+
+
 
   void init(std::string i, int a, bool tonly);
   std::shared_ptr<TetrominoBlock> makeBlock(TetroType i){

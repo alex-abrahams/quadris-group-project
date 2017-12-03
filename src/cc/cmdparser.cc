@@ -23,7 +23,6 @@ CommandParser::CommandParser(){
   funcs.emplace("T", []{GS_GET.T();});
   funcs.emplace("restart", []{GS_GET.restart();});
   funcs.emplace("hint", []{GS_GET.hint();});
-  funcs.emplace("macro")
 }
 
 CommandParser::CommandParser(std::string i): CommandParser(){

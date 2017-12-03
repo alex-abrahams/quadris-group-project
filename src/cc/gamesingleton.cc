@@ -133,7 +133,7 @@ void GameSingleton::sequence(std::string file){
 }
 
 void GameSingleton::restart(){
-  throw GameOverException();
+  throw GameOverException("restart");
 }
 
 void GameSingleton::hint(){

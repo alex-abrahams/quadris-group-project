@@ -15,7 +15,6 @@ class CommandParser {
 
   void execMacro(std::string i);
 
-  std::function<void()> getCommand(std::string i);
 
   void createMacro(std::string in);
   //return submap of all string function pairs that match command header s
@@ -30,6 +29,8 @@ class CommandParser {
   }
 
   public:
+
+  std::function<void()> getCommand(std::string i);
     //custom scripting file
     //format tba
     CommandParser(std::string relPath);
