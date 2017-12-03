@@ -2,13 +2,19 @@
 #include "tetrominofactory.h"
 #include "textdisplay.h"
 
+std::unique_ptr<Level> getZLevel(){
+  return nullptr;
+}
+
+std::vector<std::unique_ptr<Level>> generateLevels(std::vector<std::string> i);
+
 void GameSingleton::init(std::string file, int dlevel, bool textonly) {
   level = dlevel;
 
   theBoard.init(15, 11, 3);
   //initlevels
   levels.push_back(std::unique_ptr<Level>(new Level0(utility::bufferFile(file))));
-
+  //generateLevels(utility::bufferFile(levelFile));
   td = theBoard.getTextDisplay();
   this->attach(td);
 
