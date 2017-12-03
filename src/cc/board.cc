@@ -287,7 +287,10 @@ void Board::dropTetromino() {
 	  dropRows(getIndexOfFullRow());
   }
   // add to score
-  GameSingleton::get().setRowsScore(GameSingleton::get().getRowsScore() + ((GameSingleton::get().getLevel() + numberOfRowsRemoved) * (GameSingleton::get().getLevel() + numberOfRowsRemoved)));
+  if (numberOfRowsRemoved > 0) {
+	 GameSingleton::get().setRowsScore(GameSingleton::get().getRowsScore() + ((GameSingleton::get().getLevel() + numberOfRowsRemoved) * (GameSingleton::get().getLevel() + numberOfRowsRemoved))); 
+  }
+  
   
   // add to score based on blocks fully removed
   size_t curID = GameSingleton::get().getCurrentID();
