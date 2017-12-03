@@ -12,7 +12,7 @@ class TextDisplay;
 class AbstractTetromino;
 
 enum class Direction {Down, Left, Right, CW, CCW};
-class Board {
+class Board : public Publisher<Info, NotifFrom>{
   /* Format of theBoard vector of vectors
      theBoard.at(i): rows
      theBoard.at().at(j): columns
@@ -65,6 +65,11 @@ class Board {
   }
 
   // TODO: void setObserver(Observer<Info> *obs); // intent: graphics
+
+  Info getInfo() const {
+    Info info {0, 0, TetroType::None};
+    return info;
+  }
 
   // initializes theBoard
   void init(size_t rows, size_t cols, size_t reservedRows);

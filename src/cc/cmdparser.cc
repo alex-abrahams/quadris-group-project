@@ -23,6 +23,7 @@ CommandParser::CommandParser(){
   funcs.emplace("T", []{GS_GET.T();});
   funcs.emplace("restart", []{GS_GET.restart();});
   funcs.emplace("hint", []{GS_GET.hint();});
+  funcs.emplace("macro")
 }
 
 CommandParser::CommandParser(std::string i): CommandParser(){
@@ -65,7 +66,7 @@ std::function<void()> CommandParser::getCommand(std::string cmd){
 //gets,parses and executes next available command;
 void CommandParser::nextCommand(){
   std::string line;
-  std::getline(std::cin, line);
+  if(!std::getline(std::cin, line))exit(0);
   std::istringstream dd {line};
   dd >> cmd;
   std::istringstream ss {cmd};
@@ -81,6 +82,7 @@ void CommandParser::nextCommand(){
   std::function<void()> t = getCommand(cmd);
   for(int i = 0; i < rep; i++)
     t();
+
 }
 
 
