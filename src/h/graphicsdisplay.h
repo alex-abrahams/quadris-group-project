@@ -12,6 +12,7 @@
 class Cell;
 
 class GraphicsDisplay: public Observer<Info, NotifFrom> {
+	std::vector<std::vector<TetroType>> theDisplay;
   const int gridHeight, gridWidth, winHeight, winWidth, gameWidth;
   Xwindow xw;
   
@@ -23,6 +24,8 @@ class GraphicsDisplay: public Observer<Info, NotifFrom> {
   GraphicsDisplay(int gridHeight, int gridWidth, int winHeight, int winWidth);
 
   void notify(Publisher<Info, NotifFrom> &whoNotified) override;
+  
+  void draw(std::shared_ptr<AbstractTetromino> currentTetromino);
 };
 #endif
 

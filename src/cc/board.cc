@@ -314,6 +314,7 @@ void Board::dropTetromino() {
 Board::~Board() {}
 std::ostream &operator<<(std::ostream &out, const Board &b) {
   b.td -> draw(out, b.currentTetro);
+  b.gd -> draw(b.currentTetro);
   return out;
 }
 
