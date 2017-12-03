@@ -12,7 +12,6 @@ class TextDisplay;
 class AbstractTetromino;
 
 enum class Direction {Down, Left, Right, CW, CCW};
-
 class Board {
   /* Format of theBoard vector of vectors
      theBoard.at(i): rows
@@ -33,7 +32,7 @@ class Board {
   std::shared_ptr<AbstractTetromino> currentTetro;
 
   //TODO:Graphics. std::unique_ptr<Observer<Info>> graphicsObserver;
-  
+
   // checks if row at rowIndex is full
   bool isRowFull(size_t rowIndex) const;
 
@@ -55,11 +54,11 @@ class Board {
    * put in the top left corner.
    * If there isn't, the game ends. */
   bool isTopLeftBlocked() const;
-  
+
 
   public:
   std::shared_ptr<TextDisplay> getTextDisplay();
-  
+
   void setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro);
   std::shared_ptr<AbstractTetromino> getCurTetro() {
     return currentTetro;
@@ -69,7 +68,7 @@ class Board {
 
   // initializes theBoard
   void init(size_t rows, size_t cols, size_t reservedRows);
-  
+
   // moves current tetromino one cell in the direction dir
   void move(Direction dir);
 

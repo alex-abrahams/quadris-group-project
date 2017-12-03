@@ -7,14 +7,14 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly) {
 
   theBoard.init(15, 11, 3);
   //initlevels
-  levels.push_back(Level0(utility::bufferFile(file)));
+  levels.push_back(std::unique_ptr<Level>(new Level0(utility::bufferFile(file))));
 
   td = theBoard.getTextDisplay();
   this->attach(td);
 
   tetroFactory = std::make_unique<TetrominoFactory>();
-  current = tetroFactory->makeTetromino(TetroType::JBlock);
-  next = tetroFactory->makeTetromino(TetroType::ZBlock);
+  current = levels.at(level)->getNextBlock();
+  next = levels.at(level)->getNextBlock();
   theBoard.setCurrentTetromino(current);
 
   td->setNextTetromino(next);
@@ -37,6 +37,10 @@ void GameSingleton::start(){
     cmdp.nextCommand();
     std::cout << *this;
   }
+}
+
+void GameSingleton::dropMiddle(){
+
 }
 
 void GameSingleton::down(){
@@ -68,6 +72,7 @@ void GameSingleton::drop(){
 
 void GameSingleton::levelup(){
   level += 1;
+  if(level >= levels.size()) level = levels.size()-1;
   NotifFrom notifFrom {FromType::Game, score, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
@@ -84,7 +89,7 @@ void GameSingleton::leveldown(){
 }
 
 void GameSingleton::norandom(std::string file){
-
+  levels.at(level)->norand(utility::bufferFile(file));
 }
 
 void GameSingleton::sequence(std::string file){

@@ -16,7 +16,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   Board theBoard;
   size_t score = 0, hiscore = 0, level = 0;
 
-  std::vector<Level> levels;
+  std::vector<std::unique_ptr<Level>> levels;
 
   CommandParser cmdp;
 
@@ -57,6 +57,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 
   void start();
 
+  void dropMiddle();
   // control functions
   void down();
   void left();
