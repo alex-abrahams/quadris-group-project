@@ -1,6 +1,8 @@
 #include <iostream>
 #include "graphicsdisplay.h"
 #include "publisher.h"
+#include <sstream>
+#include <string>
 using namespace std;
 
 GraphicsDisplay::GraphicsDisplay(int gridHeight, int gridWidth, int winHeight, int winWidth):
@@ -79,5 +81,13 @@ void GraphicsDisplay::draw(std::shared_ptr<AbstractTetromino> currentTetromino) 
 			}
 		}
 	}
+	xw.fillRectangle(gameWidth+5, 0, winWidth-(gameWidth+5), winHeight, Xwindow::White);
+	stringstream s, h, l;
+	s << "Score: " << score;
+	h << "Hi Score: " << hiScore;
+	l << "Level: " << level;
+	xw.drawString(gameWidth+20, 100, s.str());
+	xw.drawString(gameWidth+20, 150, h.str());
+	xw.drawString(gameWidth+20, 200, l.str());
 }
 
