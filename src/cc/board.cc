@@ -6,6 +6,8 @@
 #include <vector>
 #include <cstddef>
 #include "textdisplay.h"
+#include "gamesingleton.h"
+
 void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
   this->currentTetro = tetro;
 }
@@ -266,6 +268,10 @@ void Board::dropTetromino() {
 	  numberOfRowsRemoved++;
 	  dropRows(getIndexOfFullRow());
   }
+  // add to score
+  GameSingleton::get().setRowsScore(GameSingleton::get().getRowsScore() + ((GameSingleton::get().getLevel() + numberOfRowsRemoved) * (GameSingleton::get().getLevel() + numberOfRowsRemoved)));
+  //GameSingleton::get().notifyObservers();
+  
   for (size_t row = 0; row < totalRows; row++) {
     for (size_t col = 0; col < cols; col++) {
   	  std::cout << row << "," << col << std::endl;

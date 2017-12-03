@@ -12,7 +12,7 @@ class TetrominoFactory;
 
 class GameSingleton : public Publisher<Info, NotifFrom> {
   Board theBoard;
-  size_t score = 0, rowsScore = 0, blocksClearedScore = 0, hiscore = 0, level = 0;
+  size_t rowsScore = 0, blocksClearedScore = 0, hiscore = 0, level = 0;
 
   CommandParser cmdp;
 
@@ -42,9 +42,14 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   }
 
   // accessors
-  size_t getScore();
+  size_t getRowsScore();
+  size_t getBlocksClearedScore();
   size_t getHiScore();
   size_t getLevel();
+  void setRowsScore(size_t s);
+  void setBlocksClearedScore(size_t s);
+  void setHiScore(size_t h);
+  void setLevel(size_t l);
   // need textdisplay pointer attached to cells of tetromino. Used in
   // tetrominoblock when setting up
   std::shared_ptr<TextDisplay> getTextDisplay();
