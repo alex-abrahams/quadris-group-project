@@ -5,6 +5,7 @@
 
 #define GS_GET GameSingleton::get()
 
+
 CommandParser::CommandParser(){
   funcs.emplace("down", []{GS_GET.down();});
   funcs.emplace("left", []{GS_GET.left();});

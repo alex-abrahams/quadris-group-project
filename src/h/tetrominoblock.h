@@ -14,8 +14,9 @@ class TetrominoBlock : public AbstractTetromino {
   std::vector<std::vector<Cell>> cells;
 
 
-  public:
-  
+  public: 
+
+
   ~TetrominoBlock();
   TetrominoBlock(size_t w, size_t h, size_t r, size_t c, size_t id, TetroType t);
   void setCell(size_t r, size_t c);
@@ -36,7 +37,7 @@ class TetrominoBlock : public AbstractTetromino {
 
   void rotateCW() override;
   void rotateCCW() override;
-
+  void rotate(bool clockwise);
 };
 
 #endif

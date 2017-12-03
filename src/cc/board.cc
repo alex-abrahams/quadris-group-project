@@ -6,7 +6,7 @@
 #include <vector>
 #include <cstddef>
 #include "textdisplay.h"
-
+#include "tetrominoblock.h"
 
 void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
   this->currentTetro = tetro;
@@ -129,9 +129,8 @@ bool Board::rotationCheck(AbstractTetromino &temp) {
 }
 
 bool Board::isBlocked(Direction dir) {
-  size_t lowestRow = currentTetro->getHeight() - 1; 
-  AbstractTetromino &temp = *currentTetro; 
-
+ // AbstractTetromino temp = *currentTetro; 
+  TetrominoBlock temp = *(std::dynamic_pointer_cast<TetrominoBlock>(currentTetro));
   switch(dir) {
     case Direction::Down : 
       //for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
@@ -222,7 +221,7 @@ void Board::move(Direction dir) {
           break;
       }
     }
-    bool b = isBlocked(dir);
+
     for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
       for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
 
@@ -231,26 +230,27 @@ void Board::move(Direction dir) {
         switch(dir) {
           case Direction::Down :
             // Set cell at board(row, col)  to (row+1, col)
-            if (!b) {
+            if (!isBlocked(dir)) {
               currentTetro->setCellPosn(row, col, rowAt + 1, colAt);
               std::cout << rowAt << "," << colAt << " to " << rowAt + 1 << "," << colAt << std::endl; 
             } else { std::cout << "blocked!" << std::endl; }
             break;
           case Direction::Left : 
             // Set cell at board(row, col)  to (row, col-1)
-            if (!b) {
+            if (!isBlocked(dir)) {
               currentTetro->setCellPosn(row, col, rowAt, colAt - 1);
               std::cout << rowAt << "," << colAt << " to " << rowAt << "," << colAt-1 << std::endl; 
             }
             break;
           case Direction::Right :
             // Set cell at board(row, col)  to (row, col+1)
-            if (!b) {
+            if (!isBlocked(dir)) {
               currentTetro->setCellPosn(row, col, rowAt, colAt + 1);
               std::cout << rowAt << "," << colAt << " to " << rowAt << "," << colAt+1 << std::endl; 
             }
             break;
           case Direction::CW :
+//            currentTetro->setCellPosn(row, col, );
             break;
           case Direction::CCW :
             break;
