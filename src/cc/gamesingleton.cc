@@ -33,9 +33,12 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly) {
   //initlevels
   levels.push_back(getZLevel(file));
   std::vector<std::shared_ptr<Level>> t =generateLevels(utility::bufferFile(levelFile));
-  std::cout << "T" << t.size();
+ // std::cout << "T" << t.size();
   levels.insert(levels.end(),t.begin(),t.end());
-  std::cout << "Levels: " << levels.size() << std::endl;
+  for(auto i : levels){
+    theBoard.attach(i);
+  }
+ // std::cout << "Levels: " << levels.size() << std::endl;
   //generateLevels(utility::bufferFile(levelFile));
   td = theBoard.getTextDisplay();
   this->attach(td);
