@@ -7,19 +7,23 @@
 #include <iostream> // for testing
 #include "cmdparser.h"
 #include <utility>
-
+#include "utility.h"
+#include "level.h"
+class Level;
 class TetrominoFactory;
 
 class GameSingleton : public Publisher<Info, NotifFrom> {
   Board theBoard;
   size_t rowsScore = 0, blocksClearedScore = 0, hiscore = 0, level = 0;
 
+  std::vector<Level> levels;
+
   CommandParser cmdp;
 
   std::unique_ptr<TetrominoFactory> tetroFactory;
   std::shared_ptr<AbstractTetromino> current;
   std::shared_ptr<AbstractTetromino> next;
-  std::shared_ptr<TextDisplay> td;  
+  std::shared_ptr<TextDisplay> td;
 
   bool gameRunning = false;
 
@@ -33,8 +37,10 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
     return s;
   }
 
-  void init();
-
+  void init(std::string i, int a, bool tonly);
+  std::shared_ptr<TetrominoBlock> makeBlock(TetroType i){
+    return tetroFactory->makeTetromino(i);
+  }
   // pure virtual definition from Publisher
   Info getInfo() const {
     Info info {0, 0, TetroType::None};
@@ -53,7 +59,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   // need textdisplay pointer attached to cells of tetromino. Used in
   // tetrominoblock when setting up
   std::shared_ptr<TextDisplay> getTextDisplay();
- 
+
   void start();
 
   // control functions

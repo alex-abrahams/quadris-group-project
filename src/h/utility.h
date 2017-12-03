@@ -2,18 +2,12 @@
 #define UTILITY_H
 #include <fstream>
 #include <vector>
+#include <string>
+#include "info.h"
 namespace utility{
   //buffer file into usable vector of strings
-  std::vector<string> bufferFile(string name){
-    std::ifstream f (name);
-    std::string line;
-    std::vector<std::string> tmp;
-    while (std::getline(f, line)){
-      tmp.push_back(line);
-    }
-    return tmp;
-  }
+  std::vector<std::string> bufferFile(std::string name);
 
-
+  TetroType strToTet(std::string i);
 }
 #endif

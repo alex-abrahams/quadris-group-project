@@ -11,8 +11,13 @@ class CommandParser {
   // funcs with args
   std::string args;
   std::string cmd;
+  std::map<std::string, std::string> macros;
 
+  void execMacro(std::string i);
 
+  std::function<void()> getCommand(std::string i);
+
+  void createMacro(std::string in);
   //return submap of all string function pairs that match command header s
   std::map<std::string, std::function<void()>> match(std::string s) {
     std::map<std::string, std::function<void()>> r;
@@ -32,6 +37,7 @@ class CommandParser {
     CommandParser();
     //parse and execute next command action.
     void nextCommand();
+
 
 };
 

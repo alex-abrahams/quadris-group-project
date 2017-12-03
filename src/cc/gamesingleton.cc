@@ -2,8 +2,12 @@
 #include "tetrominofactory.h"
 #include "textdisplay.h"
 
-void GameSingleton::init() {	
+void GameSingleton::init(std::string file, int dlevel, bool textonly) {
+  level = dlevel;
+
   theBoard.init(15, 11, 3);
+  //initlevels
+  levels.push_back(Level0(utility::bufferFile(file)));
 
   td = theBoard.getTextDisplay();
   this->attach(td);
@@ -11,7 +15,7 @@ void GameSingleton::init() {
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = tetroFactory->makeTetromino(TetroType::JBlock);
   next = tetroFactory->makeTetromino(TetroType::ZBlock);
-  theBoard.setCurrentTetromino(current);  
+  theBoard.setCurrentTetromino(current);
 
   td->setNextTetromino(next);
 
@@ -28,6 +32,7 @@ std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
 }
 
 void GameSingleton::start(){
+  std::cout << *this;
   while(gameRunning){
     cmdp.nextCommand();
     std::cout << *this;
@@ -179,6 +184,5 @@ std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;
 }
-
 
 
