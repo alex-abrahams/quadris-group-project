@@ -46,7 +46,7 @@ HeavyDecorator::HeavyDecorator(std::shared_ptr<Level> t){
 
 
 void HeavyDecorator::notify(Publisher<Info, NotifFrom> &whon){
-  if(whon.getNotifFrom().from == FromType::Move && whon.getNotifFrom().d != Direction::Down)
+  if(isSelected && whon.getNotifFrom().from == FromType::Move && whon.getNotifFrom().d != Direction::Down)
     GameSingleton::get().down();
   prev->notify(whon);
 }

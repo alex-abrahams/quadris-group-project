@@ -14,6 +14,7 @@
 #include "observer.h"
 class Level : public Observer<Info, NotifFrom> {
   public:
+  bool isSelected = false;
   bool rng = true;
   bool passthrough = false;
 
