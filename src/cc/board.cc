@@ -6,6 +6,7 @@
 #include <vector>
 #include <cstddef>
 #include "textdisplay.h"
+#include "graphicsdisplay.h"
 #include "gamesingleton.h"
 #include "tetrominoblock.h"
 void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
@@ -13,6 +14,9 @@ void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
 }
 std::shared_ptr<TextDisplay> Board::getTextDisplay() {
   return this->td;
+}
+std::shared_ptr<GraphicsDisplay> Board::getGraphicsDisplay() {
+  return this->gd;
 }
 bool Board::isTopLeftBlocked() const {
   size_t width = currentTetro->getWidth();
@@ -34,11 +38,13 @@ void Board::init(size_t rows, size_t cols, size_t reservedRows) {
   this->totalRows = rows + reservedRows;
   currentId = 0;
   td = std::make_shared<TextDisplay>(totalRows, cols);
+  gd = std::shared_ptr<GraphicsDisplay>(new GraphicsDisplay(static_cast<int>(totalRows), static_cast<int>(cols), 600, 600));
   theBoard.resize(totalRows);
   for (size_t row = 0; row < totalRows; ++row) {
     for (size_t col = 0; col < cols; ++col) {
       theBoard.at(row).emplace_back(row, col);
       theBoard.at(row).at(col).attach(td);
+      theBoard.at(row).at(col).attach(gd);
     }
   }
 }
@@ -263,6 +269,7 @@ void Board::dropTetromino() {
       if (currentTetro->getCellInfo(row, col).type != TetroType::None) {
         theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
         theBoard.at(boardRow).at(boardCol).attach(td);
+		theBoard.at(boardRow).at(boardCol).attach(gd);
         theBoard.at(boardRow).at(boardCol).notifyObservers();
       }
     }
@@ -309,4 +316,5 @@ std::ostream &operator<<(std::ostream &out, const Board &b) {
   b.td -> draw(out, b.currentTetro);
   return out;
 }
+
 

@@ -1,6 +1,7 @@
 #include "gamesingleton.h"
 #include "tetrominofactory.h"
 #include "textdisplay.h"
+#include "graphicsdisplay.h"
 
 void GameSingleton::init(std::string file, int dlevel, bool textonly) {
   level = dlevel;
@@ -9,7 +10,9 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly) {
   levels.push_back(std::unique_ptr<Level>(new Level0(utility::bufferFile(file))));
   //generateLevels(utility::bufferFile(levelFile));
   td = theBoard.getTextDisplay();
+  gd = theBoard.getGraphicsDisplay();
   this->attach(td);
+  this->attach(gd);
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = levels.at(level)->getNextBlock();
   next = levels.at(level)->getNextBlock();
@@ -188,6 +191,7 @@ std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;
 }
+
 
 
 

@@ -9,6 +9,7 @@
 #include "tetrominofactory.h"
 
 class TextDisplay;
+class GraphicsDisplay;
 class AbstractTetromino;
 
 enum class Direction {Down, Left, Right, CW, CCW};
@@ -29,6 +30,7 @@ class Board {
   size_t currentId;
 
   std::shared_ptr<TextDisplay> td;
+  std::shared_ptr<GraphicsDisplay> gd;
   std::shared_ptr<AbstractTetromino> currentTetro;
 
   //TODO:Graphics. std::unique_ptr<Observer<Info>> graphicsObserver;
@@ -58,6 +60,7 @@ class Board {
 
   public:
   std::shared_ptr<TextDisplay> getTextDisplay();
+  std::shared_ptr<GraphicsDisplay> getGraphicsDisplay();
 
   void setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro);
   std::shared_ptr<AbstractTetromino> getCurTetro() {
@@ -84,5 +87,6 @@ class Board {
 };
 
 #endif
+
 
 
