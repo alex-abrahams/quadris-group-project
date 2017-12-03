@@ -3,7 +3,6 @@
 #include <X11/Xlib.h>
 #include <iostream>
 #include <string>
-#undef None
 
 class Xwindow {
   Display *d;

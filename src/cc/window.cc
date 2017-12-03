@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include "window.h"
 
+
 using namespace std;
 
 Xwindow::Xwindow(int width, int height) {
@@ -34,7 +35,7 @@ Xwindow::Xwindow(int width, int height) {
   char color_vals[10][10]={"white", "red", "green", "blue", "yellow", "orange", "pink", "black"};
 
   cmap=DefaultColormap(d,DefaultScreen(d));
-  for(int i=0; i < 5; ++i) {
+  for(int i=0; i < 8; ++i) {
       XParseColor(d,cmap,color_vals[i],&xcolour);
       XAllocColor(d,cmap,&xcolour);
       colours[i]=xcolour.pixel;

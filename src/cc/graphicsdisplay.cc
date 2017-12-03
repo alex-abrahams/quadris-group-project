@@ -18,7 +18,7 @@ GraphicsDisplay::GraphicsDisplay(int gridHeight, int gridWidth, int winHeight, i
 void GraphicsDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
 	NotifFrom fr = whoNotified.getNotifFrom();
 	if (fr.from == FromType::Cell) {
-		// ¯\_(ツ)_/¯
+		theDisplay.at(whoNotified.getInfo().row).at(whoNotified.getInfo().col) = whoNotified.getInfo().type;
 	} else if (fr.from == FromType::Game) {
 		std::cout << "GraphicsDisplay::notify() -> Game notified" << std::endl;
 		this->score = fr.rowsScore + fr.blocksClearedScore;
@@ -30,11 +30,28 @@ void GraphicsDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
 }
 
 void GraphicsDisplay::draw(std::shared_ptr<AbstractTetromino> currentTetromino) {
+	std::vector<std::vector<TetroType>> realDisplay;
+	for (int r = 0; r < gridHeight; r++) {
+		realDisplay.push_back( std::vector<TetroType>() );
+		for (int c = 0; c<gridWidth; c++) {
+			realDisplay.at(r).push_back(theDisplay.at(r).at(c));
+		}
+	}
+	if (currentTetromino) {
+		// put in the tetromino to this display vector
+		for (size_t r = 0; r < currentTetromino->getHeight(); r++) {
+			for (size_t c = 0; c < currentTetromino->getWidth(); c++) {
+				if (currentTetromino->getCellInfo(r,c).type != TetroType::None) {
+					realDisplay.at(currentTetromino->getLocationRow() - currentTetromino->getHeight() + 1 + r).at(currentTetromino->getLocationCol() + c) = currentTetromino->getType();
+				}
+			}
+		}
+	}
 	int cellWidth = gameWidth / gridWidth;
 	int cellHeight = winHeight / gridHeight;
 	for (int r = 0; r < gridHeight; r++) {
 		for (int c = 0; c < gridWidth; c++) {
-			switch(theDisplay.at(r).at(c)) {
+			switch(realDisplay.at(r).at(c)) {
 				case TetroType::IBlock:
 					xw.fillRectangle(c * cellWidth, r * cellHeight, cellWidth, cellHeight, Xwindow::White);
 					break;

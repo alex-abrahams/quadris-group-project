@@ -9,6 +9,7 @@
 #include "abstracttetromino.h"
 #include "info.h"
 #include "notiffrom.h"
+#undef None
 class Cell;
 
 class GraphicsDisplay: public Observer<Info, NotifFrom> {
