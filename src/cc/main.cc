@@ -27,8 +27,8 @@ int main(int argc, char** args) {
       GameSingleton::get().start();
 	    std::cout << GameSingleton::get();
 
-    }catch(GameOverException e){
-
+    }catch(const GameOverException &e){
+      GameSingleton::get(true);
     }
   }
 }
