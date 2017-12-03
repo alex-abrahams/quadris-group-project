@@ -270,7 +270,25 @@ void Board::dropTetromino() {
   }
   // add to score
   GameSingleton::get().setRowsScore(GameSingleton::get().getRowsScore() + ((GameSingleton::get().getLevel() + numberOfRowsRemoved) * (GameSingleton::get().getLevel() + numberOfRowsRemoved)));
-  //GameSingleton::get().notifyObservers();
+  
+  // add to score based on blocks fully removed
+  size_t curID = GameSingleton::get().getCurrentID();
+  bool found;
+  size_t blocksClearedScore = 0;
+  for (size_t i = 1; i < curID; i++) {
+	  found = false;
+	  for (size_t row = 0; row < totalRows; row++) {
+		  for (size_t col = 0; col < cols; col++) {
+			  if (theBoard.at(row).at(col).getID() == i) found = true;
+			}
+		}
+		if (!found) {
+			//TODO: change this to (the level at which the block was spawned + 1) ^ 2
+			std::cout << "nothing with id " << i << " found" << std::endl;
+			blocksClearedScore += 1;
+		}
+	}
+	GameSingleton::get().setBlocksClearedScore(blocksClearedScore);
   
   for (size_t row = 0; row < totalRows; row++) {
     for (size_t col = 0; col < cols; col++) {

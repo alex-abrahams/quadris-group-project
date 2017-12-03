@@ -42,6 +42,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   }
 
   // accessors
+  size_t getCurrentID();
   size_t getRowsScore();
   size_t getBlocksClearedScore();
   size_t getHiScore();

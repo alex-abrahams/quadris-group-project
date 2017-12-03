@@ -175,6 +175,10 @@ void GameSingleton::setLevel(size_t l) {
     this->notifyObservers();
 }
 
+size_t GameSingleton::getCurrentID() {
+	return tetroFactory->getCurrentID();
+}
+
 std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;

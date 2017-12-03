@@ -19,9 +19,12 @@ class Cell : public Publisher<Info, NotifFrom> {
   void setType(TetroType type);
   
   void setRowCol(size_t newRow, size_t newCol);
+  
+  size_t getID();
 
   Info getInfo() const override;
 
 };
 
 #endif
+
