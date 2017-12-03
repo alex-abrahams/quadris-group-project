@@ -66,13 +66,16 @@ std::function<void()> CommandParser::getCommand(std::string cmd){
 void CommandParser::nextCommand(){
   std::string line;
   std::getline(std::cin, line);
-  std::istringstream ss{line};
+  std::istringstream dd {line};
+  dd >> cmd;
+  std::istringstream ss {cmd};
   int rep = 1;
   if(!(ss >> rep)){
     rep = 1;
     //std::cout << "testss" << std::endl;
+  }else{
+    ss >> cmd;
   }
-  ss >> cmd;
   std::string tmp;
   std::getline(ss, args);
   std::function<void()> t = getCommand(cmd);

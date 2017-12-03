@@ -2,24 +2,30 @@
 #include "tetrominofactory.h"
 #include "textdisplay.h"
 
+std::unique_ptr<Level> getZLevel(){
+  return nullptr;
+}
+
+std::vector<std::unique_ptr<Level>> generateLevels(std::vector<std::string> i);
+
 void GameSingleton::init(std::string file, int dlevel, bool textonly) {
   level = dlevel;
 
   theBoard.init(15, 11, 3);
   //initlevels
-  levels.push_back(Level0(utility::bufferFile(file)));
-
+  levels.push_back(std::unique_ptr<Level>(new Level0(utility::bufferFile(file))));
+  //generateLevels(utility::bufferFile(levelFile));
   td = theBoard.getTextDisplay();
   this->attach(td);
 
   tetroFactory = std::make_unique<TetrominoFactory>();
-  current = tetroFactory->makeTetromino(TetroType::JBlock);
-  next = tetroFactory->makeTetromino(TetroType::ZBlock);
+  current = levels.at(level)->getNextBlock();
+  next = levels.at(level)->getNextBlock();
   theBoard.setCurrentTetromino(current);
 
   td->setNextTetromino(next);
 
-  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level}; 
+  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
   this->cmdp = CommandParser{};
@@ -37,6 +43,10 @@ void GameSingleton::start(){
     cmdp.nextCommand();
     std::cout << *this;
   }
+}
+
+void GameSingleton::dropMiddle(){
+
 }
 
 void GameSingleton::down(){
@@ -68,7 +78,8 @@ void GameSingleton::drop(){
 
 void GameSingleton::levelup(){
   level += 1;
-  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level}; 
+  if(level >= levels.size()) level = levels.size()-1;
+  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
 }
@@ -77,14 +88,14 @@ void GameSingleton::leveldown(){
   // TODO: didnt work
   if (level > 0) {
     --level;
-    NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level}; 
+    NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
     this->setNotifFrom(notifFrom);
     this->notifyObservers();
   }
 }
 
 void GameSingleton::norandom(std::string file){
-
+  levels.at(level)->norand(utility::bufferFile(file));
 }
 
 void GameSingleton::sequence(std::string file){
@@ -157,25 +168,25 @@ size_t GameSingleton::getLevel() {
 void GameSingleton::setRowsScore(size_t s) {
 	std::cout << "set rows score to " << s << std::endl;
 	rowsScore = s;
-	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level}; 
+	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
     this->setNotifFrom(notifFrom);
     this->notifyObservers();
 }
 void GameSingleton::setBlocksClearedScore(size_t s) {
 	blocksClearedScore = s;
-	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level}; 
+	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
     this->setNotifFrom(notifFrom);
     this->notifyObservers();
 }
 void GameSingleton::setHiScore(size_t h) {
 	hiscore = h;
-	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level}; 
+	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
     this->setNotifFrom(notifFrom);
     this->notifyObservers();
 }
 void GameSingleton::setLevel(size_t l) {
 	level = l;
-	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level}; 
+	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
     this->setNotifFrom(notifFrom);
     this->notifyObservers();
 }

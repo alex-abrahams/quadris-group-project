@@ -1,4 +1,4 @@
-#include "../h/tetrominofactory.h"
+#include "tetrominofactory.h"
 
 std::shared_ptr<TetrominoBlock> TetrominoFactory::makeTetromino(TetroType type, size_t id) {
   std::shared_ptr<TetrominoBlock> theTetro;

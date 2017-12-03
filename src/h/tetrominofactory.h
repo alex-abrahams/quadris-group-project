@@ -5,8 +5,7 @@
 #include <iostream>
 #include "abstracttetromino.h"
 #include "tetrominoblock.h"
-#include "info.h" 
-
+#include "info.h"
 class TetrominoFactory {
 	size_t currentID = 0;
 	public:

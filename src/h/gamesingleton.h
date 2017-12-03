@@ -14,9 +14,10 @@ class TetrominoFactory;
 
 class GameSingleton : public Publisher<Info, NotifFrom> {
   Board theBoard;
+  std::string levelFile = "levels.txt";
   size_t rowsScore = 0, blocksClearedScore = 0, hiscore = 0, level = 0;
 
-  std::vector<Level> levels;
+  std::vector<std::unique_ptr<Level>> levels;
 
   CommandParser cmdp;
 
@@ -30,7 +31,8 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   GameSingleton() {} // disable ctors
   GameSingleton(GameSingleton const &other);
   GameSingleton &operator=(GameSingleton const &other);
-
+  std::unique_ptr<Level> getZLevel();
+  std::vector<std::unique_ptr<Level>> generateLevels(std::vector<std::string> i);
   public:
   static GameSingleton& get() {
     static GameSingleton s;
@@ -63,6 +65,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 
   void start();
 
+  void dropMiddle();
   // control functions
   void down();
   void left();
