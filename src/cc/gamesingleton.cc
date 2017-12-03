@@ -126,11 +126,14 @@ void GameSingleton::norandom(std::string file){
 }
 
 void GameSingleton::sequence(std::string file){
-
+  std::vector<std::string> d = utility::bufferFile(file);
+  for(auto z : d){
+    cmdp.getCommand(z)();
+  }
 }
 
 void GameSingleton::restart(){
-
+  throw GameOverException();
 }
 
 void GameSingleton::hint(){
