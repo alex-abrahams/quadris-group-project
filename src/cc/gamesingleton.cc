@@ -3,16 +3,19 @@
 #include "textdisplay.h"
 #include "graphicsdisplay.h"
 
-void GameSingleton::init(std::string file, int dlevel, bool textonly) {
+void GameSingleton::init(std::string file, int dlevel, bool tonly) {
   level = dlevel;
-  theBoard.init(15, 11, 3);
+  textonly = tonly;
+  theBoard.init(15, 11, 3, textonly);
   //initlevels
   levels.push_back(std::unique_ptr<Level>(new Level0(utility::bufferFile(file))));
   //generateLevels(utility::bufferFile(levelFile));
   td = theBoard.getTextDisplay();
-  gd = theBoard.getGraphicsDisplay();
   this->attach(td);
-  this->attach(gd);
+  if (!textonly) {
+	  gd = theBoard.getGraphicsDisplay();
+	  this->attach(gd);
+  }
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = levels.at(level)->getNextBlock();
   next = levels.at(level)->getNextBlock();

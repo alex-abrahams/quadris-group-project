@@ -20,6 +20,8 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   std::vector<std::unique_ptr<Level>> levels;
 
   CommandParser cmdp;
+  
+  bool textonly;
 
   std::unique_ptr<TetrominoFactory> tetroFactory;
   std::shared_ptr<AbstractTetromino> current;

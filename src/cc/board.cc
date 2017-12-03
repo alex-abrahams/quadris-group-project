@@ -31,20 +31,23 @@ bool Board::isTopLeftBlocked() const {
   }
   return true;
 }
-void Board::init(size_t rows, size_t cols, size_t reservedRows) {
+void Board::init(size_t rows, size_t cols, size_t reservedRows, bool textonly) {
+  this->textonly = textonly;
   this->rows = rows;
   this->cols = cols;
   this->reservedRows = reservedRows;
   this->totalRows = rows + reservedRows;
   currentId = 0;
   td = std::make_shared<TextDisplay>(totalRows, cols);
-  gd = std::shared_ptr<GraphicsDisplay>(new GraphicsDisplay(static_cast<int>(totalRows), static_cast<int>(cols), 600, 600));
+  if (!textonly) {
+	gd = std::shared_ptr<GraphicsDisplay>(new GraphicsDisplay(static_cast<int>(totalRows), static_cast<int>(cols), 600, 600));
+  }
   theBoard.resize(totalRows);
   for (size_t row = 0; row < totalRows; ++row) {
     for (size_t col = 0; col < cols; ++col) {
       theBoard.at(row).emplace_back(row, col);
       theBoard.at(row).at(col).attach(td);
-      theBoard.at(row).at(col).attach(gd);
+      if (!textonly) theBoard.at(row).at(col).attach(gd);
     }
   }
 }
@@ -268,8 +271,9 @@ void Board::dropTetromino() {
       size_t boardCol = currentTetro->getCellInfo(row, col).col;
       if (currentTetro->getCellInfo(row, col).type != TetroType::None) {
         theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
+		
         theBoard.at(boardRow).at(boardCol).attach(td);
-		theBoard.at(boardRow).at(boardCol).attach(gd);
+		if (!textonly) theBoard.at(boardRow).at(boardCol).attach(gd);
         theBoard.at(boardRow).at(boardCol).notifyObservers();
       }
     }
@@ -312,9 +316,15 @@ void Board::dropTetromino() {
   }
 }
 Board::~Board() {}
+
+bool Board::isTextOnly() const {
+	return textonly;
+}
 std::ostream &operator<<(std::ostream &out, const Board &b) {
   b.td -> draw(out, b.currentTetro);
-  b.gd -> draw(b.currentTetro);
+  if (!b.isTextOnly()) {
+	  b.gd -> draw(b.currentTetro);
+  }
   return out;
 }
 

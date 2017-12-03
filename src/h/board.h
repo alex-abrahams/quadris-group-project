@@ -28,6 +28,7 @@ class Board {
   size_t reservedRows; // the rows reserved for rotating the currentTetro
   size_t totalRows;
   size_t currentId;
+  bool textonly;
 
   std::shared_ptr<TextDisplay> td;
   std::shared_ptr<GraphicsDisplay> gd;
@@ -70,7 +71,9 @@ class Board {
   // TODO: void setObserver(Observer<Info> *obs); // intent: graphics
 
   // initializes theBoard
-  void init(size_t rows, size_t cols, size_t reservedRows);
+  void init(size_t rows, size_t cols, size_t reservedRows, bool textonly);
+  
+  bool isTextOnly() const;
 
   // moves current tetromino one cell in the direction dir
   void move(Direction dir);
