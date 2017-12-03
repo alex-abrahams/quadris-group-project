@@ -103,11 +103,25 @@ bool Board::generalizedLateralBlockCheck(/*size_t column, */int lr) {
   return false;
 }
 bool Board::rotationCheck(AbstractTetromino &temp) {
+  std::cout << "Rotation check" << std::endl;
   for (size_t row = 0; row < temp.getHeight(); ++row) {    
     for (size_t col = 0; col < temp.getWidth(); ++col) {
-      Info info = temp.getCellInfo(row, col);
+      Info info = temp.getCellInfo(row, col); 
+      if (info.type == TetroType::IBlock) {
+        std::cout << "Type I" << std::endl;
+      }
+
+      if (theBoard.at(row).at(col).getInfo().type != TetroType::None) {
+        std::cout << "Board at row, col is not empty" << std::endl;
+      }
+
+      if (theBoard.at(row).at(col).getInfo().type == TetroType::None) {
+        std::cout << "Board at row, col is empty" << std::endl;
+      }
+
       if (info.type != TetroType::None && 
-          theBoard.at(row).at(col).getInfo().type != TetroType::None) {
+          theBoard.at(info.row).at(info.col).getInfo().type != TetroType::None) {
+        std::cout << "Blocked rotation" << std::endl;
         return true;
       }
     }
@@ -115,7 +129,6 @@ bool Board::rotationCheck(AbstractTetromino &temp) {
   return false;
 }
 bool Board::isBlocked(Direction dir) {
- // AbstractTetromino temp = *currentTetro; 
   TetrominoBlock temp = *(std::dynamic_pointer_cast<TetrominoBlock>(currentTetro));
   switch(dir) {
     case Direction::Down : 
@@ -160,7 +173,7 @@ bool Board::isBlocked(Direction dir) {
       break;
     case Direction::CW :
       // rotate tetromino
-      // compare width of tetromino to how many cells there are between the
+      // comare width of tetromino to how many cells there are between the
       // left/right edge of the tetromino and the edge of the board
       // if there is enough space to rotate, iterate thru the rows and cols
       // ask if a cell in the tetromino is non empty AND is in a cell that is
@@ -238,7 +251,6 @@ void Board::move(Direction dir) {
             }
             break;
           case Direction::CW :
-//            currentTetro->setCellPosn(row, col, );
             break;
           case Direction::CCW :
             break;
@@ -251,6 +263,7 @@ void Board::move(Direction dir) {
     std::cout << "Current tetro in board is null" << std::endl;
   }
 }
+
 void Board::dropTetromino() {
   while(!isBlocked(Direction::Down)) {
     move(Direction::Down);
@@ -276,7 +289,8 @@ void Board::dropTetromino() {
 	  dropRows(getIndexOfFullRow());
   }
   // add to score
-  GameSingleton::get().setRowsScore(GameSingleton::get().getRowsScore() + ((GameSingleton::get().getLevel() + numberOfRowsRemoved) * (GameSingleton::get().getLevel() + numberOfRowsRemoved)));
+  GameSingleton::get().setRowsScore(GameSingleton::get().getRowsScore() + 
+      ((GameSingleton::get().getLevel() + numberOfRowsRemoved) * (GameSingleton::get().getLevel() + numberOfRowsRemoved)));
   
   // add to score based on blocks fully removed
   size_t curID = GameSingleton::get().getCurrentID();

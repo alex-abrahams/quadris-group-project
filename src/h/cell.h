@@ -11,6 +11,8 @@ class Cell : public Publisher<Info, NotifFrom> {
   size_t id; // incrementing id number
   TetroType type = TetroType::None;
 
+  size_t distanceMovedLeft, distanceMovedRight, distanceMovedDown = 0;
+
   public:
   Cell();
   Cell(size_t row, size_t col, size_t id = 0, TetroType type = TetroType::None);
