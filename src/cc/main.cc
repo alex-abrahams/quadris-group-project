@@ -1,8 +1,11 @@
 #include "cmdparser.h"
 #include "gamesingleton.h"
 #include <iostream>
+#include <vector>
+#include <sstream>
 #include <string>
 #include <cstdlib>
+#include "utility.h"
 #include "gameoverexception.h"
 
 int main(int argc, char** args) {
@@ -22,11 +25,14 @@ int main(int argc, char** args) {
       deflv = atoi(args[++i]);
   }
   while(true){
+  size_t hs;
+  std::istringstream ss(utility::bufferFile("highscore.txt").at(0));
+  ss >> hs;
+
     try{
-      GameSingleton::get().init(f,deflv,textonly);
+      GameSingleton::get().init(f,deflv,textonly, hs);
       GameSingleton::get().start();
 	    std::cout << GameSingleton::get();
-
     }catch(const GameOverException &e){
       GameSingleton::get(true);
     }

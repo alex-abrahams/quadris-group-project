@@ -2,6 +2,8 @@
 #include "tetrominofactory.h"
 #include "textdisplay.h"
 
+
+std::shared_ptr<GameSingleton> GameSingleton::ins;
 std::shared_ptr<Level> GameSingleton::getZLevel(std::string file){
   return std::shared_ptr<Level>(new Level0(utility::bufferFile(file)));
 }
@@ -26,9 +28,17 @@ std::vector<std::shared_ptr<Level>> GameSingleton::generateLevels(std::vector<st
   return r;
 }
 
-void GameSingleton::init(std::string file, int dlevel, bool textonly) {
-  level = dlevel;
+void GameSingleton::endGame(bool f, std::string msg){
+  if(rowsScore + blocksClearedScore > hiscore)
+    hiscore = rowsScore + blocksClearedScore;
+  utility::writeFile("highscore.txt",std::to_string(hiscore));
+  if(f)exit(0);
+  else throw GameOverException(msg);
+}
 
+void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t highscore) {
+  level = dlevel;
+  hiscore = highscore;
   theBoard.init(15, 11, 3);
   //initlevels
   levels.push_back(getZLevel(file));
@@ -137,7 +147,7 @@ void GameSingleton::sequence(std::string file){
 }
 
 void GameSingleton::restart(){
-  throw GameOverException("restart");
+  endGame(false,"RestartGame");
 }
 
 void GameSingleton::hint(){
