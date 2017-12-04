@@ -37,6 +37,7 @@ void CommandParser::execMacro(){
   std::string i = cmd;
   std::istringstream ss {macros.at(i)};
   std::string tmp;
+  //std::cout << macros.at(i)<<std::endl;
   while(ss >> tmp){
     std::istringstream tp {tmp};
     int rep;
@@ -44,8 +45,10 @@ void CommandParser::execMacro(){
       rep = 1;
     tp >> tmp;
     std::function<void()> tt = getCommand(tmp);
-    for(int i = 0 ; i < rep; i++)
+    for(int i = 0 ; i < rep; i++){
       tt();
+    }
+      //std::cout << GameSingleton::get();
   }
 }
 
