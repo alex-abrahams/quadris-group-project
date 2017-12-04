@@ -3,7 +3,6 @@
 #include "textdisplay.h"
 #include "graphicsdisplay.h"
 
-<<<<<<< HEAD
 std::shared_ptr<Level> GameSingleton::getZLevel(std::string file){
   return std::shared_ptr<Level>(new Level0(utility::bufferFile(file)));
 }
