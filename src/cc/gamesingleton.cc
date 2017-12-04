@@ -137,7 +137,7 @@ void GameSingleton::drop(){
   NotifFrom f{FromType::Drop};
   this->setNotifFrom(f);
   this->notifyObservers();
-  if (theBoard.isTopLeftBlocked()) endGame(true, "Game Over!");
+  if (theBoard.isTopLeftBlocked()) endGame(false, "Game Over!");
 
 }
 
