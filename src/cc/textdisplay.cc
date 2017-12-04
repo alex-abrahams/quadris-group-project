@@ -29,7 +29,7 @@ void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
     this->hiScore = fr.hiscore;
     this->level  = fr.level;
   } else {
-    std::cout << "TextDisplay::notify() -> IDK who notified" << std::endl;
+//    std::cout << "TextDisplay::notify() -> IDK who notified" << std::endl;
   }
 }
 

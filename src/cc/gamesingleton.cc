@@ -79,12 +79,14 @@ void GameSingleton::start(){
   }
 }
 
-void GameSingleton::endGame(bool f, std::string msg){
-  if(rowsScore + blocksClearedScore > hiscore)
+void GameSingleton::endGame(bool hardEnd, std::string msg){
+  if(rowsScore + blocksClearedScore > hiscore) {
     hiscore = rowsScore + blocksClearedScore;
+  }
+  
   utility::writeFile("highscore.txt",std::to_string(hiscore));
-  if(f) exit(0);
-  else throw GameOverException(msg);
+  if(hardEnd) exit(0);
+  else throw GameOverException{"Game restart"};
 }
 
 std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
@@ -92,7 +94,6 @@ std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
 }
 
 void GameSingleton::dropMiddle(){
-
   std::shared_ptr<AbstractTetromino> b = tetroFactory->makeTetromino(TetroType::OneBlock);
   std::shared_ptr<AbstractTetromino> tmp = current;
   current = b;
@@ -124,7 +125,6 @@ void GameSingleton::counterclockwise(){
 }
 
 void GameSingleton::drop(){
-
 	theBoard.dropTetromino();
   current = next;
   next = levels.at(level)->getNextBlock();
@@ -137,8 +137,7 @@ void GameSingleton::drop(){
   NotifFrom f{FromType::Drop};
   this->setNotifFrom(f);
   this->notifyObservers();
-  if (theBoard.isTopLeftBlocked()) endGame(true, "Game Over!");
-
+  if (theBoard.isTopLeftBlocked()) endGame(false, "Game Over");
 }
 
 void GameSingleton::levelup(){

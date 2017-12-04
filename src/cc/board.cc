@@ -44,28 +44,21 @@ void Board::init(size_t rows, size_t cols, size_t reservedRows, bool textonly) {
   }
 }
 
-/*void Board::dropIntoTopLeft() {
-  if (isTopLeftBlocked()) throw GameOverException{"game over"};
-  size_t width = currentTetro->getWidth();
-  size_t height = currentTetro->getHeight();
-  for (size_t row = reservedRows - 1; row < height + reservedRows - 1; ++row) {
-    for (size_t col = 0; col < width; ++col) {
-      theBoard.at(row).at(col) = currentTetro->getCell(row, col);
-    }
-  }
-}*/
-
 bool Board::isTopLeftBlocked() const {
-  size_t width = currentTetro->getWidth();
-  size_t height = currentTetro->getHeight();
-  for (size_t row = 0; row < height; ++row) {
-    for (size_t col = 0; col < width; ++col) {
-      Info info = currentTetro->getCellInfo(row, col);
-      if (theBoard.at(info.row).at(info.col).getInfo().type != TetroType::None &&
-          info.type != TetroType::None) {
-        return true;
+  if (currentTetro) {
+    size_t width = currentTetro->getWidth();
+    size_t height = currentTetro->getHeight();
+    for (size_t row = 0; row < height; ++row) {
+      for (size_t col = 0; col < width; ++col) {
+        Info info = currentTetro->getCellInfo(row, col);
+        if (theBoard.at(info.row).at(info.col).getInfo().type != TetroType::None &&
+            info.type != TetroType::None) {
+          return true;
+        }
       }
     }
+  } else {
+    return true;
   }
   return false;
 }
@@ -302,7 +295,7 @@ void Board::dropTetromino() {
 		}
 		if (!found) {
 			//TODO: change this to (the level at which the block was spawned + 1) ^ 2
-			std::cout << "nothing with id " << i << " found" << std::endl;
+			//std::cout << "g id " << i << " found" << std::endl;
 			blocksClearedScore += 1;
 		}
 	}
