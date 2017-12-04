@@ -129,6 +129,7 @@ void GameSingleton::drop(){
   current = next;
   next = levels.at(level)->getNextBlock();
   tetroFactory->addToID();
+  theBoard.calculateScore();
   theBoard.setCurrentTetromino(current);
   td->setNextTetromino(next);
   if (!textonly) {
@@ -188,43 +189,49 @@ void GameSingleton::hint(){
 
 }
 
+std::shared_ptr<AbstractTetromino> GameSingleton::makeTestTetromino(TetroType input) {
+	std::shared_ptr<AbstractTetromino> ret = tetroFactory->makeTetromino(input);
+	ret->setID(ret->getID()-1);
+	return ret;
+}
+
 void GameSingleton::I(){
-  current = tetroFactory->makeTetromino(TetroType::IBlock);
+  current = makeTestTetromino(TetroType::IBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
 }
 
 void GameSingleton::L(){
-  current = tetroFactory->makeTetromino(TetroType::LBlock);
+  current = makeTestTetromino(TetroType::LBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
 }
 
 void GameSingleton::J(){
-  current = tetroFactory->makeTetromino(TetroType::JBlock);
+  current = makeTestTetromino(TetroType::JBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
 }
 
 void GameSingleton::Zero(){
-  current = tetroFactory->makeTetromino(TetroType::ZeroBlock);
+  current = makeTestTetromino(TetroType::ZeroBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
 }
 void GameSingleton::S(){
-  current = tetroFactory->makeTetromino(TetroType::SBlock);
+  current = makeTestTetromino(TetroType::SBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
 }
 
 void GameSingleton::Z(){
-  current = tetroFactory->makeTetromino(TetroType::ZBlock);
+  current = makeTestTetromino(TetroType::ZBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
 }
 
 void GameSingleton::T(){
-  current = tetroFactory->makeTetromino(TetroType::TBlock);
+  current = makeTestTetromino(TetroType::TBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
 }
@@ -275,3 +282,4 @@ std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;
 }
+
