@@ -3,7 +3,6 @@
 
 #define GS_GET GameSingleton::get()
 
-
 CommandParser::CommandParser(){
   funcs.emplace("down", []{GS_GET.down();});
   funcs.emplace("left", []{GS_GET.left();});
@@ -85,7 +84,6 @@ void CommandParser::nextCommand(){
   int rep = 1;
   if(!(ss >> rep)){
     rep = 1;
-    //std::cout << "testss" << std::endl;
   }else{
     ss >> cmd;
   }
@@ -94,11 +92,7 @@ void CommandParser::nextCommand(){
   std::function<void()> t = getCommand(cmd);
   for(int i = 0; i < rep; i++)
     t();
-
 }
 
-
-
 //wrapper for for calling functsion with arguments due to homogenity of containers problem
-
 

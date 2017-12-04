@@ -2,7 +2,6 @@
 #include "textdisplay.h"
 #include "graphicsdisplay.h"
 #include "gamesingleton.h"
-#include <iostream> // testing
 
 Cell::Cell() {
   row = 0;

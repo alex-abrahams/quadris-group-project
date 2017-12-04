@@ -34,8 +34,6 @@ class Board : public Publisher<Info, NotifFrom>{
   std::shared_ptr<GraphicsDisplay> gd;
   std::shared_ptr<AbstractTetromino> currentTetro;
 
-  //TODO:Graphics. std::unique_ptr<Observer<Info>> graphicsObserver;
-
   // checks if row at rowIndex is full
   bool isRowFull(size_t rowIndex) const;
 
@@ -52,13 +50,6 @@ class Board : public Publisher<Info, NotifFrom>{
   // checks if moving/rotating current tetromino in the direction dir is possible
   bool isBlocked(Direction dir);
 
-
-  /* checks if there is space for the block to be
-   * put in the top left corner.
-   * If there isn't, the game ends. */
-  bool isTopLeftBlocked() const;
-
-
   public:
   std::shared_ptr<TextDisplay> getTextDisplay();
   std::shared_ptr<GraphicsDisplay> getGraphicsDisplay();
@@ -67,8 +58,6 @@ class Board : public Publisher<Info, NotifFrom>{
   std::shared_ptr<AbstractTetromino> getCurTetro() {
     return currentTetro;
   }
-
-  // TODO: void setObserver(Observer<Info> *obs); // intent: graphics
 
   Info getInfo() const {
     Info info {0, 0, TetroType::None};
@@ -84,10 +73,15 @@ class Board : public Publisher<Info, NotifFrom>{
   void move(Direction dir);
 
   // drops the current tetromino into the top left corner
-  void dropIntoTopLeft();
+  //void dropIntoTopLeft();
 
   // hard drop the current tetromino
   void dropTetromino();
+
+  /* checks if there is space for the block to be
+   * put in the top left corner.
+   * If there isn't, the game ends. */
+  bool isTopLeftBlocked() const;
 
   ~Board();
 

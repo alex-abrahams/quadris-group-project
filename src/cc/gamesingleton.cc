@@ -29,13 +29,6 @@ std::vector<std::shared_ptr<Level>> GameSingleton::generateLevels(std::vector<st
   return r;
 }
 
-void GameSingleton::endGame(bool f, std::string msg){
-  if(rowsScore + blocksClearedScore > hiscore)
-    hiscore = rowsScore + blocksClearedScore;
-  utility::writeFile("highscore.txt",std::to_string(hiscore));
-  if(f)exit(0);
-  else throw GameOverException(msg);
-}
 
 void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t highscore) {
   level = dlevel;
@@ -45,15 +38,12 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
   //initlevels
   levels.push_back(getZLevel(file));
   std::vector<std::shared_ptr<Level>> t = generateLevels(utility::bufferFile(levelFile));
- // std::cout << "T" << t.size();
   levels.insert(levels.end(), t.begin(), t.end());
 
   for(auto i : levels){
     theBoard.attach(i);
   }
 
-  // std::cout << "Levels: " << levels.size() << std::endl;
-  //generateLevels(utility::bufferFile(levelFile));
   td = theBoard.getTextDisplay();
   this->attach(td);
 
@@ -80,16 +70,24 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
   gameRunning = true;
 }
 
-
-std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
-  return td;
-}
-
 void GameSingleton::start(){
+  std::cout << *this;
   while(gameRunning){
     cmdp.nextCommand();
     std::cout << *this;
   }
+}
+
+void GameSingleton::endGame(bool f, std::string msg){
+  if(rowsScore + blocksClearedScore > hiscore)
+    hiscore = rowsScore + blocksClearedScore;
+  utility::writeFile("highscore.txt",std::to_string(hiscore));
+  if(f) exit(0);
+  else throw GameOverException(msg);
+}
+
+std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
+  return td;
 }
 
 void GameSingleton::dropMiddle(){
@@ -125,6 +123,8 @@ void GameSingleton::drop(){
   if (!textonly) {
 	  gd->setNextTetromino(next);
   }
+
+  if (theBoard.isTopLeftBlocked()) endGame(true, "Game Over!");
 }
 
 void GameSingleton::levelup(){
@@ -139,7 +139,6 @@ void GameSingleton::levelup(){
 }
 
 void GameSingleton::leveldown(){
-  // TODO: didnt work
   levels.at(level)->isSelected = false;
   if (level > 0) {
     --level;
@@ -171,7 +170,6 @@ void GameSingleton::hint(){
 }
 
 void GameSingleton::I(){
-  std::cout << "Setting I" << std::endl;
   current = tetroFactory->makeTetromino(TetroType::IBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
@@ -201,7 +199,6 @@ void GameSingleton::S(){
 }
 
 void GameSingleton::Z(){
-  // TODO: didnt work
   current = tetroFactory->makeTetromino(TetroType::ZBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
@@ -259,7 +256,4 @@ std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;
 }
-
-
-
 
