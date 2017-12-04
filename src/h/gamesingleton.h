@@ -20,8 +20,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 
   std::vector<std::shared_ptr<Level>> levels;
 
-  CommandParser cmdp;
-  
+
   bool textonly;
 
   std::unique_ptr<TetrominoFactory> tetroFactory;
@@ -39,6 +38,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   std::vector<std::shared_ptr<Level>> generateLevels(std::vector<std::string> i);
   static std::shared_ptr<GameSingleton> ins;
   public:
+  CommandParser cmdp;
   void endGame(bool hard = false, std::string msg = "Unknown");
   static GameSingleton& get(bool reset=false) {
     if(reset || ins == nullptr) ins = std::shared_ptr<GameSingleton>(new GameSingleton());
