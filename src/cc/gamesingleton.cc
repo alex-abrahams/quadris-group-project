@@ -83,7 +83,7 @@ void GameSingleton::endGame(bool hardEnd, std::string msg){
   if(rowsScore + blocksClearedScore > hiscore) {
     hiscore = rowsScore + blocksClearedScore;
   }
-  
+
   utility::writeFile("highscore.txt",std::to_string(hiscore));
   if(hardEnd) exit(0);
   else throw GameOverException{"Game restart"};
@@ -142,7 +142,7 @@ void GameSingleton::drop(){
 }
 
 void GameSingleton::levelup(){
-  levels.at(level)->isSelected = false;
+  levels.at(level)->select(false);
   level += 1;
   if(level >= levels.size()) level = levels.size()-1;
   if(next == nullptr) {next = levels.at(level)->getNextBlock();
@@ -151,11 +151,11 @@ void GameSingleton::levelup(){
   NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
-  levels.at(level)->isSelected = true;
+  levels.at(level)->select(true);
 }
 
 void GameSingleton::leveldown(){
-  levels.at(level)->isSelected = false;
+  levels.at(level)->select(false);
   if (level > 0) {
     --level;
     NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
@@ -166,7 +166,7 @@ void GameSingleton::leveldown(){
     next = levels.at(level)->getNextBlock();
     td->setNextTetromino(next);
   }
-  levels.at(level)->isSelected = true;
+  levels.at(level)->select(true);
 }
 
 void GameSingleton::norandom(std::string file){
