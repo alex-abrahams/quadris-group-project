@@ -57,12 +57,11 @@ std::shared_ptr<TetrominoBlock> TetrominoFactory::makeTetromino(TetroType type, 
     default:
       break;
 	}
-	std::cout << "currentID = " << currentID << std::endl;
+
 	return theTetro;
 }
 
 size_t TetrominoFactory::getCurrentID() {
-	std::cout << "currentID = " << currentID << std::endl;
 	return currentID;
 }
 

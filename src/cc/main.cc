@@ -13,6 +13,7 @@ int main(int argc, char** args) {
   int i = 0;
   int deflv = 0;
   bool textonly = false;
+  
   while(i < argc - 1){
     std::string opt = std::string(args[++i]);
     if(opt == "-seed")
@@ -24,6 +25,7 @@ int main(int argc, char** args) {
     else if(opt == "-startlevel")
       deflv = atoi(args[++i]);
   }
+
   while(true){
   size_t hs;
   std::istringstream ss(utility::bufferFile("highscore.txt").at(0));
@@ -33,7 +35,7 @@ int main(int argc, char** args) {
       GameSingleton::get().init(f,deflv,textonly, hs);
       GameSingleton::get().start();
 	    std::cout << GameSingleton::get();
-    }catch(const GameOverException &e){
+    } catch (const GameOverException &e) {
       GameSingleton::get(true);
     }
   }

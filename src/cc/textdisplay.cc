@@ -25,12 +25,11 @@ void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
       blockChars[whoNotified.getInfo().type];
   } 
   else if (fr.from == FromType::Game) {
-    std::cout << "TextDisplay::notify() -> Game notified" << std::endl;
     this->score = fr.rowsScore/* + fr.blocksClearedScore*/;
     this->hiScore = fr.hiscore;
     this->level  = fr.level;
   } else {
-    std::cout << "TextDisplay::notify() -> IDK who notified lol" << std::endl;
+    std::cout << "TextDisplay::notify() -> IDK who notified" << std::endl;
   }
 }
 
@@ -38,7 +37,7 @@ std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
   return out; 
 }
 
-void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> currentTetromino/*, std::shared_ptr<AbstractTetromino> nextPiece*/) {
+void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> currentTetromino) {
   out << "Level: " << level << std::endl; // show level
   out << "Score: " << score << std::endl; // show score
   out << "Hi Score: " << hiScore << std::endl; // show hiscore

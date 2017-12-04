@@ -10,11 +10,9 @@ std::shared_ptr<Level> GameSingleton::getZLevel(std::string file){
 }
 
 std::vector<std::shared_ptr<Level>> GameSingleton::generateLevels(std::vector<std::string> i){
-  std::cout << "Z" << i.size();
   std::vector<std::shared_ptr<Level>> r;
   std::shared_ptr<Level> t = getZLevel("sequence.txt");
   for(size_t b = 0; b < i.size(); b++){
-    std::cout << "TEST: " << i.at(b);
     if(i.at(b) == "rnd"){
       t = std::shared_ptr<Level>(new RandomDecorator(i.at(++b), t));
     }else if(i.at(b) == "hvy"){
@@ -45,15 +43,12 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
   //initlevels
   levels.push_back(getZLevel(file));
   std::vector<std::shared_ptr<Level>> t = generateLevels(utility::bufferFile(levelFile));
- // std::cout << "T" << t.size();
   levels.insert(levels.end(), t.begin(), t.end());
   
   for(auto i : levels){
     theBoard.attach(i);
   }
 
-  // std::cout << "Levels: " << levels.size() << std::endl;
-  //generateLevels(utility::bufferFile(levelFile));
   td = theBoard.getTextDisplay();
   this->attach(td);
   
@@ -140,7 +135,6 @@ void GameSingleton::levelup(){
 }
 
 void GameSingleton::leveldown(){
-  // TODO: didnt work
   levels.at(level)->isSelected = false;
   if (level > 0) {
     --level;
@@ -172,7 +166,6 @@ void GameSingleton::hint(){
 }
 
 void GameSingleton::I(){
-  std::cout << "Setting I" << std::endl;
   current = tetroFactory->makeTetromino(TetroType::IBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
@@ -202,7 +195,6 @@ void GameSingleton::S(){
 }
 
 void GameSingleton::Z(){
-  // TODO: didnt work
   current = tetroFactory->makeTetromino(TetroType::ZBlock);
   theBoard.setCurrentTetromino(current);
   this->notifyObservers();
@@ -260,7 +252,4 @@ std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;
 }
-
-
-
 

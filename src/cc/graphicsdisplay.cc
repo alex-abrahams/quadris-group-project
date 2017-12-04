@@ -25,12 +25,11 @@ void GraphicsDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
 	if (fr.from == FromType::Cell) {
 		theDisplay.at(whoNotified.getInfo().row).at(whoNotified.getInfo().col) = whoNotified.getInfo().type;
 	} else if (fr.from == FromType::Game) {
-		std::cout << "GraphicsDisplay::notify() -> Game notified" << std::endl;
 		this->score = fr.rowsScore + fr.blocksClearedScore;
 		this->hiScore = fr.hiscore;
 		this->level  = fr.level;
 	} else {
-		std::cout << "GraphicsDisplay::notify() -> IDK who notified lol" << std::endl;
+		std::cout << "GraphicsDisplay::notify() -> IDK who notified" << std::endl;
 	}
 }
 
@@ -47,7 +46,8 @@ void GraphicsDisplay::draw(std::shared_ptr<AbstractTetromino> currentTetromino) 
 		for (size_t r = 0; r < currentTetromino->getHeight(); r++) {
 			for (size_t c = 0; c < currentTetromino->getWidth(); c++) {
 				if (currentTetromino->getCellInfo(r,c).type != TetroType::None) {
-					realDisplay.at(currentTetromino->getLocationRow() - currentTetromino->getHeight() + 1 + r).at(currentTetromino->getLocationCol() + c) = currentTetromino->getType();
+					realDisplay.at(currentTetromino->getLocationRow() - currentTetromino->getHeight() + 1 + r).
+            at(currentTetromino->getLocationCol() + c) = currentTetromino->getType();
 				}
 			}
 		}
