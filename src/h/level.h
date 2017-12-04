@@ -69,3 +69,4 @@ class MiddleDecorator : public LevelDecorator {
 };
 
 #endif
+

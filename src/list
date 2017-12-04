@@ -1,8 +1,0 @@
-GameSingleton::Z() didnt work
-
-GameSingleton::leveldown() didnt work
-
-ctrl D (EOF)  leads to infinite loop
-
-when dropped, the block doesnt appear on board when the next block is set as the
-current tetromino

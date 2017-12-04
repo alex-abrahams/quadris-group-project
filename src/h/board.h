@@ -90,5 +90,3 @@ class Board : public Publisher<Info, NotifFrom>{
 
 #endif
 
-
-

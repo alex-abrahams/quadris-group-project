@@ -61,3 +61,4 @@ void MiddleDecorator::notify(Publisher<Info, NotifFrom> &who){
     if(!(++numdrops % 5))GameSingleton::get().dropMiddle();
   prev->notify(who);
 }
+

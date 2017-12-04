@@ -329,3 +329,4 @@ std::ostream &operator<<(std::ostream &out, const Board &b) {
   }
   return out;
 }
+
