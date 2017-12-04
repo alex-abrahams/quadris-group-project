@@ -42,6 +42,7 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
 
   for(auto i : levels){
     theBoard.attach(i);
+    this->attach(i);
   }
 
   td = theBoard.getTextDisplay();
@@ -92,6 +93,15 @@ std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
 
 void GameSingleton::dropMiddle(){
 
+  std::shared_ptr<AbstractTetromino> b = tetroFactory->makeTetromino(TetroType::OneBlock);
+  std::shared_ptr<AbstractTetromino> tmp = current;
+  current = b;
+  theBoard.setCurrentTetromino(current);
+  for(int i = 0; i < 5; i++)
+    right();
+  theBoard.dropTetromino();
+  current = tmp;
+  theBoard.setCurrentTetromino(current);
 }
 
 void GameSingleton::down(){
@@ -114,6 +124,7 @@ void GameSingleton::counterclockwise(){
 }
 
 void GameSingleton::drop(){
+
 	theBoard.dropTetromino();
   current = next;
   next = levels.at(level)->getNextBlock();
@@ -123,15 +134,20 @@ void GameSingleton::drop(){
   if (!textonly) {
 	  gd->setNextTetromino(next);
   }
-
+  NotifFrom f{FromType::Drop};
+  this->setNotifFrom(f);
+  this->notifyObservers();
   if (theBoard.isTopLeftBlocked()) endGame(true, "Game Over!");
+
 }
 
 void GameSingleton::levelup(){
   levels.at(level)->isSelected = false;
   level += 1;
   if(level >= levels.size()) level = levels.size()-1;
-  if(next == nullptr) next = levels.at(level)->getNextBlock();
+  if(next == nullptr) {next = levels.at(level)->getNextBlock();
+    td->setNextTetromino(next);
+  }
   NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
   this->setNotifFrom(notifFrom);
   this->notifyObservers();
@@ -146,7 +162,10 @@ void GameSingleton::leveldown(){
     this->setNotifFrom(notifFrom);
     this->notifyObservers();
   }
-  if(next == nullptr) next = levels.at(level)->getNextBlock();
+  if(next == nullptr){
+    next = levels.at(level)->getNextBlock();
+    td->setNextTetromino(next);
+  }
   levels.at(level)->isSelected = true;
 }
 

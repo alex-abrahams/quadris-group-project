@@ -57,7 +57,9 @@ MiddleDecorator::MiddleDecorator(std::shared_ptr<Level> t){
 }
 
 void MiddleDecorator::notify(Publisher<Info, NotifFrom> &who){
-  if(who.getNotifFrom().from == FromType::Drop)
+  if(isSelected && who.getNotifFrom().from == FromType::Drop){
     if(!(++numdrops % 5))GameSingleton::get().dropMiddle();
+    std::cout << numdrops <<"test";
+  }
   prev->notify(who);
 }
