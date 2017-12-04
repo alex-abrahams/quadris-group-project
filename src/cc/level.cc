@@ -63,3 +63,4 @@ void MiddleDecorator::notify(Publisher<Info, NotifFrom> &who){
   }
   prev->notify(who);
 }
+

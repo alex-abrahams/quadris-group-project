@@ -30,6 +30,7 @@ std::vector<std::string> utility::bufferFile(std::string name){
 
 void utility::writeFile(std::string fname, std::string i){
   std::ofstream oo(fname);
-    oo << i;
+    oo << i << "\n";
     oo.close();
-  }
+}
+

@@ -106,5 +106,3 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 };
 #endif
 
-
-
