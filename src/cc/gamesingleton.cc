@@ -86,6 +86,7 @@ std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
 }
 
 void GameSingleton::start(){
+  std::cout << *this;
   while(gameRunning){
     cmdp.nextCommand();
     std::cout << *this;
