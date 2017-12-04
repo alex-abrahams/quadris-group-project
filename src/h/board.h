@@ -55,6 +55,8 @@ class Board : public Publisher<Info, NotifFrom>{
   public:
   std::shared_ptr<TextDisplay> getTextDisplay();
   std::shared_ptr<GraphicsDisplay> getGraphicsDisplay();
+  
+  void calculateScore();
 
   void setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro);
   std::shared_ptr<AbstractTetromino> getCurTetro() {
@@ -86,4 +88,5 @@ class Board : public Publisher<Info, NotifFrom>{
 };
 
 #endif
+
 

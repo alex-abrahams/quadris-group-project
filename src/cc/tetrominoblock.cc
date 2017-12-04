@@ -154,3 +154,11 @@ void TetrominoBlock::rotateCCW() {
   rotate(false);
 }
 
+size_t TetrominoBlock::getID() {
+	return id;
+}
+void TetrominoBlock::setID(size_t id) {
+	this->id = id;
+}
+
+

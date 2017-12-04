@@ -99,9 +99,12 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   void S();
   void Z();
   void T();
+  
+  std::shared_ptr<AbstractTetromino> makeTestTetromino(TetroType input);
 
   friend std::ostream &operator<<(std::ostream &out, const GameSingleton &gs);
 
 };
 #endif
+
 

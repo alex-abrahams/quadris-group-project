@@ -25,8 +25,12 @@ Info Cell::getInfo() const {
   return info;
 }
 
+void Cell::setID(size_t i) {
+	id = i;
+}
 
 size_t Cell::getID() {
 	return id;
 }
+
 
