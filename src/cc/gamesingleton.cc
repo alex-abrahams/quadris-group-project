@@ -27,13 +27,6 @@ std::vector<std::shared_ptr<Level>> GameSingleton::generateLevels(std::vector<st
   return r;
 }
 
-void GameSingleton::endGame(bool f, std::string msg){
-  if(rowsScore + blocksClearedScore > hiscore)
-    hiscore = rowsScore + blocksClearedScore;
-  utility::writeFile("highscore.txt",std::to_string(hiscore));
-  if(f)exit(0);
-  else throw GameOverException(msg);
-}
 
 void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t highscore) {
   level = dlevel;
@@ -75,17 +68,24 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
   gameRunning = true;
 }
 
-
-std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
-  return td;
-}
-
 void GameSingleton::start(){
   std::cout << *this;
   while(gameRunning){
     cmdp.nextCommand();
     std::cout << *this;
   }
+}
+
+void GameSingleton::endGame(bool f, std::string msg){
+  if(rowsScore + blocksClearedScore > hiscore)
+    hiscore = rowsScore + blocksClearedScore;
+  utility::writeFile("highscore.txt",std::to_string(hiscore));
+  if(f) exit(0);
+  else throw GameOverException(msg);
+}
+
+std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
+  return td;
 }
 
 void GameSingleton::dropMiddle(){
@@ -121,6 +121,8 @@ void GameSingleton::drop(){
   if (!textonly) {
 	  gd->setNextTetromino(next);
   }
+
+  if (theBoard.isTopLeftBlocked()) endGame(true, "Game Over!");
 }
 
 void GameSingleton::levelup(){

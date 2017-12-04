@@ -23,7 +23,6 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   CommandParser cmdp;
   
   bool textonly;
-
   std::unique_ptr<TetrominoFactory> tetroFactory;
   std::shared_ptr<AbstractTetromino> current;
   std::shared_ptr<AbstractTetromino> next;
@@ -37,9 +36,12 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   GameSingleton &operator=(GameSingleton const &other)=default;
   std::shared_ptr<Level> getZLevel(std::string file);
   std::vector<std::shared_ptr<Level>> generateLevels(std::vector<std::string> i);
+  
   static std::shared_ptr<GameSingleton> ins;
+  
   public:
   void endGame(bool hard = false, std::string msg = "Unknown");
+
   static GameSingleton& get(bool reset=false) {
     if(reset || ins == nullptr) ins = std::shared_ptr<GameSingleton>(new GameSingleton());
     return *ins;
@@ -51,6 +53,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   std::shared_ptr<TetrominoBlock> makeBlock(TetroType i){
     return tetroFactory->makeTetromino(i);
   }
+
   // pure virtual definition from Publisher
   Info getInfo() const {
     Info info {0, 0, TetroType::None};

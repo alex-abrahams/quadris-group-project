@@ -22,19 +22,6 @@ std::shared_ptr<GraphicsDisplay> Board::getGraphicsDisplay() {
   return this->gd;
 }
 
-bool Board::isTopLeftBlocked() const {
-  size_t width = currentTetro->getWidth();
-  size_t height = currentTetro->getHeight();
-  for (size_t row = 0; row < width; ++row) {
-    for (size_t col = 0; col < height; ++col) {
-      if (theBoard.at(row).at(col).getInfo().type != TetroType::None &&
-          currentTetro->getCellInfo(row, col).type != TetroType::None) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
 
 void Board::init(size_t rows, size_t cols, size_t reservedRows, bool textonly) {
   this->textonly = textonly;
@@ -45,7 +32,7 @@ void Board::init(size_t rows, size_t cols, size_t reservedRows, bool textonly) {
   currentId = 0;
   td = std::make_shared<TextDisplay>(totalRows, cols);
   if (!textonly) {
-	gd = std::shared_ptr<GraphicsDisplay>(new GraphicsDisplay(static_cast<int>(totalRows), static_cast<int>(cols), 600, 600));
+  	gd = std::shared_ptr<GraphicsDisplay>(new GraphicsDisplay(static_cast<int>(totalRows), static_cast<int>(cols), 600, 600));
   }
   theBoard.resize(totalRows);
   for (size_t row = 0; row < totalRows; ++row) {
@@ -57,7 +44,7 @@ void Board::init(size_t rows, size_t cols, size_t reservedRows, bool textonly) {
   }
 }
 
-void Board::dropIntoTopLeft() {
+/*void Board::dropIntoTopLeft() {
   if (isTopLeftBlocked()) throw GameOverException{"game over"};
   size_t width = currentTetro->getWidth();
   size_t height = currentTetro->getHeight();
@@ -66,6 +53,21 @@ void Board::dropIntoTopLeft() {
       theBoard.at(row).at(col) = currentTetro->getCell(row, col);
     }
   }
+}*/
+
+bool Board::isTopLeftBlocked() const {
+  size_t width = currentTetro->getWidth();
+  size_t height = currentTetro->getHeight();
+  for (size_t row = 0; row < height; ++row) {
+    for (size_t col = 0; col < width; ++col) {
+      Info info = currentTetro->getCellInfo(row, col);
+      if (theBoard.at(info.row).at(info.col).getInfo().type != TetroType::None &&
+          info.type != TetroType::None) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 bool Board::isRowFull(size_t rowIndex) const {
