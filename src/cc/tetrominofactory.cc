@@ -54,6 +54,10 @@ std::shared_ptr<TetrominoBlock> TetrominoFactory::makeTetromino(TetroType type, 
 			break;
     case TetroType::None:
       break;
+    case TetroType::OneBlock:
+      theTetro = std::make_shared<TetrominoBlock>(1, 1, 0, 0, currentID, type);
+      theTetro->setCell(0,0);
+      break;
     default:
       break;
 	}

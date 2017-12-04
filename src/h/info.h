@@ -3,7 +3,7 @@
 #include <string>
 #include <cstddef>
 #undef None
-enum class TetroType {IBlock, JBlock, LBlock, ZeroBlock, SBlock, ZBlock, TBlock, None};
+enum class TetroType {IBlock, JBlock, LBlock, ZeroBlock, SBlock, ZBlock, TBlock, None, OneBlock}
 
 
 
