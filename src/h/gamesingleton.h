@@ -10,6 +10,7 @@
 #include <utility>
 #include "utility.h"
 #include "level.h"
+#include <map>
 class Level;
 class TetrominoFactory;
 
@@ -35,10 +36,11 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   GameSingleton &operator=(GameSingleton const &other)=default;
   std::shared_ptr<Level> getZLevel(std::string file);
   std::vector<std::shared_ptr<Level>> generateLevels(std::vector<std::string> i);
-  
+
   static std::shared_ptr<GameSingleton> ins;
-  
+
   public:
+  std::map<size_t,size_t> idlevel;
   CommandParser cmdp;
 
   static GameSingleton& get(bool reset=false) {
@@ -48,7 +50,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 
   void init(std::string i, int a, bool tonly, size_t hs);
   void endGame(bool hard = false, std::string msg = "Unknown");
-  
+
   std::shared_ptr<TetrominoBlock> makeBlock(TetroType i){
     return tetroFactory->makeTetromino(i);
   }
@@ -99,7 +101,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   void S();
   void Z();
   void T();
-  
+
   std::shared_ptr<AbstractTetromino> makeTestTetromino(TetroType input);
 
   friend std::ostream &operator<<(std::ostream &out, const GameSingleton &gs);

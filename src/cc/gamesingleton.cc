@@ -56,7 +56,10 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
 
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = levels.at(level)->getNextBlock();
+  idlevel.emplace(current->getID(), level);
   next = levels.at(level)->getNextBlock();
+  idlevel.emplace(0,0);
+  idlevel.emplace(current->getID(), level);
   theBoard.setCurrentTetromino(current);
   td->setNextTetromino(next);
 
@@ -72,10 +75,10 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
 }
 
 void GameSingleton::start(){
-  std::cout << *this;
+  //std::cout << *this;
   while(gameRunning){
     cmdp.nextCommand();
-    std::cout << *this;
+    //std::cout << *this;
   }
 }
 
@@ -95,6 +98,7 @@ std::shared_ptr<TextDisplay> GameSingleton::getTextDisplay() {
 
 void GameSingleton::dropMiddle(){
   std::shared_ptr<AbstractTetromino> b = tetroFactory->makeTetromino(TetroType::OneBlock);
+  b->setID(0);
   std::shared_ptr<AbstractTetromino> tmp = current;
   current = b;
   theBoard.setCurrentTetromino(current);
@@ -128,6 +132,7 @@ void GameSingleton::drop(){
 	theBoard.dropTetromino();
   current = next;
   next = levels.at(level)->getNextBlock();
+  idlevel.emplace(next->getID(), level);
   tetroFactory->addToID();
   theBoard.calculateScore();
   theBoard.setCurrentTetromino(current);
