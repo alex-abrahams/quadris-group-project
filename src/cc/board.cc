@@ -97,8 +97,8 @@ bool Board::generalizedLateralBlockCheck(int lr) {
         return true; // means it's at the left/right edge of the board
       }
       if (info.type != TetroType::None) {
-        if ((column == 0 && lr == -1) ||  
-            (column == currentTetro->getWidth()-1 && lr == 1) || 
+        if ((column == 0 && lr == -1) ||
+            (column == currentTetro->getWidth()-1 && lr == 1) ||
             currentTetro->getCellInfo(row, column+lr).type == TetroType::None) {
           TetroType cellType = theBoard.at(info.row).at(info.col + static_cast<size_t>(lr)).getInfo().type;
           if (cellType != TetroType::None) {
@@ -112,11 +112,11 @@ bool Board::generalizedLateralBlockCheck(int lr) {
 }
 
 bool Board::rotationCheck(AbstractTetromino &temp) {
-  for (size_t row = 0; row < temp.getHeight(); ++row) {    
+  for (size_t row = 0; row < temp.getHeight(); ++row) {
     for (size_t col = 0; col < temp.getWidth(); ++col) {
-      Info info = temp.getCellInfo(row, col); 
+      Info info = temp.getCellInfo(row, col);
 
-      if ((info.row >= 18 || info.col >= 11) || (info.type != TetroType::None && 
+      if ((info.row >= 18 || info.col >= 11) || (info.type != TetroType::None &&
           theBoard.at(info.row).at(info.col).getInfo().type != TetroType::None)) {
         return true;
       }
@@ -131,17 +131,17 @@ bool Board::isBlocked(Direction dir) {
       for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
         for (size_t column = 0; column < currentTetro->getWidth(); ++column) {
           Info info = currentTetro->getCellInfo(row, column);
-          
+
           if (info.row == totalRows - 1) {
             return true; // means it's at the left/right edge of the board
           }
-          
+
           if (info.type != TetroType::None) {
-            if ((row == currentTetro->getHeight()-1) || 
+            if ((row == currentTetro->getHeight()-1) ||
                 currentTetro->getCellInfo(row+1, column).type == TetroType::None) {
-              
+
               TetroType cellType = theBoard.at(info.row + 1).at(info.col).getInfo().type;
-              
+
               if (cellType != TetroType::None) {
                 return true;
               }
@@ -174,30 +174,32 @@ bool Board::isBlocked(Direction dir) {
 }
 
 void Board::move(Direction dir) {
+  bool report = false;
   if (currentTetro) {
     if (!isBlocked(dir)) {
       NotifFrom ntf {FromType::Move, 0, 0, 0,0,dir};
       this->setNotifFrom(ntf);
+
       switch(dir) {
         case Direction::Down :
           currentTetro->setLocationRow(currentTetro->getLocationRow()+1);
-          this->notifyObservers();
+          report = true;
           break;
         case Direction::Left :
           currentTetro->setLocationCol(currentTetro->getLocationCol()-1);
-          this->notifyObservers();
+          report = true;
           break;
         case Direction::Right :
           currentTetro->setLocationCol(currentTetro->getLocationCol()+1);
-          this->notifyObservers();
+          report = true;
           break;
         case Direction::CW :
           currentTetro->rotateCW();
-          this->notifyObservers();
+          report = true;
           break;
         case Direction::CCW :
           currentTetro->rotateCCW();
-          this->notifyObservers();
+          report = true;
           break;
         default :
           break;
@@ -219,7 +221,7 @@ void Board::move(Direction dir) {
             // Set cell at board(row, col)  to (row+1, col)
             if (!b) {
               currentTetro->setCellPosn(row, col, rowAt + 1, colAt);
-            } 
+            }
             break;
           case Direction::Left :
             // Set cell at board(row, col)  to (row, col-1)
@@ -245,22 +247,24 @@ void Board::move(Direction dir) {
   } else {
     std::cout << "Current tetro in board is null" << std::endl;
   }
+  if(report)
+    this->notifyObservers();
 }
 
 void Board::dropTetromino() {
   while(!isBlocked(Direction::Down)) {
     move(Direction::Down);
   }
-  
+
   // put the current tetromino onto the board.
   for (size_t row = 0; row < currentTetro->getHeight(); ++row) {
     for (size_t col = 0; col < currentTetro->getWidth(); ++col) {
       size_t boardRow = currentTetro->getCellInfo(row, col).row;
       size_t boardCol = currentTetro->getCellInfo(row, col).col;
       if (currentTetro->getCellInfo(row, col).type != TetroType::None) {
-        theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);		
+        theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
         theBoard.at(boardRow).at(boardCol).attach(td);
-		
+
         if (!textonly) theBoard.at(boardRow).at(boardCol).attach(gd);
         theBoard.at(boardRow).at(boardCol).notifyObservers();
       }
@@ -277,11 +281,11 @@ void Board::dropTetromino() {
   // add to score
   if (numberOfRowsRemoved > 0) {
 	 GameSingleton::get().setRowsScore(GameSingleton::get().getRowsScore() +
-       ((GameSingleton::get().getLevel() + numberOfRowsRemoved) * 
-        (GameSingleton::get().getLevel() + numberOfRowsRemoved))); 
+       ((GameSingleton::get().getLevel() + numberOfRowsRemoved) *
+        (GameSingleton::get().getLevel() + numberOfRowsRemoved)));
   }
-  
-  
+
+
   // add to score based on blocks fully removed
   size_t curID = GameSingleton::get().getCurrentID();
   bool found;

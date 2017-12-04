@@ -137,7 +137,8 @@ void GameSingleton::drop(){
   NotifFrom f{FromType::Drop};
   this->setNotifFrom(f);
   this->notifyObservers();
-  if (theBoard.isTopLeftBlocked()) endGame(false, "Game Over");
+  if (theBoard.isTopLeftBlocked()) endGame(false, "Game Over!");
+
 }
 
 void GameSingleton::levelup(){
@@ -274,4 +275,3 @@ std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
   out << gs.theBoard;
   return out;
 }
-

@@ -1,8 +1,16 @@
 rnd
+2 2 2 2 1 1 2
+done
+rnd
 1 1 1 1 1 1 1
 done
+rnd
+1 1 1 1 2 2 1
 hvy
 done
+rnd
+1 1 1 1 2 2 1
+hvy
 mid
 done
 
