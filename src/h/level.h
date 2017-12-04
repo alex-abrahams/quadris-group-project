@@ -18,6 +18,7 @@ class Level : public Observer<Info, NotifFrom> {
   bool rng = true;
   bool passthrough = false;
 
+  virtual void select(bool t){isSelected = t;};
   void notify(Publisher<Info, NotifFrom> &whoN) override {};
   virtual std::shared_ptr<TetrominoBlock> getNextBlock(){return nullptr;};
   virtual void norand(std::vector<std::string> i){};
@@ -35,6 +36,10 @@ class LevelDecorator : public Level{
   protected:
   std::shared_ptr<Level> prev;
   public:
+  void select(bool t)override {
+    isSelected = t;
+    prev->select(t);
+  }
   void notify(Publisher<Info, NotifFrom> &whon){prev->notify(whon);};
   virtual std::shared_ptr<TetrominoBlock> getNextBlock() override{return nullptr;};
   virtual void norand(std::vector<std::string> i){};
