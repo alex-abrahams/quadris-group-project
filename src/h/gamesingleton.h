@@ -40,16 +40,15 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   
   public:
   CommandParser cmdp;
-  void endGame(bool hard = false, std::string msg = "Unknown");
 
   static GameSingleton& get(bool reset=false) {
     if(reset || ins == nullptr) ins = std::shared_ptr<GameSingleton>(new GameSingleton());
     return *ins;
   }
 
-
-
   void init(std::string i, int a, bool tonly, size_t hs);
+  void endGame(bool hard = false, std::string msg = "Unknown");
+  
   std::shared_ptr<TetrominoBlock> makeBlock(TetroType i){
     return tetroFactory->makeTetromino(i);
   }

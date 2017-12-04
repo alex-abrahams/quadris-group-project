@@ -49,7 +49,6 @@ class LevelDecorator : public Level{
 class RandomDecorator : public LevelDecorator {
   int max = 0;
   int vals[7] = {0,0,0,0,0,0,0};
-  protected:
   public:
   RandomDecorator(std::string data, std::shared_ptr<Level> p);
   std::shared_ptr<TetrominoBlock> getNextBlock() override;

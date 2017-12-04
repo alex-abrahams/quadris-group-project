@@ -50,6 +50,8 @@ class Board : public Publisher<Info, NotifFrom>{
   // checks if moving/rotating current tetromino in the direction dir is possible
   bool isBlocked(Direction dir);
 
+  bool isTextOnly() const;
+  
   public:
   std::shared_ptr<TextDisplay> getTextDisplay();
   std::shared_ptr<GraphicsDisplay> getGraphicsDisplay();
@@ -66,14 +68,9 @@ class Board : public Publisher<Info, NotifFrom>{
 
   // initializes theBoard
   void init(size_t rows, size_t cols, size_t reservedRows, bool textonly);
-  
-  bool isTextOnly() const;
 
   // moves current tetromino one cell in the direction dir
   void move(Direction dir);
-
-  // drops the current tetromino into the top left corner
-  //void dropIntoTopLeft();
 
   // hard drop the current tetromino
   void dropTetromino();
