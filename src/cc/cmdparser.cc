@@ -12,8 +12,8 @@ CommandParser::CommandParser(){
   funcs.emplace("drop", []{GS_GET.drop();});
   funcs.emplace("levelup", []{GS_GET.levelup();});
   funcs.emplace("leveldown",[]{GS_GET.leveldown();});
-  funcs.emplace("norandom", [&]{GS_GET.norandom(args);});
-  funcs.emplace("sequence", [&]{GS_GET.sequence(args);});
+  funcs.emplace("norandom", []{GS_GET.norandom(GS_GET.cmdp.args);});
+  funcs.emplace("sequence", []{GS_GET.sequence(GS_GET.cmdp.args);});
   funcs.emplace("I", []{GS_GET.I();});
   funcs.emplace("J", []{GS_GET.J();});
   funcs.emplace("L", []{GS_GET.L();});
@@ -23,14 +23,18 @@ CommandParser::CommandParser(){
   funcs.emplace("T", []{GS_GET.T();});
   funcs.emplace("restart", []{GS_GET.restart();});
   funcs.emplace("hint", []{GS_GET.hint();});
+  funcs.emplace("macro",[]{GS_GET.cmdp.createMacro();});
 }
 
 CommandParser::CommandParser(std::string i): CommandParser(){
-  //TODO file macros
+  std::vector<std::string> d = utility::bufferFile(i);
+  for(auto z : d)
+    createMacro(z);
 }
 
 
-void CommandParser::execMacro(std::string i){
+void CommandParser::execMacro(){
+  std::string i = cmd;
   std::istringstream ss {macros.at(i)};
   std::string tmp;
   while(ss >> tmp){
@@ -45,18 +49,23 @@ void CommandParser::execMacro(std::string i){
   }
 }
 
+void CommandParser::createMacro(){
+  createMacro(args);
+}
+
 void CommandParser::createMacro(std::string in){
   std::istringstream ss{in};
   ss >> cmd;
   std::string tmp2;
   std::getline(ss,tmp2);
-  funcs.emplace(cmd, [&]{execMacro(cmd);});
+  funcs.emplace(cmd, []{GS_GET.cmdp.execMacro();});
   macros.emplace(cmd,tmp2);
 }
 
 std::function<void()> CommandParser::getCommand(std::string cmd){
  std::map<std::string, std::function<void()>>data = match(cmd);
   if(data.size() == 1){
+    this->cmd = data.begin()->first;
     return data.begin()->second;
   }
   for(auto i : data){
@@ -79,7 +88,7 @@ void CommandParser::nextCommand(){
     ss >> cmd;
   }
   std::string tmp;
-  std::getline(ss, args);
+  std::getline(dd, args);
   std::function<void()> t = getCommand(cmd);
   for(int i = 0; i < rep; i++)
     t();

@@ -13,9 +13,9 @@ class CommandParser {
   std::string cmd;
   std::map<std::string, std::string> macros;
 
-  void execMacro(std::string i);
+  void execMacro();
 
-
+  void createMacro();
   void createMacro(std::string in);
   //return submap of all string function pairs that match command header s
   std::map<std::string, std::function<void()>> match(std::string s) {
