@@ -264,6 +264,7 @@ void Board::dropTetromino() {
       if (currentTetro->getCellInfo(row, col).type != TetroType::None) {
         theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
         theBoard.at(boardRow).at(boardCol).attach(td);
+		theBoard.at(boardRow).at(boardCol).setID(GameSingleton::get().getCurrentID());
 
         if (!textonly) theBoard.at(boardRow).at(boardCol).attach(gd);
         theBoard.at(boardRow).at(boardCol).notifyObservers();
@@ -271,7 +272,11 @@ void Board::dropTetromino() {
     }
   }
 
-  // remove full rows, scoring
+  
+}
+
+void Board::calculateScore() {
+	// remove full rows, scoring
   size_t numberOfRowsRemoved = 0;
   while (getIndexOfFullRow() != -1) {
 	  std::cout << "full row at " << getIndexOfFullRow() << std::endl;
@@ -291,6 +296,7 @@ void Board::dropTetromino() {
   bool found;
   size_t blocksClearedScore = 0;
   for (size_t i = 1; i < curID; i++) {
+	  //std::cout << "checking " << i << std::endl;
 	  found = false;
 	  for (size_t row = 0; row < totalRows; row++) {
 		  for (size_t col = 0; col < cols; col++) {
@@ -299,7 +305,7 @@ void Board::dropTetromino() {
 		}
 		if (!found) {
 			//TODO: change this to (the level at which the block was spawned + 1) ^ 2
-			//std::cout << "g id " << i << " found" << std::endl;
+			//std::cout << "nothing with id " << i << " found" << std::endl;
 			blocksClearedScore += 1;
 		}
 	}
@@ -326,4 +332,5 @@ std::ostream &operator<<(std::ostream &out, const Board &b) {
   }
   return out;
 }
+
 

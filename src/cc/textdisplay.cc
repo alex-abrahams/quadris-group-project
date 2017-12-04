@@ -22,10 +22,10 @@ void TextDisplay::notify(Publisher<Info, NotifFrom> &whoNotified) {
 
   if (fr.from == FromType::Cell) {
     theDisplay.at(whoNotified.getInfo().row).at(whoNotified.getInfo().col) = 
-      blockChars[whoNotified.getInfo().type];
+      /*(char)((dynamic_cast<Cell&>(whoNotified)).getID()+'0')*/blockChars[whoNotified.getInfo().type];
   } 
   else if (fr.from == FromType::Game) {
-    this->score = fr.rowsScore/* + fr.blocksClearedScore*/;
+    this->score = fr.rowsScore + fr.blocksClearedScore;
     this->hiScore = fr.hiscore;
     this->level  = fr.level;
   } else {
@@ -99,6 +99,7 @@ void TextDisplay::draw(std::ostream &out, std::shared_ptr<AbstractTetromino> cur
 	  }
   }
 }
+
 
 
 

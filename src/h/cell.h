@@ -23,10 +23,13 @@ class Cell : public Publisher<Info, NotifFrom> {
   void setRowCol(size_t newRow, size_t newCol);
   
   size_t getID();
+  
+  void setID(size_t i);
 
   Info getInfo() const override;
 
 };
 
 #endif
+
 

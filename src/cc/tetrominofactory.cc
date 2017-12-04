@@ -70,6 +70,9 @@ size_t TetrominoFactory::getCurrentID() {
 }
 
 void TetrominoFactory::addToID() {
+	//std::cout << "id increased from " << currentID << " to ";
 	currentID++;
+	//std::cout << currentID << std::endl;
 }
+
 

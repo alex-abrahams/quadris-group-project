@@ -14,6 +14,8 @@ class AbstractTetromino {
 	virtual size_t getWidth() = 0;
 	virtual size_t getLocationRow() = 0;
 	virtual size_t getLocationCol() = 0;
+	virtual size_t getID() = 0;
+	virtual void setID(size_t id) = 0;
 	virtual void setLocationRow(size_t r) = 0;
 	virtual void setLocationCol(size_t c) = 0;
   // changes the location of this tetromino object's cell on the board
@@ -24,4 +26,5 @@ class AbstractTetromino {
   virtual void rotateCCW() = 0;
 };
 #endif
+
 
