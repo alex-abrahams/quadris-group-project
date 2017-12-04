@@ -60,13 +60,16 @@ std::function<void()> CommandParser::getCommand(std::string cmd){
   if(data.size() == 1){
     return data.begin()->second;
   }
+  for(auto i : data){
+    if(i.first == cmd)return i.second;
+  }
   return []{};
 }
 
 //gets,parses and executes next available command;
 void CommandParser::nextCommand(){
   std::string line;
-  if(!std::getline(std::cin, line))exit(0);
+  if(!std::getline(std::cin, line))GameSingleton::get().endGame(true);
   std::istringstream dd {line};
   dd >> cmd;
   std::istringstream ss {cmd};

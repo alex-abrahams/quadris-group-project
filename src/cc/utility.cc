@@ -28,4 +28,8 @@ std::vector<std::string> utility::bufferFile(std::string name){
     return TetroType::None;
   }
 
-
+void utility::writeFile(std::string fname, std::string i){
+  std::ofstream oo(fname);
+    oo << i;
+    oo.close();
+  }
