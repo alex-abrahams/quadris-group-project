@@ -1,5 +1,6 @@
 #include "cell.h"
 #include "textdisplay.h"
+#include "graphicsdisplay.h"
 #include "gamesingleton.h"
 #include <iostream> // testing
 
@@ -34,3 +35,4 @@ Info Cell::getInfo() const {
 size_t Cell::getID() {
 	return id;
 }
+

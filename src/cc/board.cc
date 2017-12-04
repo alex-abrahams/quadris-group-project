@@ -6,14 +6,22 @@
 #include <vector>
 #include <cstddef>
 #include "textdisplay.h"
+#include "graphicsdisplay.h"
 #include "gamesingleton.h"
 #include "tetrominoblock.h"
+
 void Board::setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro) {
   this->currentTetro = tetro;
 }
+
 std::shared_ptr<TextDisplay> Board::getTextDisplay() {
   return this->td;
 }
+
+std::shared_ptr<GraphicsDisplay> Board::getGraphicsDisplay() {
+  return this->gd;
+}
+
 bool Board::isTopLeftBlocked() const {
   size_t width = currentTetro->getWidth();
   size_t height = currentTetro->getHeight();
@@ -27,21 +35,28 @@ bool Board::isTopLeftBlocked() const {
   }
   return true;
 }
-void Board::init(size_t rows, size_t cols, size_t reservedRows) {
+
+void Board::init(size_t rows, size_t cols, size_t reservedRows, bool textonly) {
+  this->textonly = textonly;
   this->rows = rows;
   this->cols = cols;
   this->reservedRows = reservedRows;
   this->totalRows = rows + reservedRows;
   currentId = 0;
   td = std::make_shared<TextDisplay>(totalRows, cols);
+  if (!textonly) {
+	gd = std::shared_ptr<GraphicsDisplay>(new GraphicsDisplay(static_cast<int>(totalRows), static_cast<int>(cols), 600, 600));
+  }
   theBoard.resize(totalRows);
   for (size_t row = 0; row < totalRows; ++row) {
     for (size_t col = 0; col < cols; ++col) {
       theBoard.at(row).emplace_back(row, col);
       theBoard.at(row).at(col).attach(td);
+      if (!textonly) theBoard.at(row).at(col).attach(gd);
     }
   }
 }
+
 void Board::dropIntoTopLeft() {
   if (isTopLeftBlocked()) throw GameOverException{"game over"};
   size_t width = currentTetro->getWidth();
@@ -52,6 +67,7 @@ void Board::dropIntoTopLeft() {
     }
   }
 }
+
 bool Board::isRowFull(size_t rowIndex) const {
   for (size_t col = 0; col < cols; ++col) {
     if (theBoard.at(rowIndex).at(col).getInfo().type == TetroType::None)
@@ -59,6 +75,7 @@ bool Board::isRowFull(size_t rowIndex) const {
   }
   return true;
 }
+
 int Board::getIndexOfFullRow() const {
   //for (size_t row = reservedRows - 1; row < rows; ++row) {
   //  if (isRowFull(row)) return row;
@@ -107,21 +124,9 @@ bool Board::rotationCheck(AbstractTetromino &temp) {
   for (size_t row = 0; row < temp.getHeight(); ++row) {    
     for (size_t col = 0; col < temp.getWidth(); ++col) {
       Info info = temp.getCellInfo(row, col); 
-      if (info.type == TetroType::IBlock) {
-        std::cout << "Type I" << std::endl;
-      }
-
-      if (theBoard.at(row).at(col).getInfo().type != TetroType::None) {
-        std::cout << "Board at row, col is not empty" << std::endl;
-      }
-
-      if (theBoard.at(row).at(col).getInfo().type == TetroType::None) {
-        std::cout << "Board at row, col is empty" << std::endl;
-      }
 
       if (info.type != TetroType::None && 
           theBoard.at(info.row).at(info.col).getInfo().type != TetroType::None) {
-        std::cout << "Blocked rotation" << std::endl;
         return true;
       }
     }
@@ -282,7 +287,9 @@ void Board::dropTetromino() {
       size_t boardCol = currentTetro->getCellInfo(row, col).col;
       if (currentTetro->getCellInfo(row, col).type != TetroType::None) {
         theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
+		
         theBoard.at(boardRow).at(boardCol).attach(td);
+		if (!textonly) theBoard.at(boardRow).at(boardCol).attach(gd);
         theBoard.at(boardRow).at(boardCol).notifyObservers();
       }
     }
@@ -296,8 +303,12 @@ void Board::dropTetromino() {
 	  dropRows(getIndexOfFullRow());
   }
   // add to score
-  GameSingleton::get().setRowsScore(GameSingleton::get().getRowsScore() + 
-      ((GameSingleton::get().getLevel() + numberOfRowsRemoved) * (GameSingleton::get().getLevel() + numberOfRowsRemoved)));
+  if (numberOfRowsRemoved > 0) {
+	 GameSingleton::get().setRowsScore(GameSingleton::get().getRowsScore() +
+       ((GameSingleton::get().getLevel() + numberOfRowsRemoved) * 
+        (GameSingleton::get().getLevel() + numberOfRowsRemoved))); 
+  }
+  
   
   // add to score based on blocks fully removed
   size_t curID = GameSingleton::get().getCurrentID();
@@ -325,8 +336,17 @@ void Board::dropTetromino() {
     }
   }
 }
+
 Board::~Board() {}
+
+bool Board::isTextOnly() const {
+	return textonly;
+}
+
 std::ostream &operator<<(std::ostream &out, const Board &b) {
   b.td -> draw(out, b.currentTetro);
+  if (!b.isTextOnly()) {
+	  b.gd -> draw(b.currentTetro);
+  }
   return out;
 }

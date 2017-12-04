@@ -9,6 +9,7 @@
 #include "tetrominofactory.h"
 
 class TextDisplay;
+class GraphicsDisplay;
 class AbstractTetromino;
 
 enum class Direction {Down, Left, Right, CW, CCW};
@@ -27,8 +28,10 @@ class Board : public Publisher<Info, NotifFrom>{
   size_t reservedRows; // the rows reserved for rotating the currentTetro
   size_t totalRows;
   size_t currentId;
+  bool textonly;
 
   std::shared_ptr<TextDisplay> td;
+  std::shared_ptr<GraphicsDisplay> gd;
   std::shared_ptr<AbstractTetromino> currentTetro;
 
   //TODO:Graphics. std::unique_ptr<Observer<Info>> graphicsObserver;
@@ -58,6 +61,7 @@ class Board : public Publisher<Info, NotifFrom>{
 
   public:
   std::shared_ptr<TextDisplay> getTextDisplay();
+  std::shared_ptr<GraphicsDisplay> getGraphicsDisplay();
 
   void setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro);
   std::shared_ptr<AbstractTetromino> getCurTetro() {
@@ -72,7 +76,9 @@ class Board : public Publisher<Info, NotifFrom>{
   }
 
   // initializes theBoard
-  void init(size_t rows, size_t cols, size_t reservedRows);
+  void init(size_t rows, size_t cols, size_t reservedRows, bool textonly);
+  
+  bool isTextOnly() const;
 
   // moves current tetromino one cell in the direction dir
   void move(Direction dir);
@@ -89,5 +95,6 @@ class Board : public Publisher<Info, NotifFrom>{
 };
 
 #endif
+
 
 

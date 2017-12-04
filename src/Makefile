@@ -1,11 +1,11 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -g -Wall -MMD -Werror=vla -Ih
 EXEC = quadris
-OBJECTS = cc/level.o cc/utility.o cc/cmdparser.o cc/gamesingleton.o cc/tetrominoblock.o cc/abstracttetromino.o cc/tetrominofactory.o cc/gameoverexception.o cc/cell.o cc/board.o cc/textdisplay.o cc/main.o
+OBJECTS = cc/level.o cc/utility.o cc/cmdparser.o cc/gamesingleton.o cc/tetrominoblock.o cc/abstracttetromino.o cc/tetrominofactory.o cc/gameoverexception.o cc/cell.o cc/board.o cc/textdisplay.o cc/window.o cc/graphicsdisplay.o cc/main.o
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC}
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lX11
 
 -include ${DEPENDS}
 

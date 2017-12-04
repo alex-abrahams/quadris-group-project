@@ -21,11 +21,14 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   std::vector<std::shared_ptr<Level>> levels;
 
   CommandParser cmdp;
+  
+  bool textonly;
 
   std::unique_ptr<TetrominoFactory> tetroFactory;
   std::shared_ptr<AbstractTetromino> current;
   std::shared_ptr<AbstractTetromino> next;
   std::shared_ptr<TextDisplay> td;
+  std::shared_ptr<GraphicsDisplay> gd;
 
   bool gameRunning = false;
 
@@ -65,6 +68,7 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
   // need textdisplay pointer attached to cells of tetromino. Used in
   // tetrominoblock when setting up
   std::shared_ptr<TextDisplay> getTextDisplay();
+  std::shared_ptr<GraphicsDisplay> getGraphicsDisplay();
 
   void start();
 
@@ -96,5 +100,6 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
 
 };
 #endif
+
 
 
