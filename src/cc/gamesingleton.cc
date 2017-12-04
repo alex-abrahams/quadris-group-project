@@ -75,10 +75,10 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
 }
 
 void GameSingleton::start(){
-  //std::cout << *this;
+  std::cout << *this;
   while(gameRunning){
     cmdp.nextCommand();
-    //std::cout << *this;
+    std::cout << *this;
   }
 }
 
