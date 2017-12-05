@@ -78,6 +78,9 @@ void GraphicsDisplay::draw(std::shared_ptr<AbstractTetromino> currentTetromino) 
 				case TetroType::TBlock:
 					xw.fillRectangle(c * cellWidth, r * cellHeight, cellWidth, cellHeight, Xwindow::Pink);
 					break;
+				case TetroType::OneBlock:
+					xw.fillRectangle(c * cellWidth, r * cellHeight, cellWidth, cellHeight, Xwindow::Brown);
+					break;
 				default:
 					xw.fillRectangle(c * cellWidth, r * cellHeight, cellWidth, cellHeight, Xwindow::Black);
 					break;
@@ -127,4 +130,5 @@ void GraphicsDisplay::draw(std::shared_ptr<AbstractTetromino> currentTetromino) 
 		}
 	}
 }
+
 
