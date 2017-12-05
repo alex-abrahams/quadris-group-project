@@ -57,10 +57,10 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = levels.at(level)->getNextBlock();
   idlevel.emplace(current->getID(), level);
-  std::cout << current->getID();
+ // std::cout << current->getID();
   tetroFactory->addToID();
   next = levels.at(level)->getNextBlock();
-  std::cout << next->getID();
+//  std::cout << next->getID();
   tetroFactory->addToID();
   idlevel.emplace(0,0);
   idlevel.emplace(next->getID(), level);

@@ -64,7 +64,7 @@ class HeavyDecorator : public LevelDecorator {
 };
 
 class MiddleDecorator : public LevelDecorator {
-  int numdrops = 0;
+  int numdrops = 1;
   public:
   MiddleDecorator(std::shared_ptr<Level> p);
   std::shared_ptr<TetrominoBlock> getNextBlock(){return prev->getNextBlock();};
