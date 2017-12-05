@@ -1,0 +1,7 @@
+We used smart pointers everywhere required.
+
+Bonus features:
+1) Macros for commands renaming, creating sequences of commands, and adding
+a new command name.
+2) Levels are dynamically loaded from a files.
+3) Highscore is saved to a file for persistence.
