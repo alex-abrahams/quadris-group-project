@@ -159,6 +159,11 @@ size_t TetrominoBlock::getID() {
 }
 void TetrominoBlock::setID(size_t id) {
 	this->id = id;
+	for(auto &i : cells){
+		for(auto &b : i){
+			b.setID(id);
+		}
+	}
 }
 
 

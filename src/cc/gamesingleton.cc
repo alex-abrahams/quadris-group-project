@@ -44,7 +44,7 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
     theBoard.attach(i);
     this->attach(i);
   }
-
+  levels.at(level)->select(true);
   td = theBoard.getTextDisplay();
   this->attach(td);
 
@@ -206,13 +206,15 @@ void GameSingleton::hint(){
 
 std::shared_ptr<AbstractTetromino> GameSingleton::makeTestTetromino(TetroType input) {
   std::shared_ptr<AbstractTetromino> ret = tetroFactory->makeTetromino(input);
-  ret->setID(ret->getID()-1);
+  ret->setID(ret->getID()-2);
+  std::cout << ret->getID()<< std::endl;
   return ret;
 }
 
 void GameSingleton::I(){
   current = makeTestTetromino(TetroType::IBlock);
   theBoard.setCurrentTetromino(current);
+  std::cout << current->getID() << std::endl;
   this->notifyObservers();
 }
 

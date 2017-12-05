@@ -305,7 +305,7 @@ void Board::calculateScore() {
 		}
 		if (!found) {
 			//TODO: change this to (the level at which the block was spawned + 1) ^ 2
-			//std::cout << "nothing with id " << i << " found" << std::endl;
+			std::cout << "nothing with id " << i << " found" << std::endl;
     //  std::cout << std::pow(GameSingleton::get().idlevel.at(i)+1,2) << "d ";
 			blocksClearedScore += std::pow(GameSingleton::get().idlevel.at(i)+1, 2);
 		}
