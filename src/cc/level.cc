@@ -3,7 +3,6 @@
   Level0::Level0(std::vector<std::string> i){
     norand(i);
   }
-
   void Level0::norand(std::vector<std::string> i ){
     for(std::string t : i)
       q.emplace(utility::strToTet(t));
@@ -59,7 +58,7 @@ MiddleDecorator::MiddleDecorator(std::shared_ptr<Level> t){
 
 void MiddleDecorator::notify(Publisher<Info, NotifFrom> &who){
   if(isSelected && who.getNotifFrom().from == FromType::Drop){
-    if(!(++numdrops % 6))GameSingleton::get().dropMiddle();
+    if(!(++numdrops % 5))GameSingleton::get().dropMiddle();
     //std::cout << numdrops <<"test";
   }
   prev->notify(who);

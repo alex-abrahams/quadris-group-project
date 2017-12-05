@@ -22,6 +22,9 @@ class Level : public Observer<Info, NotifFrom> {
   void notify(Publisher<Info, NotifFrom> &whoN) override {};
   virtual std::shared_ptr<TetrominoBlock> getNextBlock(){return nullptr;};
   virtual void norand(std::vector<std::string> i){};
+  virtual void random(){rng = true;
+    //std::cout << "PASSTROUGH";
+  };
 };
 
 class Level0 : public Level{
@@ -43,7 +46,10 @@ class LevelDecorator : public Level{
   void notify(Publisher<Info, NotifFrom> &whon){prev->notify(whon);};
   virtual std::shared_ptr<TetrominoBlock> getNextBlock() override{return nullptr;};
   virtual void norand(std::vector<std::string> i){};
-  void rnd(){rng = true;};
+  void random() override{rng = true;
+    prev->random();
+    //std::cout << "PASSTROUGH";
+  };
 };
 
 class RandomDecorator : public LevelDecorator {
@@ -53,7 +59,7 @@ class RandomDecorator : public LevelDecorator {
   RandomDecorator(std::string data, std::shared_ptr<Level> p);
   std::shared_ptr<TetrominoBlock> getNextBlock() override;
   void norand(std::vector<std::string> i){rng = false; prev->norand(i);};
-};
+  };
 
 class HeavyDecorator : public LevelDecorator {
   public:
@@ -64,7 +70,7 @@ class HeavyDecorator : public LevelDecorator {
 };
 
 class MiddleDecorator : public LevelDecorator {
-  int numdrops = 1;
+  int numdrops = 0;
   public:
   MiddleDecorator(std::shared_ptr<Level> p);
   std::shared_ptr<TetrominoBlock> getNextBlock(){return prev->getNextBlock();};

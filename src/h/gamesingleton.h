@@ -48,6 +48,8 @@ class GameSingleton : public Publisher<Info, NotifFrom> {
     return *ins;
   }
 
+  void random();
+
   void init(std::string i, int a, bool tonly, size_t hs);
   void endGame(bool hard = false, std::string msg = "Unknown");
 
