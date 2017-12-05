@@ -17,7 +17,7 @@ class Xwindow {
   Xwindow(const Xwindow&) = delete;
   Xwindow &operator=(const Xwindow&) = delete;
 
-  enum {White=0, Red, Green, Blue, Yellow, Orange, Pink, Black}; // Available colours.
+  enum {White=0, Red, Green, Blue, Yellow, Orange, Pink, Black, Brown}; // Available colours.
 
   // Draws a rectangle
   void fillRectangle(int x, int y, int width, int height, int colour=Black);
@@ -28,4 +28,5 @@ class Xwindow {
 };
 
 #endif
+
 

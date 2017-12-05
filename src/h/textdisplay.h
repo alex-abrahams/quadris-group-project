@@ -25,7 +25,8 @@ class TextDisplay: public Observer<Info, NotifFrom> {
 		{ TetroType::ZBlock,    'Z' },
 		{ TetroType::ZeroBlock, '0' },
 		{ TetroType::TBlock,    'T' },
-		{ TetroType::None,      ' ' }
+		{ TetroType::None,      ' ' },
+		{ TetroType::OneBlock,  '*' }
 	}; // the characters corresponding to each piece type
 
   int score = 0;
@@ -44,4 +45,5 @@ class TextDisplay: public Observer<Info, NotifFrom> {
 };
 
 #endif
+
 
