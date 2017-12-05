@@ -50,17 +50,17 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
 
   levels.at(level)->isSelected = true;
   if (!textonly) {
-	  gd = theBoard.getGraphicsDisplay();
-	  this->attach(gd);
+    gd = theBoard.getGraphicsDisplay();
+    this->attach(gd);
   }
 
   tetroFactory = std::make_unique<TetrominoFactory>();
   current = levels.at(level)->getNextBlock();
   idlevel.emplace(current->getID(), level);
- // std::cout << current->getID();
+  // std::cout << current->getID();
   tetroFactory->addToID();
   next = levels.at(level)->getNextBlock();
-//  std::cout << next->getID();
+  //  std::cout << next->getID();
   tetroFactory->addToID();
   idlevel.emplace(0,0);
   idlevel.emplace(next->getID(), level);
@@ -68,7 +68,7 @@ void GameSingleton::init(std::string file, int dlevel, bool textonly, size_t hig
   td->setNextTetromino(next);
 
   if (!textonly) {
-	  gd->setNextTetromino(next);
+    gd->setNextTetromino(next);
   }
 
   NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
@@ -133,17 +133,23 @@ void GameSingleton::counterclockwise(){
 }
 
 void GameSingleton::drop(){
-	theBoard.dropTetromino();
+  theBoard.dropTetromino();
   current = next;
   next = levels.at(level)->getNextBlock();
-  idlevel.emplace(next->getID(), level);
-  tetroFactory->addToID();
-  theBoard.calculateScore();
+
   theBoard.setCurrentTetromino(current);
-  td->setNextTetromino(next);
-  if (!textonly) {
-	  gd->setNextTetromino(next);
+  
+  if (next) {
+
+    idlevel.emplace(next->getID(), level);
+    tetroFactory->addToID();
+    theBoard.calculateScore();
+    td->setNextTetromino(next);
+    if (!textonly) {
+      gd->setNextTetromino(next);
+    }
   }
+  
   NotifFrom f{FromType::Drop};
   this->setNotifFrom(f);
   this->notifyObservers();
@@ -199,9 +205,9 @@ void GameSingleton::hint(){
 }
 
 std::shared_ptr<AbstractTetromino> GameSingleton::makeTestTetromino(TetroType input) {
-	std::shared_ptr<AbstractTetromino> ret = tetroFactory->makeTetromino(input);
-	ret->setID(ret->getID()-1);
-	return ret;
+  std::shared_ptr<AbstractTetromino> ret = tetroFactory->makeTetromino(input);
+  ret->setID(ret->getID()-1);
+  return ret;
 }
 
 void GameSingleton::I(){
@@ -246,45 +252,45 @@ void GameSingleton::T(){
 }
 
 size_t GameSingleton::getRowsScore() {
-	return rowsScore;
+  return rowsScore;
 }
 size_t GameSingleton::getBlocksClearedScore() {
-	return blocksClearedScore;
+  return blocksClearedScore;
 }
 size_t GameSingleton::getHiScore() {
-	return hiscore;
+  return hiscore;
 }
 size_t GameSingleton::getLevel() {
-	return level;
+  return level;
 }
 void GameSingleton::setRowsScore(size_t s) {
-	std::cout << "set rows score to " << s << std::endl;
-	rowsScore = s;
-	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
-    this->setNotifFrom(notifFrom);
-    this->notifyObservers();
+  std::cout << "set rows score to " << s << std::endl;
+  rowsScore = s;
+  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
+  this->setNotifFrom(notifFrom);
+  this->notifyObservers();
 }
 void GameSingleton::setBlocksClearedScore(size_t s) {
-	blocksClearedScore = s;
-	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
-    this->setNotifFrom(notifFrom);
-    this->notifyObservers();
+  blocksClearedScore = s;
+  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
+  this->setNotifFrom(notifFrom);
+  this->notifyObservers();
 }
 void GameSingleton::setHiScore(size_t h) {
-	hiscore = h;
-	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
-    this->setNotifFrom(notifFrom);
-    this->notifyObservers();
+  hiscore = h;
+  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
+  this->setNotifFrom(notifFrom);
+  this->notifyObservers();
 }
 void GameSingleton::setLevel(size_t l) {
-	level = l;
-	NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
-    this->setNotifFrom(notifFrom);
-    this->notifyObservers();
+  level = l;
+  NotifFrom notifFrom {FromType::Game, rowsScore, blocksClearedScore, hiscore, level};
+  this->setNotifFrom(notifFrom);
+  this->notifyObservers();
 }
 
 size_t GameSingleton::getCurrentID() {
-	return tetroFactory->getCurrentID();
+  return tetroFactory->getCurrentID();
 }
 
 std::ostream &operator<<(std::ostream &out, const GameSingleton &gs) {
