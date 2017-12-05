@@ -138,7 +138,7 @@ void GameSingleton::drop(){
   next = levels.at(level)->getNextBlock();
 
   theBoard.setCurrentTetromino(current);
-  
+
   if (next) {
 
     idlevel.emplace(next->getID(), level);
@@ -149,10 +149,11 @@ void GameSingleton::drop(){
       gd->setNextTetromino(next);
     }
   }
-  
+
   NotifFrom f{FromType::Drop};
   this->setNotifFrom(f);
   this->notifyObservers();
+  this->setNotifFrom(NotifFrom{FromType::NOTHING});
   if (theBoard.isTopLeftBlocked()) endGame(false, "Game Over!");
 
 }
@@ -186,7 +187,11 @@ void GameSingleton::leveldown(){
 }
 
 void GameSingleton::norandom(std::string file){
+  levels.at(level)->norand(utility::bufferFile(file));
+}
 
+void GameSingleton::random(){
+  levels.at(level)->random();
 }
 
 void GameSingleton::sequence(std::string file){

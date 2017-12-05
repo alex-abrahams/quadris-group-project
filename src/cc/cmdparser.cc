@@ -13,6 +13,7 @@ CommandParser::CommandParser(){
   funcs.emplace("levelup", []{GS_GET.levelup();});
   funcs.emplace("leveldown",[]{GS_GET.leveldown();});
   funcs.emplace("norandom", []{GS_GET.norandom(GS_GET.cmdp.args);});
+  funcs.emplace("random", []{GS_GET.random();});
   funcs.emplace("sequence", []{GS_GET.sequence(GS_GET.cmdp.args);});
   funcs.emplace("I", []{GS_GET.I();});
   funcs.emplace("J", []{GS_GET.J();});

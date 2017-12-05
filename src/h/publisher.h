@@ -27,7 +27,7 @@ void Publisher<InfoType, NotifFromType>::attach(std::shared_ptr<Observer<InfoTyp
 template <typename InfoType, typename NotifFromType>
 void Publisher<InfoType, NotifFromType>::notifyObservers() {
   for (auto &ob : observers) ob->notify(*this);
-  from = NotifFrom {FromType::NOTHING};
+  //from = NotifFrom {FromType::NOTHING};
 }
 
 template <typename InfoType, typename NotifFromType>
