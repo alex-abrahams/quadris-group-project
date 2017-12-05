@@ -264,7 +264,7 @@ void Board::dropTetromino() {
       if (currentTetro->getCellInfo(row, col).type != TetroType::None) {
         theBoard.at(boardRow).at(boardCol) = currentTetro->getCell(row, col);
         theBoard.at(boardRow).at(boardCol).attach(td);
-		theBoard.at(boardRow).at(boardCol).setID(GameSingleton::get().getCurrentID());
+		//theBoard.at(boardRow).at(boardCol).setID(GameSingleton::get().getCurrentID());
 
         if (!textonly) theBoard.at(boardRow).at(boardCol).attach(gd);
         theBoard.at(boardRow).at(boardCol).notifyObservers();
@@ -272,7 +272,7 @@ void Board::dropTetromino() {
     }
   }
 
-  
+
 }
 
 void Board::calculateScore() {
@@ -295,7 +295,7 @@ void Board::calculateScore() {
   size_t curID = GameSingleton::get().getCurrentID();
   bool found;
   size_t blocksClearedScore = 0;
-  for (size_t i = 1; i < curID; i++) {
+  for (size_t i = 1; i < curID-2; i++) {
 	  //std::cout << "checking " << i << std::endl;
 	  found = false;
 	  for (size_t row = 0; row < totalRows; row++) {
@@ -306,10 +306,11 @@ void Board::calculateScore() {
 		if (!found) {
 			//TODO: change this to (the level at which the block was spawned + 1) ^ 2
 			//std::cout << "nothing with id " << i << " found" << std::endl;
-			blocksClearedScore += 1;
+    //  std::cout << std::pow(GameSingleton::get().idlevel.at(i)+1,2) << "d ";
+			blocksClearedScore += std::pow(GameSingleton::get().idlevel.at(i)+1, 2);
 		}
 	}
-
+  //std::cout << "blocksclearedscore" << blocksClearedScore << std::endl;
   GameSingleton::get().setBlocksClearedScore(blocksClearedScore);
 
   for (size_t row = 0; row < totalRows; row++) {

@@ -1,1 +1,2 @@
 ccw counterclockwise
+test drop drop 2ri drop 2ri drop 4ri drop 4ri drop 6ri drop 6ri drop 8ri drop 8ri drop

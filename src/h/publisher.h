@@ -5,13 +5,13 @@
 template <typename InfoType,typename NotifFromType> class Observer;
 
 template <typename InfoType, typename NotifFromType> class Publisher {
-  std::vector<std::shared_ptr<Observer<InfoType, NotifFromType>>> observers;  
+  std::vector<std::shared_ptr<Observer<InfoType, NotifFromType>>> observers;
   NotifFromType from;
 
   protected:
     void setNotifFrom(NotifFromType nfType);
   public:
-  void attach(std::shared_ptr<Observer<InfoType, NotifFromType>> o);  
+  void attach(std::shared_ptr<Observer<InfoType, NotifFromType>> o);
   void notifyObservers();
   virtual InfoType getInfo() const = 0;
   NotifFromType getNotifFrom() const;
@@ -27,6 +27,7 @@ void Publisher<InfoType, NotifFromType>::attach(std::shared_ptr<Observer<InfoTyp
 template <typename InfoType, typename NotifFromType>
 void Publisher<InfoType, NotifFromType>::notifyObservers() {
   for (auto &ob : observers) ob->notify(*this);
+  from = NotifFrom {FromType::NOTHING};
 }
 
 template <typename InfoType, typename NotifFromType>

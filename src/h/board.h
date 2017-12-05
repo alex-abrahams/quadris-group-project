@@ -7,7 +7,7 @@
 #include <cstddef>
 #include "cell.h"
 #include "tetrominofactory.h"
-
+#include <cmath>
 class TextDisplay;
 class GraphicsDisplay;
 class AbstractTetromino;
@@ -51,11 +51,11 @@ class Board : public Publisher<Info, NotifFrom>{
   bool isBlocked(Direction dir);
 
   bool isTextOnly() const;
-  
+
   public:
   std::shared_ptr<TextDisplay> getTextDisplay();
   std::shared_ptr<GraphicsDisplay> getGraphicsDisplay();
-  
+
   void calculateScore();
 
   void setCurrentTetromino(std::shared_ptr<AbstractTetromino> tetro);

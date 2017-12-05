@@ -2,7 +2,7 @@
 #define NOTFR_H
 
 enum class Direction;
-enum class FromType {Cell, Game, NoOne, Move, Drop};
+enum class FromType {Cell, Game, NoOne, Move, Drop, NOTHING};
 
 struct NotifFrom {
   FromType from;
